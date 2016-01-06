@@ -1,0 +1,25 @@
+{
+    "contents" : "",
+    "created" : 1452031602745.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "DB4B4E21",
+    "lastKnownWriteTime" : 7011605692497750387,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "cacheKey" : "8i9r0xaud6",
+        "caption" : "BatOccu",
+        "contentUrl" : "grid_resource/gridviewer.html?env=&obj=BatOccu&cache_key=8i9r0xaud6",
+        "displayedObservations" : 49,
+        "environment" : "",
+        "object" : "BatOccu",
+        "totalObservations" : 49,
+        "variables" : 18
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "type" : "r_dataframe"
+}
