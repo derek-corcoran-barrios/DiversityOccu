@@ -1,0 +1,18 @@
+{
+    "contents" : "#' Occupancy data of 17 bat species.\n#'\n#' A dataset containing the detections and non detections of 17 species in the\n#' Plumas County (Columns) for 3 consecutive days in 49 different sites (Rows).\n#'\n#' @format A data frame with 49 rows and 51 variables:\n#' \\describe{\n#'   \\item{MyyuX}{Detection (1) or non-detection (0), of \\emph{Myotis yumanensis}:\n#'    on day X}\n#'   \\item{MycaX}{Detection (1) or non-detection (0), of \\emph{Myotis californicus}:\n#'    on day X}\n#'   \\item{MyciX}{Detection (1) or non-detection (0), of \\emph{Myotis ciliolabrum}:\n#'    on day X}\n#'   \\item{MyvoX}{Detection (1) or non-detection (0), of \\emph{Myotis volans}:\n#'    on day X}\n#'   \\item{MyluX}{Detection (1) or non-detection (0), of \\emph{Myotis lucifugus}:\n#'    on day X}\n#'   \\item{PaheX}{Detection (1) or non-detection (0), of \\emph{Parastrellus hesperus}:\n#'    on day X}\n#'   \\item{LablX}{Detection (1) or non-detection (0), of \\emph{Lasiurus blossevillii}:\n#'    on day X}\n#'   \\item{MyevX}{Detection (1) or non-detection (0), of \\emph{Myotis evotis}:\n#'    on day X}\n#'   \\item{AnpaX}{Detection (1) or non-detection (0), of \\emph{Antrozous pallidus}:\n#'    on day X}\n#'   \\item{EpfuX}{Detection (1) or non-detection (0), of \\emph{Eptesicus fuscus}:\n#'    on day X}\n#'   \\item{LanoX}{Detection (1) or non-detection (0), of \\emph{Lasionycteris noctivagans}:\n#'    on day X}\n#'   \\item{MythX}{Detection (1) or non-detection (0), of \\emph{Myotis thysanodes}:\n#'    on day X}\n#'   \\item{TabrX}{Detection (1) or non-detection (0), of \\emph{Tadarida brasiliensis}:\n#'    on day X}\n#'   \\item{LaciX}{Detection (1) or non-detection (0), of \\emph{Lasiurus cinereus}:\n#'    on day X}\n#'   \\item{CotoX}{Detection (1) or non-detection (0), of \\emph{Corynorhinus townsendii}:\n#'    on day X}\n#'   \\item{EumaX}{Detection (1) or non-detection (0), of \\emph{Euderma maculatum}:\n#'    on day X}\n#'   \\item{EupeX}{Detection (1) or non-detection (0), of \\emph{Eumops perotis}:\n#'    on day X}\n#' }\n\"BatOccu\"\n",
+    "created" : 1452220874526.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4228074669",
+    "id" : "D56CEF87",
+    "lastKnownWriteTime" : 1452223450,
+    "path" : "~/Documents/DiversityOccupancy/R/Datasets.R",
+    "project_path" : "R/Datasets.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "type" : "r_source"
+}
