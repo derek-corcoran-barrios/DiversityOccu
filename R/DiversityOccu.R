@@ -19,6 +19,10 @@
 #' @export
 #' @importFrom vegan diversity
 #' @importFrom unmarked occuRN
+#' @importFrom unmarked unmarkedFrameOccu
+#' @importMethodsFrom unmarked predict
+#'
+
 #' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
 
 diversityoccu<- function(pres, sitecov, obscov, spp, form) {
