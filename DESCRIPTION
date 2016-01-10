@@ -16,7 +16,7 @@ Imports:
     glmulti,
     MuMIn,
     unmarked,
-    vegan
+    vegan,
     ggplot2
 Suggests:
     raster

@@ -143,17 +143,41 @@ my_fun <- function(a, b) {
 #' plot the response of the calculated alpha diversity to the change of a
 #' particular variable
 #'
-#' This function takes a model.diversity object and one of the variables used to predict the
-#'
+#' This function takes a model.diversity object and one of the variables used to
+#' predict the
+#' @examples
+#' data("BatOccu")
+#' data("Dailycov")
+#' data("sampling.cov")
+#' x <-diversityoccu(pres = BatOccu, sitecov = sampling.cov, obscov = Dailycov,
+#' spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum + sdtemp ~
+#' Burn.intensity.soil + I(Burn.intensity.soil^2) + Burn.intensity.Canopy +
+#' I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
+#' I(Burn.intensity.basal^2))
+#' y <- model.diversity(x, method = "g")
+#' response.plot(y, Burn.intensity.soil)
+#' response.plot(y, Existing.vegetation)
+#' @export
+#' @importFrom ggplot2 ggplot
+#' @importFrom ggplot2 aes
+#' @importFrom ggplot2 geom_line
+#' @importFrom ggplot2 geom_ribbon
+#' @importFrom ggplot2 theme_bw
+#' @importFrom ggplot2 theme
+#' @importFrom ggplot2 element_line
+#' @importFrom ggplot2 element_blank
+#' @importFrom ggplot2 labs
+#' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
 
-responce.plot<- function(model, variable){
+response.plot<- function(model, variable){
   a<-data.frame(matrix(rep(colMeans(model$dataset), each=length(model$dataset[,1])), nrow = length(model$dataset[,1]), ncol = ncol(model$dataset)))
   colnames(a)<-colnames(model$dataset)
   maxval<-apply(model$dataset,2,max)
   minval<-apply(model$dataset,2,min)
-  newdata<- seq(from = minval[colnames(a)== as.character(substitute(variable))], to = minval[colnames(a)== as.character(substitute(variable))], along.with = model$dataset[,1])
-  a$variable <- newdata
+  newdata<- seq(from = minval[colnames(a)== as.character(substitute(variable))], to = maxval[colnames(a)== as.character(substitute(variable))], along.with = model$dataset[,1])
+  a[colnames(a)== as.character(substitute(variable))] <- newdata
   b<-predict(glm(model$Best_model, data= model$dataset), newdata = a, se.fit = TRUE)
-  result <-list(newdata= a, prediction = b)
+  c<- data.frame(preditction = b$fit, upper = (b$fit + b$se), lower = (b$fit - b$se), dependent = a[colnames(a)== as.character(substitute(variable))])
+  result <- ggplot(c, aes(x= c[,4], y = c[,1])) + geom_ribbon(aes(ymax= c[,2], ymin = c[,3]), fill = "grey") + geom_line() + theme_bw() + theme(axis.line = element_line(colour = "black"), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.border = element_blank(), panel.background = element_blank()) + labs(x = as.character(substitute(variable)), y = "Diversity")
   return(result)
 }

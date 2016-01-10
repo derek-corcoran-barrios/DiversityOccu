@@ -8,7 +8,7 @@ diversityoccu(pres, sitecov, obscov, spp, form, index = "shannon")
 }
 \arguments{
 \item{pres}{a data.frame where rows are the sites and columns are a series of
-presence-absence observation from multiple species, every specie needs to
+presence-absence observation from multiple species, every species needs to
 have the same number of observations.}
 
 \item{sitecov}{a data.frame where every row is a site, and every column is a
@@ -28,7 +28,7 @@ occupancy.}
 \item{index}{Diversity index, one of "shannon", "simpson" or "invsimpson".}
 }
 \value{
-A list with the fitted models for each specie and the calculated
+A list with the fitted models for each species and the calculated
 Alpha diversity for each site.
 }
 \description{
