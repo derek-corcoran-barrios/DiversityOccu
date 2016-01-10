@@ -4,14 +4,26 @@
 \alias{model.diversity}
 \title{Find the best GLM model explaining the alpha divesity of the species}
 \usage{
-model.diversity(DivOcc)
+model.diversity(DivOcc, method = "h", confsetsize = 5)
 }
 \arguments{
-\item{DivOcc}{is an object returned by the divesityoccu function of this package}
+\item{DivOcc}{is an object returned by the divesityoccu function of this
+package}
+
+\item{method}{The method to be used to explore the candidate set of models.
+If "h" an exhaustive screening is undertaken. If "g" the genetic algorithm is
+employed (recommended for large candidate sets). If "l", a very fast
+exhaustive branch-and-bound algorithm is used. Package leaps must then be
+loaded, and this can only be applied to linear models with covariates and no
+interactions.}
+
+\item{confsetsize}{The number of models to be looked for, i.e. the size of
+the returned confidence set.}
 }
 \value{
-An object with the best fitted model, the coefficients of that model
-and a table with the top 5 fitted models ranked by AICc
+An object with the best fitted model, the coefficients of that model,
+a table with the top 5 fitted models ranked by AICc and the data used for the
+model
 }
 \description{
 This function takes a diversityoccu object and heuristically searches for the
@@ -24,8 +36,14 @@ This function fits every first order glm possible and ranks them by AICc
 data("BatOccu")
 data("Dailycov")
 data("sampling.cov")
-x <-diversityoccu(pres = BatOccu, sitecov = sampling.cov, obscov = Dailycov, spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum + sdtemp ~  Burn.intensity.soil + I(Burn.intensity.soil^2) + Burn.intensity.Canopy + I(Burn.intensity.Canopy^2) + Burn.intensity.basal + I(Burn.intensity.basal^2))
-model.diversity(x)
+x <-diversityoccu(pres = BatOccu, sitecov = sampling.cov, obscov = Dailycov,
+spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum + sdtemp ~
+Burn.intensity.soil + I(Burn.intensity.soil^2) + Burn.intensity.Canopy +
+I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
+I(Burn.intensity.basal^2))
+y <- model.diversity(x, method = "g")
+y$Table
+y
 }
 \author{
 Derek Corcoran <derek.corcoran.barrios@gmail.com>

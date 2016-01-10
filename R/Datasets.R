@@ -5,39 +5,39 @@
 #'
 #' @format A data frame with 49 rows and 51 variables:
 #' \describe{
-#'   \item{MyyuX}{Detection (1) or non-detection (0), of \emph{Myotis yumanensis}:
-#'    on day X}
-#'   \item{MycaX}{Detection (1) or non-detection (0), of \emph{Myotis californicus}:
-#'    on day X}
-#'   \item{MyciX}{Detection (1) or non-detection (0), of \emph{Myotis ciliolabrum}:
-#'    on day X}
-#'   \item{MyvoX}{Detection (1) or non-detection (0), of \emph{Myotis volans}:
-#'    on day X}
-#'   \item{MyluX}{Detection (1) or non-detection (0), of \emph{Myotis lucifugus}:
-#'    on day X}
-#'   \item{PaheX}{Detection (1) or non-detection (0), of \emph{Parastrellus hesperus}:
-#'    on day X}
-#'   \item{LablX}{Detection (1) or non-detection (0), of \emph{Lasiurus blossevillii}:
-#'    on day X}
-#'   \item{MyevX}{Detection (1) or non-detection (0), of \emph{Myotis evotis}:
-#'    on day X}
-#'   \item{AnpaX}{Detection (1) or non-detection (0), of \emph{Antrozous pallidus}:
-#'    on day X}
-#'   \item{EpfuX}{Detection (1) or non-detection (0), of \emph{Eptesicus fuscus}:
-#'    on day X}
-#'   \item{LanoX}{Detection (1) or non-detection (0), of \emph{Lasionycteris noctivagans}:
-#'    on day X}
-#'   \item{MythX}{Detection (1) or non-detection (0), of \emph{Myotis thysanodes}:
-#'    on day X}
-#'   \item{TabrX}{Detection (1) or non-detection (0), of \emph{Tadarida brasiliensis}:
-#'    on day X}
-#'   \item{LaciX}{Detection (1) or non-detection (0), of \emph{Lasiurus cinereus}:
-#'    on day X}
-#'   \item{CotoX}{Detection (1) or non-detection (0), of \emph{Corynorhinus townsendii}:
-#'    on day X}
-#'   \item{EumaX}{Detection (1) or non-detection (0), of \emph{Euderma maculatum}:
-#'    on day X}
-#'   \item{EupeX}{Detection (1) or non-detection (0), of \emph{Eumops perotis}:
-#'    on day X}
+#'   \item{Myyu1}{Detection (1) or non-detection (0), of \emph{Myotis yumanensis}:
+#'    on day 1}
+#'   \item{Myca1}{Detection (1) or non-detection (0), of \emph{Myotis californicus}:
+#'    on day 1}
+#'   \item{Myci1}{Detection (1) or non-detection (0), of \emph{Myotis ciliolabrum}:
+#'    on day 1}
+#'   \item{Myvo1}{Detection (1) or non-detection (0), of \emph{Myotis volans}:
+#'    on day 1}
+#'   \item{Mylu1}{Detection (1) or non-detection (0), of \emph{Myotis lucifugus}:
+#'    on day 1}
+#'   \item{Pahe1}{Detection (1) or non-detection (0), of \emph{Parastrellus hesperus}:
+#'    on day 1}
+#'   \item{Labl1}{Detection (1) or non-detection (0), of \emph{Lasiurus blossevillii}:
+#'    on day 1}
+#'   \item{Myev1}{Detection (1) or non-detection (0), of \emph{Myotis evotis}:
+#'    on day 1}
+#'   \item{Anpa1}{Detection (1) or non-detection (0), of \emph{Antrozous pallidus}:
+#'    on day 1}
+#'   \item{Epfu1}{Detection (1) or non-detection (0), of \emph{Eptesicus fuscus}:
+#'    on day 1}
+#'   \item{Lano1}{Detection (1) or non-detection (0), of \emph{Lasionycteris noctivagans}:
+#'    on day 1}
+#'   \item{Myth1}{Detection (1) or non-detection (0), of \emph{Myotis thysanodes}:
+#'    on day 1}
+#'   \item{Tabr1}{Detection (1) or non-detection (0), of \emph{Tadarida brasiliensis}:
+#'    on day 1}
+#'   \item{Laci1}{Detection (1) or non-detection (0), of \emph{Lasiurus cinereus}:
+#'    on day 1}
+#'   \item{Coto1}{Detection (1) or non-detection (0), of \emph{Corynorhinus townsendii}:
+#'    on day 1}
+#'   \item{Euma1}{Detection (1) or non-detection (0), of \emph{Euderma maculatum}:
+#'    on day 1}
+#'   \item{Eupe1}{Detection (1) or non-detection (0), of \emph{Eumops perotis}:
+#'    on day 1}
 #' }
 "BatOccu"

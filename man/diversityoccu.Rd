@@ -4,33 +4,54 @@
 \alias{diversityoccu}
 \title{Calculates alpha diversity from multiple species occupancy data}
 \usage{
-diversityoccu(pres, sitecov, obscov, spp, form)
+diversityoccu(pres, sitecov, obscov, spp, form, index = "shannon")
 }
 \arguments{
-\item{pres}{a data.frame where rows are the sites and columns are a series of presence-absence observation from multiple species, every specie needs to have the same number of observations.}
+\item{pres}{a data.frame where rows are the sites and columns are a series of
+presence-absence observation from multiple species, every specie needs to
+have the same number of observations.}
 
-\item{sitecov}{a data.frame where every row is a site, and every column is a measurement of that site, such as elevation or slope, this covariates are usually more constant.}
+\item{sitecov}{a data.frame where every row is a site, and every column is a
+measurement of that site, such as elevation or slope, this covariates are
+usually more constant.}
 
-\item{obscov}{a list where every element is a data frame with the daily covariates for each site, that is a measurement for each day, such as average temperature of a day, this covariates are usually very .}
+\item{obscov}{a list where every element is a data frame with the daily
+covariates for each site, that is a measurement for each day, such as average
+temperature of a day, this covariates are usually very .}
 
 \item{spp}{the number of species in the pres data.frame}
 
-\item{form}{a formula in the format ~ obscov ~ sitcov, the first arguments will be used to calculate probability of detection and the second part the occupancy.}
+\item{form}{a formula in the format ~ obscov ~ sitcov, the first arguments
+will be used to calculate probability of detection and the second part the
+occupancy.}
+
+\item{index}{Diversity index, one of "shannon", "simpson" or "invsimpson".}
 }
 \value{
-A list with the fitted models for each specie and the calculated Alpha diversity for each site.
+A list with the fitted models for each specie and the calculated
+Alpha diversity for each site.
 }
 \description{
-This function takes a data.frame with multiple presence absence-data from various species in different sites, covariates of each site to calculate occupancy, variables specific to sampling days to calculate probability of detection, and it calculates the alpha diversity for each site.
+This function takes a data.frame with multiple presence absence-data from
+various species in different sites, covariates of each site to calculate
+occupancy, variables specific to sampling days to calculate probability of
+detection, and it calculates the alpha diversity for each site.
 }
 \details{
-This function fits the latent abundance mixture model described in Royle and Nichols (2003), to calculate the abundance of every species in each site, the using that abundance it calculates the alpha diversity index for each site based on that abundance.
+This function fits the latent abundance mixture model described in Royle and
+Nichols (2003), to calculate the abundance of every species in each site, the
+using that abundance it calculates the alpha diversity index for each site
+based on that abundance.
 }
 \examples{
 data("BatOccu")
 data("Dailycov")
 data("sampling.cov")
-diversityoccu(pres = BatOccu, sitecov = sampling.cov, obscov = Dailycov, spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum + sdtemp ~  Burn.intensity.soil + I(Burn.intensity.soil^2) + Burn.intensity.Canopy + I(Burn.intensity.Canopy^2) + Burn.intensity.basal + I(Burn.intensity.basal^2))
+diversityoccu(pres = BatOccu, sitecov = sampling.cov, obscov = Dailycov,
+spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum + sdtemp ~
+Burn.intensity.soil + I(Burn.intensity.soil^2) + Burn.intensity.Canopy +
+I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
+I(Burn.intensity.basal^2))
 }
 \author{
 Derek Corcoran <derek.corcoran.barrios@gmail.com>

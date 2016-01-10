@@ -17,6 +17,7 @@ Imports:
     MuMIn,
     unmarked,
     vegan
+    ggplot2
 Suggests:
     raster
 License: GPL-3
