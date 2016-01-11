@@ -7,9 +7,21 @@ particular variable}
 \usage{
 response.plot(model, variable)
 }
+\arguments{
+\item{model}{A result from the model.diversity function.}
+
+\item{variable}{The variable of which the response is to be ploted.}
+}
+\value{
+a ggplot object plotting the alpha diversity response to the selected
+variable.
+}
 \description{
 This function takes a model.diversity object and one of the variables used to
-predict the
+predict the alpha diversity index, and makes a plot showing the response of
+the diversity index against the selected variable. This function automatically
+limits the values of that variable to the maximum and minimum values of the
+dataset.
 }
 \examples{
 data("BatOccu")

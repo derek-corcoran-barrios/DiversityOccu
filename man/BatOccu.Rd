@@ -8,10 +8,22 @@
 \describe{
   \item{Myyu1}{Detection (1) or non-detection (0), of \emph{Myotis yumanensis}:
    on day 1}
+  \item{Myyu2}{Detection (1) or non-detection (0), of \emph{Myotis yumanensis}:
+   on day 2}
+  \item{Myyu3}{Detection (1) or non-detection (0), of \emph{Myotis yumanensis}:
+   on day 3}
   \item{Myca1}{Detection (1) or non-detection (0), of \emph{Myotis californicus}:
    on day 1}
+  \item{Myca2}{Detection (1) or non-detection (0), of \emph{Myotis californicus}:
+   on day 2}
+  \item{Myca3}{Detection (1) or non-detection (0), of \emph{Myotis californicus}:
+   on day 3}
   \item{Myci1}{Detection (1) or non-detection (0), of \emph{Myotis ciliolabrum}:
    on day 1}
+  \item{Myci2}{Detection (1) or non-detection (0), of \emph{Myotis ciliolabrum}:
+   on day 2}
+  \item{Myci3}{Detection (1) or non-detection (0), of \emph{Myotis ciliolabrum}:
+   on day 3}
   \item{Myvo1}{Detection (1) or non-detection (0), of \emph{Myotis volans}:
    on day 1}
   \item{Mylu1}{Detection (1) or non-detection (0), of \emph{Myotis lucifugus}:

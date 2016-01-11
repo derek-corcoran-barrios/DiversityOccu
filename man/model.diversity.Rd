@@ -4,7 +4,7 @@
 \alias{model.diversity}
 \title{Find the best GLM model explaining the alpha divesity of the species}
 \usage{
-model.diversity(DivOcc, method = "h", confsetsize = 5)
+model.diversity(DivOcc, method = "h", confsetsize = 5, squared = FALSE)
 }
 \arguments{
 \item{DivOcc}{is an object returned by the divesityoccu function of this
@@ -19,6 +19,11 @@ interactions.}
 
 \item{confsetsize}{The number of models to be looked for, i.e. the size of
 the returned confidence set.}
+
+\item{squared, }{if FALSE (Default), only GLMs with linear components will be
+evaluated; If TRUE, GLMs with both linear and quadratic components will be evaluated.
+WARNING if squared is TRUE, the number of parameters duplicates and the models
+grow exponentially, this may result in to many variables for a CPU to compute.}
 }
 \value{
 An object with the best fitted model, the coefficients of that model,
@@ -30,9 +35,10 @@ This function takes a diversityoccu object and heuristically searches for the
 glm that best explains the alpha diversity of the modelled species.
 }
 \details{
-This function fits every first order glm possible and ranks them by AICc
+This function fits every first order glm possible and ranks them by AICc.
 }
 \examples{
+#To fit and explore the only the linear components of the model
 data("BatOccu")
 data("Dailycov")
 data("sampling.cov")
@@ -44,6 +50,21 @@ I(Burn.intensity.basal^2))
 y <- model.diversity(x, method = "g")
 y$Table
 y
+
+#To add the quadratic components of models
+
+data("BatOccu")
+data("Dailycov")
+data("sampling.cov")
+x <-diversityoccu(pres = BatOccu, sitecov = sampling.cov[,1:8], obscov = Dailycov,
+spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum + sdtemp ~
+Burn.intensity.soil + I(Burn.intensity.soil^2) + Burn.intensity.Canopy +
+I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
+I(Burn.intensity.basal^2))
+y <- model.diversity(x, method = "g", squared = TRUE)
+y$Table
+y
+
 }
 \author{
 Derek Corcoran <derek.corcoran.barrios@gmail.com>

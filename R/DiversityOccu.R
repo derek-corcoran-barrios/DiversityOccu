@@ -90,12 +90,17 @@ my_fun <- function(a, b) {
 #' interactions.
 #' @param confsetsize	The number of models to be looked for, i.e. the size of
 #' the returned confidence set.
+#' @param squared, if FALSE (Default), only GLMs with linear components will be
+#' evaluated; If TRUE, GLMs with both linear and quadratic components will be evaluated.
+#' WARNING if squared is TRUE, the number of parameters duplicates and the models
+#' grow exponentially, this may result in to many variables for a CPU to compute.
 #' @return An object with the best fitted model, the coefficients of that model,
 #' a table with the top 5 fitted models ranked by AICc and the data used for the
 #' model
 #' @details
-#' This function fits every first order glm possible and ranks them by AICc
+#' This function fits every first order glm possible and ranks them by AICc.
 #' @examples
+#' #To fit and explore the only the linear components of the model
 #' data("BatOccu")
 #' data("Dailycov")
 #' data("sampling.cov")
@@ -107,6 +112,21 @@ my_fun <- function(a, b) {
 #' y <- model.diversity(x, method = "g")
 #' y$Table
 #' y
+#'
+#' #To add the quadratic components of models
+#'
+#' data("BatOccu")
+#' data("Dailycov")
+#' data("sampling.cov")
+#' x <-diversityoccu(pres = BatOccu, sitecov = sampling.cov[,1:8], obscov = Dailycov,
+#' spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum + sdtemp ~
+#' Burn.intensity.soil + I(Burn.intensity.soil^2) + Burn.intensity.Canopy +
+#' I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
+#' I(Burn.intensity.basal^2))
+#' y <- model.diversity(x, method = "g", squared = TRUE)
+#' y$Table
+#' y
+#'
 #' @seealso \code{\link[DiversityOccupancy]{diversityoccu}}
 #' @export
 #' @importFrom glmulti glmulti
@@ -114,18 +134,27 @@ my_fun <- function(a, b) {
 #' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
 
 
-model.diversity <- function(DivOcc, method = "h", confsetsize = 5){
+model.diversity <- function(DivOcc, method = "h", confsetsize = 5, squared = FALSE){
   A <- cbind(DivOcc$Diversity, DivOcc$Covs)
   colnames(A)[1]<-"Diversity"
   B <- paste(names(DivOcc$Covs), "+")
   B <- toString(B)
   B <- gsub(",", " ", B)
-  B <- paste("Diversity ~", B, collapse = " ")
+  if (squared == TRUE) {
+    C <- paste("I(", names(DivOcc$Covs), "^2) +")
+    C <- toString(C)
+    C <- gsub (",", " ", C)
+    B <- paste("Diversity ~", B, C, collapse = " ")
+  }
+  else if (squared == FALSE) {
+    B <- paste("Diversity ~", B, collapse = " ")
+  }
+
   B <- as.formula(substr(B, 1, nchar(B)-1))
   B <- glm(B, data = A)
-  C <- glmulti(B, level = 1, crit = "aicc", confsetsize = confsetsize, plotty = FALSE, method = method)
-  Best.model <- C@formulas[[1]]
-  Table <- weightable(C)
+  D <- glmulti(B, level = 1, crit = "aicc", confsetsize = confsetsize, plotty = FALSE, method = method)
+  Best.model <- D@formulas[[1]]
+  Table <- weightable(D)
   Table$Delta.AICc <- Table[,2]-Table[1,2]
   d<-summary(glm(Best.model, data = A))
   result <- list(Best_model = Best.model, Table = Table, coeff = d, dataset= A)
@@ -144,7 +173,14 @@ my_fun <- function(a, b) {
 #' particular variable
 #'
 #' This function takes a model.diversity object and one of the variables used to
-#' predict the
+#' predict the alpha diversity index, and makes a plot showing the response of
+#' the diversity index against the selected variable. This function automatically
+#' limits the values of that variable to the maximum and minimum values of the
+#' dataset.
+#' @param model A result from the model.diversity function.
+#' @param variable The variable of which the response is to be ploted.
+#' @return a ggplot object plotting the alpha diversity response to the selected
+#' variable.
 #' @examples
 #' data("BatOccu")
 #' data("Dailycov")
