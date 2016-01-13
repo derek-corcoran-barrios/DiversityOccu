@@ -44,7 +44,7 @@
 #' @importFrom unmarked unmarkedFrameOccu
 #' @importMethodsFrom unmarked predict
 #' @importFrom MuMIn dredge
-
+#' @importFrom MuMIn get.models
 
 #' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
 
@@ -74,11 +74,8 @@ diversityoccu<- function(pres, sitecov, obscov, spp, form, index = "shannon", dr
       models[[i]] <-c(secuencia2[i]:secuencia[i])
       models[[i]] <- pres[, models[[i]]]
       models[[i]] <- unmarkedFrameOccu(y = models[[i]], siteCovs = sitecov, obsCovs = obscov)
-      models[[i]] <- occuRN(form, models[[i]])
-      }
-    for (i in 1:length(models)){
-      dredged[[i]] <- dredge(models[[i]])
-      dredged[[i]] <- get.models(dredged[[i]])
+      models[[i]] <- dredge(occuRN(form, models[[i]]))
+      dredged[[i]] <- get.models(models[[i]], 1)[[1]]
       div[[i]] <- predict(dredged[[i]], type = "state", newdata = sitecov)$Predicted
       div<- as.data.frame(div)
       h<- diversity(div, index)
@@ -110,8 +107,8 @@ my_fun <- function(a, b) {
 #' exhaustive branch-and-bound algorithm is used. Package leaps must then be
 #' loaded, and this can only be applied to linear models with covariates and no
 #' interactions.
-#' @param confsetsize	The number of models to be looked for, i.e. the size of
-#' the returned confidence set.
+#' @param delta	The number of models that will be returned will be the ones that
+#' have a maximum AICc difference with the top model equal to delta.
 #' @param squared, if FALSE (Default), only GLMs with linear components will be
 #' evaluated; If TRUE, GLMs with both linear and quadratic components will be evaluated.
 #' WARNING if squared is TRUE, the number of parameters duplicates and the models
@@ -153,10 +150,12 @@ my_fun <- function(a, b) {
 #' @export
 #' @importFrom glmulti glmulti
 #' @importFrom glmulti weightable
+#' @importFrom dplyr filter
+#' @importFrom qpcR akaike.weights
 #' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
 
 
-model.diversity <- function(DivOcc, method = "h", confsetsize = 5, squared = FALSE){
+model.diversity <- function(DivOcc, method = "h", delta = 2, squared = FALSE){
   A <- cbind(DivOcc$Diversity, DivOcc$Covs)
   colnames(A)[1]<-"Diversity"
   B <- paste(names(DivOcc$Covs), "+")
@@ -174,10 +173,12 @@ model.diversity <- function(DivOcc, method = "h", confsetsize = 5, squared = FAL
 
   B <- as.formula(substr(B, 1, nchar(B)-1))
   B <- glm(B, data = A)
-  D <- glmulti(B, level = 1, crit = "aicc", confsetsize = confsetsize, plotty = FALSE, method = method)
+  D <- glmulti(B, level = 1, crit = "aicc", plotty = FALSE, method = method)
   Best.model <- D@formulas[[1]]
   Table <- weightable(D)
   Table$Delta.AICc <- Table[,2]-Table[1,2]
+  Table <- filter(Table, Delta.AICc < delta)
+  Table$weights <- akaike.weights(Table$aicc)$weights
   d<-summary(glm(Best.model, data = A))
   result <- list(Best_model = Best.model, Table = Table, coeff = d, dataset= A)
   return(result)

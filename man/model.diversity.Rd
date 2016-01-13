@@ -4,7 +4,7 @@
 \alias{model.diversity}
 \title{Find the best GLM model explaining the alpha divesity of the species}
 \usage{
-model.diversity(DivOcc, method = "h", confsetsize = 5, squared = FALSE)
+model.diversity(DivOcc, method = "h", delta = 2, squared = FALSE)
 }
 \arguments{
 \item{DivOcc}{is an object returned by the divesityoccu function of this
@@ -17,8 +17,8 @@ exhaustive branch-and-bound algorithm is used. Package leaps must then be
 loaded, and this can only be applied to linear models with covariates and no
 interactions.}
 
-\item{confsetsize}{The number of models to be looked for, i.e. the size of
-the returned confidence set.}
+\item{delta}{The number of models that will be returned will be the ones that
+have a maximum AICc difference with the top model equal to delta.}
 
 \item{squared, }{if FALSE (Default), only GLMs with linear components will be
 evaluated; If TRUE, GLMs with both linear and quadratic components will be evaluated.
