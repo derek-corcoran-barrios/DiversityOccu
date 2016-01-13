@@ -4,7 +4,8 @@
 \alias{diversityoccu}
 \title{Calculates alpha diversity from multiple species occupancy data}
 \usage{
-diversityoccu(pres, sitecov, obscov, spp, form, index = "shannon")
+diversityoccu(pres, sitecov, obscov, spp, form, index = "shannon",
+  dredge = FALSE)
 }
 \arguments{
 \item{pres}{a data.frame where rows are the sites and columns are a series of
@@ -26,6 +27,9 @@ will be used to calculate probability of detection and the second part the
 occupancy.}
 
 \item{index}{Diversity index, one of "shannon", "simpson" or "invsimpson".}
+
+\item{dredge}{default = FALSE, if TRUE, for each species, the best occupancy
+model will be determined by fitting all possible models and rankin by AICc.}
 }
 \value{
 A list with the fitted models for each species and the calculated

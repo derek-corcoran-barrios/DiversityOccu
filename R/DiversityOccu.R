@@ -19,6 +19,8 @@
 #' will be used to calculate probability of detection and the second part the
 #' occupancy.
 #' @param index Diversity index, one of "shannon", "simpson" or "invsimpson".
+#' @param dredge default = FALSE, if TRUE, for each species, the best occupancy
+#' model will be determined by fitting all possible models and rankin by AICc.
 #' @return A list with the fitted models for each species and the calculated
 #' Alpha diversity for each site.
 #' @details
@@ -41,17 +43,20 @@
 #' @importFrom unmarked occuRN
 #' @importFrom unmarked unmarkedFrameOccu
 #' @importMethodsFrom unmarked predict
-#'
+#' @importFrom MuMIn dredge
+
 
 #' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
 
-diversityoccu<- function(pres, sitecov, obscov, spp, form, index = "shannon") {
+diversityoccu<- function(pres, sitecov, obscov, spp, form, index = "shannon", dredge = FALSE) {
 
   secuencia <- c(1:spp)*(ncol(pres)/spp)
   secuencia2<-secuencia-(secuencia[1]-1)
 
   models <- list()
   div <- list()
+  dredged <- list ()
+  if (dredge == FALSE){
 
   for(i in 1:length(secuencia)) {
     models[[i]] <-c(secuencia2[i]:secuencia[i])
@@ -62,8 +67,25 @@ diversityoccu<- function(pres, sitecov, obscov, spp, form, index = "shannon") {
     div<- as.data.frame(div)
     h<- diversity(div, index)
   }
+  }
 
-  result <- list(Covs = sitecov, models = models, Diversity = h)
+  else if (dredge == TRUE){
+    for(i in 1:length(secuencia)) {
+      models[[i]] <-c(secuencia2[i]:secuencia[i])
+      models[[i]] <- pres[, models[[i]]]
+      models[[i]] <- unmarkedFrameOccu(y = models[[i]], siteCovs = sitecov, obsCovs = obscov)
+      models[[i]] <- occuRN(form, models[[i]])
+      }
+    for (i in 1:length(models)){
+      dredged[[i]] <- dredge(models[[i]])
+      dredged[[i]] <- get.models(dredged[[i]])
+      div[[i]] <- predict(dredged[[i]], type = "state", newdata = sitecov)$Predicted
+      div<- as.data.frame(div)
+      h<- diversity(div, index)
+    }
+  }
+
+  result <- list(Covs = sitecov, models = models, Diversity = h, dredged = dredged)
   return(result)
 }
 
@@ -206,14 +228,14 @@ my_fun <- function(a, b) {
 #' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
 
 response.plot<- function(model, variable){
-  a<-data.frame(matrix(rep(colMeans(model$dataset), each=length(model$dataset[,1])), nrow = length(model$dataset[,1]), ncol = ncol(model$dataset)))
-  colnames(a)<-colnames(model$dataset)
+  A<-data.frame(matrix(rep(colMeans(model$dataset), each=length(model$dataset[,1])), nrow = length(model$dataset[,1]), ncol = ncol(model$dataset)))
+  colnames(A)<-colnames(model$dataset)
   maxval<-apply(model$dataset,2,max)
   minval<-apply(model$dataset,2,min)
-  newdata<- seq(from = minval[colnames(a)== as.character(substitute(variable))], to = maxval[colnames(a)== as.character(substitute(variable))], along.with = model$dataset[,1])
-  a[colnames(a)== as.character(substitute(variable))] <- newdata
-  b<-predict(glm(model$Best_model, data= model$dataset), newdata = a, se.fit = TRUE)
-  c<- data.frame(preditction = b$fit, upper = (b$fit + b$se), lower = (b$fit - b$se), dependent = a[colnames(a)== as.character(substitute(variable))])
-  result <- ggplot(c, aes(x= c[,4], y = c[,1])) + geom_ribbon(aes(ymax= c[,2], ymin = c[,3]), fill = "grey") + geom_line() + theme_bw() + theme(axis.line = element_line(colour = "black"), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.border = element_blank(), panel.background = element_blank()) + labs(x = as.character(substitute(variable)), y = "Diversity")
+  newdata<- seq(from = minval[colnames(A)== as.character(substitute(variable))], to = maxval[colnames(A)== as.character(substitute(variable))], along.with = model$dataset[,1])
+  A[colnames(A)== as.character(substitute(variable))] <- newdata
+  B<-predict(glm(model$Best_model, data= model$dataset), newdata = A, se.fit = TRUE)
+  C<- data.frame(preditction = B$fit, upper = (B$fit + B$se), lower = (B$fit - B$se), dependent = A[colnames(A)== as.character(substitute(variable))])
+  result <- ggplot(C, aes(x= C[,4], y = C[,1])) + geom_ribbon(aes(ymax= C[,2], ymin = C[,3]), fill = "grey") + geom_line() + theme_bw() + theme(axis.line = element_line(colour = "black"), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.border = element_blank(), panel.background = element_blank()) + labs(x = as.character(substitute(variable)), y = "Diversity")
   return(result)
 }

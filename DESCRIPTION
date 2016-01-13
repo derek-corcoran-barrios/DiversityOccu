@@ -10,16 +10,19 @@ Description: This package predict alpha diversity from presence data, first
     it models abundance from occupancy models and then, from that it calculates
     several diversity indices and finally it uses GLM models to predict diversity in
     different environments.
-Depends:
+Depends: 
     R (>= 3.2.2)
-Imports:
+Imports: 
     glmulti,
     MuMIn,
     unmarked,
     vegan,
     ggplot2
-Suggests:
-    raster
+Suggests: 
+    raster,
+    knitr,
+    rmarkdown
 License: GPL-3
 LazyData: TRUE
 RoxygenNote: 5.0.1
+VignetteBuilder: knitr
