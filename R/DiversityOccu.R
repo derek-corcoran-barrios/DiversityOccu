@@ -54,35 +54,48 @@ diversityoccu<- function(pres, sitecov, obscov, spp, form, index = "shannon", dr
   secuencia2<-secuencia-(secuencia[1]-1)
 
   models <- list()
+  data<- list()
   div <- list()
   dredged <- list ()
   if (dredge == FALSE){
 
-  for(i in 1:length(secuencia)) {
-    models[[i]] <-c(secuencia2[i]:secuencia[i])
-    models[[i]] <- pres[, models[[i]]]
-    models[[i]] <- unmarkedFrameOccu(y = models[[i]], siteCovs = sitecov, obsCovs = obscov)
-    models[[i]] <- occuRN(form, models[[i]])
-    div[[i]] <- predict(models[[i]], type = "state", newdata = sitecov)$Predicted
-    div<- as.data.frame(div)
-    h<- diversity(div, index)
-  }
-  }
-
-  else if (dredge == TRUE){
     for(i in 1:length(secuencia)) {
-      models[[i]] <-c(secuencia2[i]:secuencia[i])
-      models[[i]] <- pres[, models[[i]]]
+      data[[i]] <-c(secuencia2[i]:secuencia[i])
+      data[[i]] <- pres[, data[[i]]]
       models[[i]] <- unmarkedFrameOccu(y = models[[i]], siteCovs = sitecov, obsCovs = obscov)
-      models[[i]] <- dredge(occuRN(form, models[[i]]))
-      dredged[[i]] <- get.models(models[[i]], 1)[[1]]
-      div[[i]] <- predict(dredged[[i]], type = "state", newdata = sitecov)$Predicted
+      models[[i]] <- occuRN(form, models[[i]])
+      div[[i]] <- predict(models[[i]], type = "state", newdata = sitecov)$Predicted
       div<- as.data.frame(div)
       h<- diversity(div, index)
     }
   }
 
-  result <- list(Covs = sitecov, models = models, Diversity = h, dredged = dredged)
+  else if (dredge==TRUE) {
+    for(i in 1:length(secuencia)) {
+      data[[i]] <-c(secuencia2[i]:secuencia[i])
+      data[[i]] <- pres[, data[[i]]]
+      #data is a list of class unmarkedFrames from package unmarked.
+      # NM: write to the global environment so he data won't be "lost"
+      data2 <<- unmarkedFrameOccu(y = data[[i]], siteCovs = sitecov, obsCovs = obscov)
+      #uses the data list above to fit one model per specie
+      models[[i]] <- occuRN(form, data2)
+      #selects models
+      # NM: saved this to dredged object rather than overwriting models object
+      dredged[[i]] <- dredge(models[[i]], data2)
+      #select the first model
+      models[[i]] <- get.models(dredged[[i]], 1)[[1]]
+      #predictions for the best model
+      div[[i]] <- predict(models[[i]], type = "state", newdata = sitecov)$Predicted
+      div<- as.data.frame(div)
+      colnames(div) = paste("species",c(1:ncol(div)), sep =".")
+      data[[i]] <- data2
+      h<- diversity(div, index)
+    }
+    # remove temporary data file from the global environment
+    rm(data2, pos=".GlobalEnv")
+  }
+
+  result <- list(Covs = sitecov, models = models, Diversity = h)
   return(result)
 }
 
