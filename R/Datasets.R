@@ -124,3 +124,52 @@
 #'   day 4}
 #' }
 "IslandBirds"
+
+#' Nine covariables measured at 120 survey stations in an island in micronesia
+#'
+#' A dataframe containing the measurements of 9 variables (columns) correspondant
+#' to 120 different survey stations (Rows) in Pohnpei Island where the detection
+#' histories of the IslandBirds where taken.
+#'
+#' @format A data frame with 120 rows and 52 variables:
+#' \describe{
+#'   \item{Elev}{Metres above sea level of the sampled point}
+#'   \item{Patches}{the number of discrete habitat patches within a 50 m radius
+#'   of the survey station}
+#'   \item{PD}{XXXXXX}
+#'   \item{DIVISION}{XXXXX}
+#'   \item{RPR}{XXXXX}
+#'   \item{AgroFo}{Proportion of a station (from 0 to 1) corresponding to
+#'   agricultural forest incudes areas withsubsistence or commercial staple
+#'   crops mixed with undisturbed forest}
+#'   \item{SecVec}{Proportion of a station (from 0 to 1) corresponding to
+#'   secondary vegetation which represents anthropogenic habitats (e.g.,
+#'   savannah) and early colonizers and invasive species (e.g. \emph{Hibiscus spp.}
+#'    and \emph{Merremia peltata)}}
+#'   \item{Wetland}{Proportion of a station (from 0 to 1) corresponding to areas
+#'   classified as mangroves, marshes, swamp forest and fresh water bodies}
+#'   \item{Upland}{Proportion of a station (from 0 to 1) corresponding to upland
+#'   and undisturbed forest habitats}
+#' }
+
+"siteCov"
+
+#' Seven covariables measured at 120 survey stations in an island in micronesia
+#'
+#' A list containing the measurements of seven variables correspondant to 120
+#' different survey stations (Rows) in Pohnpei Island where the detection
+#' histories of the IslandBirds where taken.
+#'
+#' @format A data frame with 120 rows and 9 variables:
+#' \describe{
+#'   \item{Day}{Ordinal day}
+#'   \item{Wind}{Wind intensity using a modified Beafourt scale}
+#'   \item{Obs}{First initial of the observer}
+#'   \item{Time}{Survey time (minutes after sunrise)}
+#'   \item{Rain}{Categorical variable where 0 = no rain, 1 = light rain and
+#'   2 = heavy rain}
+#'   \item{Noise}{Ambient noise (1-10 being 10 the loudest)}
+#'   \item{Clouds}{Cloud cover in percentage}
+#' }
+
+"Daily_Cov"

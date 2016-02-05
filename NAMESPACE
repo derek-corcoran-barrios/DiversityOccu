@@ -3,6 +3,7 @@
 export(diversityoccu)
 export(model.diversity)
 export(response.plot)
+importFrom(MuMIn,AICc)
 importFrom(MuMIn,dredge)
 importFrom(MuMIn,get.models)
 importFrom(dplyr,filter)

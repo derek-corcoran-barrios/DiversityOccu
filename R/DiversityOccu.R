@@ -45,6 +45,7 @@
 #' @importMethodsFrom unmarked predict
 #' @importFrom MuMIn dredge
 #' @importFrom MuMIn get.models
+#' @importFrom MuMIn AICc
 
 #' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
 
