@@ -11,6 +11,13 @@ vignette: >
 
 #Modeling diversity from Occupancy.
 
+Several authors have discussed the possibility of managing based on species 
+desitions or community. This package develops tools, that make the use of both 
+aproaches at the same time using occupancy modelling to predict species diversity
+indices, model diversity, and take both individual species modelling and species
+diviersity index modelling, in order to take desitions based on both a community
+and individual species background.
+
 ##Theory
 
 Since its inception in 2002 by MacKenzie et al. 
