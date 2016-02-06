@@ -4,7 +4,14 @@
 \name{siteCov}
 \alias{siteCov}
 \title{Nine covariables measured at 120 survey stations in an island in micronesia}
-\format{A data frame with 120 rows and 52 variables:
+\format{A data frame with 120 rows and 52 variables:}
+\usage{
+siteCov
+}
+\description{
+A dataframe containing the measurements of 9 variables (columns) correspondant
+to 120 different survey stations (Rows) in Pohnpei Island where the detection
+histories of the IslandBirds where taken.
 \describe{
   \item{Elev}{Metres above sea level of the sampled point}
   \item{Patches}{the number of discrete habitat patches within a 50 m radius
@@ -23,14 +30,17 @@
   classified as mangroves, marshes, swamp forest and fresh water bodies}
   \item{Upland}{Proportion of a station (from 0 to 1) corresponding to upland
   and undisturbed forest habitats}
-}}
-\usage{
-siteCov
 }
-\description{
-A dataframe containing the measurements of 9 variables (columns) correspondant
-to 120 different survey stations (Rows) in Pohnpei Island where the detection
-histories of the IslandBirds where taken.
+}
+\references{
+Oleiro P. 2014. Avian population responses to anthropogenic
+landscape changes in Pohnpei, Federated Stats of Micronesia. Masters Thesis
+University of Missouri.
+}
+\seealso{
+\code{\link[DiversityOccupancy]{Daily_Cov}}
+
+\code{\link[DiversityOccupancy]{IslandBirds}}
 }
 \keyword{datasets}
 

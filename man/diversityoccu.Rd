@@ -59,8 +59,14 @@ I(Burn.intensity.basal^2))
 }
 \author{
 Derek Corcoran <derek.corcoran.barrios@gmail.com>
+
+Nicole L. Michel
 }
 \seealso{
 \code{\link[vegan]{diversity}}
+
+\code{\link[DiversityOccupancy]{model.diversity}}
+
+\code{\link[DiversityOccupancy]{response.plot}}
 }
 

@@ -4,7 +4,16 @@
 \name{Daily_Cov}
 \alias{Daily_Cov}
 \title{Seven covariables measured at 120 survey stations in an island in micronesia}
-\format{A data frame with 120 rows and 9 variables:
+\format{A data frame with 120 rows and 9 variables}
+\usage{
+Daily_Cov
+}
+\description{
+A list containing the measurements of seven variables correspondant to 120
+different survey stations (Rows) in Pohnpei Island where the detection
+histories of the IslandBirds where taken.
+}
+\details{
 \describe{
   \item{Day}{Ordinal day}
   \item{Wind}{Wind intensity using a modified Beafourt scale}
@@ -14,14 +23,17 @@
   2 = heavy rain}
   \item{Noise}{Ambient noise (1-10 being 10 the loudest)}
   \item{Clouds}{Cloud cover in percentage}
-}}
-\usage{
-Daily_Cov
 }
-\description{
-A list containing the measurements of seven variables correspondant to 120
-different survey stations (Rows) in Pohnpei Island where the detection
-histories of the IslandBirds where taken.
+}
+\references{
+Oleiro P. 2014. Avian population responses to anthropogenic
+landscape changes in Pohnpei, Federated Stats of Micronesia. Masters Thesis
+University of Missouri.
+}
+\seealso{
+\code{\link[DiversityOccupancy]{IslandBirds}}
+
+\code{\link[DiversityOccupancy]{siteCov}}
 }
 \keyword{datasets}
 

@@ -59,8 +59,6 @@
 #'
 #' A dataset containing the detections history of 13 species in the
 #' Pohnpei Island for 4 consecutive days (Columns) in 120 different sites (Rows).
-#'
-#' @format A data frame with 120 rows and 52 variables:
 #' \describe{
 #'   \item{CICA.1}{Detection history of \emph{Coracina tenurostris}: on day 1}
 #'   \item{CICA.2}{Detection history of \emph{Coracina tenurostris}: on day 2}
@@ -123,6 +121,12 @@
 #'   \item{POLO.4}{Detection history of \emph{Trichoglosuss rbiginosus}: on
 #'   day 4}
 #' }
+#' @format A data frame with 120 rows and 52 variables
+#' @seealso \code{\link[DiversityOccupancy]{Daily_Cov}}
+#' @seealso \code{\link[DiversityOccupancy]{siteCov}}
+#' @references Oleiro P. 2014. Avian population responses to anthropogenic
+#' landscape changes in Pohnpei, Federated Stats of Micronesia. Masters Thesis
+#' University of Missouri.
 "IslandBirds"
 
 #' Nine covariables measured at 120 survey stations in an island in micronesia
@@ -130,8 +134,6 @@
 #' A dataframe containing the measurements of 9 variables (columns) correspondant
 #' to 120 different survey stations (Rows) in Pohnpei Island where the detection
 #' histories of the IslandBirds where taken.
-#'
-#' @format A data frame with 120 rows and 52 variables:
 #' \describe{
 #'   \item{Elev}{Metres above sea level of the sampled point}
 #'   \item{Patches}{the number of discrete habitat patches within a 50 m radius
@@ -151,6 +153,12 @@
 #'   \item{Upland}{Proportion of a station (from 0 to 1) corresponding to upland
 #'   and undisturbed forest habitats}
 #' }
+#' @format A data frame with 120 rows and 52 variables:
+#' @seealso \code{\link[DiversityOccupancy]{Daily_Cov}}
+#' @seealso \code{\link[DiversityOccupancy]{IslandBirds}}
+#' @references Oleiro P. 2014. Avian population responses to anthropogenic
+#' landscape changes in Pohnpei, Federated Stats of Micronesia. Masters Thesis
+#' University of Missouri.
 
 "siteCov"
 
@@ -160,7 +168,6 @@
 #' different survey stations (Rows) in Pohnpei Island where the detection
 #' histories of the IslandBirds where taken.
 #'
-#' @format A data frame with 120 rows and 9 variables:
 #' \describe{
 #'   \item{Day}{Ordinal day}
 #'   \item{Wind}{Wind intensity using a modified Beafourt scale}
@@ -171,5 +178,11 @@
 #'   \item{Noise}{Ambient noise (1-10 being 10 the loudest)}
 #'   \item{Clouds}{Cloud cover in percentage}
 #' }
+#' @format A data frame with 120 rows and 9 variables
+#' @seealso \code{\link[DiversityOccupancy]{IslandBirds}}
+#' @seealso \code{\link[DiversityOccupancy]{siteCov}}
+#' @references Oleiro P. 2014. Avian population responses to anthropogenic
+#' landscape changes in Pohnpei, Federated Stats of Micronesia. Masters Thesis
+#' University of Missouri.
 
 "Daily_Cov"

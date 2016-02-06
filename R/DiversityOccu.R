@@ -38,6 +38,8 @@
 #' I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
 #' I(Burn.intensity.basal^2))
 #' @seealso \code{\link[vegan]{diversity}}
+#' @seealso \code{\link[DiversityOccupancy]{model.diversity}}
+#' @seealso \code{\link[DiversityOccupancy]{response.plot}}
 #' @export
 #' @importFrom vegan diversity
 #' @importFrom unmarked occuRN
@@ -48,6 +50,7 @@
 #' @importFrom MuMIn AICc
 
 #' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
+#' @author Nicole L. Michel
 
 diversityoccu<- function(pres, sitecov, obscov, spp, form, index = "shannon", dredge = FALSE) {
 
@@ -63,7 +66,7 @@ diversityoccu<- function(pres, sitecov, obscov, spp, form, index = "shannon", dr
     for(i in 1:length(secuencia)) {
       data[[i]] <-c(secuencia2[i]:secuencia[i])
       data[[i]] <- pres[, data[[i]]]
-      models[[i]] <- unmarkedFrameOccu(y = models[[i]], siteCovs = sitecov, obsCovs = obscov)
+      models[[i]] <- unmarkedFrameOccu(y = data[[i]], siteCovs = sitecov, obsCovs = obscov)
       models[[i]] <- occuRN(form, models[[i]])
       div[[i]] <- predict(models[[i]], type = "state", newdata = sitecov)$Predicted
       div<- as.data.frame(div)
@@ -73,6 +76,8 @@ diversityoccu<- function(pres, sitecov, obscov, spp, form, index = "shannon", dr
 
   else if (dredge==TRUE) {
     for(i in 1:length(secuencia)) {
+      require(MuMIn)
+      require(unmarked)
       data[[i]] <-c(secuencia2[i]:secuencia[i])
       data[[i]] <- pres[, data[[i]]]
       #data is a list of class unmarkedFrames from package unmarked.
@@ -98,14 +103,6 @@ diversityoccu<- function(pres, sitecov, obscov, spp, form, index = "shannon", dr
 
   result <- list(Covs = sitecov, models = models, Diversity = h)
   return(result)
-}
-
-# You need the suggested package for this function
-my_fun <- function(a, b) {
-  if (!requireNamespace("pkg", quietly = TRUE)) {
-    stop("Pkg needed for this function to work. Please install it.",
-         call. = FALSE)
-  }
 }
 
 #' Find the best GLM model explaining the alpha divesity of the species
@@ -161,6 +158,7 @@ my_fun <- function(a, b) {
 #' y
 #'
 #' @seealso \code{\link[DiversityOccupancy]{diversityoccu}}
+#' @seealso \code{\link[DiversityOccupancy]{response.plot}}
 #' @export
 #' @importFrom glmulti glmulti
 #' @importFrom glmulti weightable
@@ -231,6 +229,8 @@ my_fun <- function(a, b) {
 #' response.plot(y, Burn.intensity.soil)
 #' response.plot(y, Existing.vegetation)
 #' @export
+#' @seealso \code{\link[DiversityOccupancy]{diversityoccu}}
+#' @seealso \code{\link[DiversityOccupancy]{model.diversity}}
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 aes
 #' @importFrom ggplot2 geom_line

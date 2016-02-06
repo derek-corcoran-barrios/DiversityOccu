@@ -4,7 +4,13 @@
 \name{IslandBirds}
 \alias{IslandBirds}
 \title{Occupancy data of 13 bird species in Micronesia.}
-\format{A data frame with 120 rows and 52 variables:
+\format{A data frame with 120 rows and 52 variables}
+\usage{
+IslandBirds
+}
+\description{
+A dataset containing the detections history of 13 species in the
+Pohnpei Island for 4 consecutive days (Columns) in 120 different sites (Rows).
 \describe{
   \item{CICA.1}{Detection history of \emph{Coracina tenurostris}: on day 1}
   \item{CICA.2}{Detection history of \emph{Coracina tenurostris}: on day 2}
@@ -66,13 +72,17 @@
   day 3}
   \item{POLO.4}{Detection history of \emph{Trichoglosuss rbiginosus}: on
   day 4}
-}}
-\usage{
-IslandBirds
 }
-\description{
-A dataset containing the detections history of 13 species in the
-Pohnpei Island for 4 consecutive days (Columns) in 120 different sites (Rows).
+}
+\references{
+Oleiro P. 2014. Avian population responses to anthropogenic
+landscape changes in Pohnpei, Federated Stats of Micronesia. Masters Thesis
+University of Missouri.
+}
+\seealso{
+\code{\link[DiversityOccupancy]{Daily_Cov}}
+
+\code{\link[DiversityOccupancy]{siteCov}}
 }
 \keyword{datasets}
 
