@@ -25,16 +25,132 @@ Since its inception in 2002 by MacKenzie et al.
 ##How to use it
 
 ###Data formating
-
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+library(DiversityOccupancy)
+library(knitr)
+```
 In order to use the DiversityOccupancy package you need at least three files:
 
-####Detection history
+####Detection history of multiple species
+
+A data frame consisting on the detection history of at least one species, as an 
+example *DiversityOccupancy* has the dataset IslandBirds, a dataset containing 
+the detections history of 13 species in the Pohnpei Island for 4 consecutive days 
+(Columns) in 120 different sites (Rows). For every time the species was detected
+you have a 1 and for every time the species was not, you have a 0.
+
+```{r, echo=TRUE}
+data("IslandBirds")
+head(IslandBirds)
+```
+
+####Site covariates
+
+A data frame consisting on measurements taken on each site, this covariates are 
+used to model occupnacy or abundance, and are pur variables of interest, this are
+supposed to be variables that are stable within the scope of the length of the 
+study. In *DiversityOccupancy* there is an example concordant with the IslandBids
+dataset called siteCov
+
+```{r, echo=TRUE}
+data("siteCov")
+head(siteCov)
+```
+
+####Daily covariates
+
+A list of data frames, where each data frame is a daily measurement of a variable
+thought to affect the probability to detect the species. It is important that each 
+element (data frame) of the list, to have a name so that it can be called to fit 
+the occupancy model. This variables are used to model the probability of detection.
+
+*DiversityOccupancy* has a dataset called Daily_Cov which ilustrates how the Daily
+covariates have to be structured
+
+```{r, echo=TRUE}
+summary(Daily_Cov)
+names(Daily_Cov)
+head(Daily_Cov[[1]])
+```
 
 ###Fiting the models and predicting diversity
 
+####Modeling alpha diversity
+
+In order to model alpha diversity, we use the function *diversityoccu*. This function fits the latent abundance mixture model described in Royle and Nichols (2003), to calculate the abundance of every species in each site, the using that abundance it calculates the alpha diversity index for each site based on that abundance. If 
+dredge = TRUE, the function will automatically select the best model by fitting
+all posible models and selecting the best one using AICc. The calculated diversity 
+index can be chosen to be either shannon's (default), simpson, or inverse simpson.
+The formula for the full model has to be stipullated following the format ~ obscov 
+~ sitcov, the first arguments will be used to calculate probability of detection 
+and the second part occupancy. The number of species is stated in the parameter
+spp.
+
+The following example shows how to model Bird Diversity using part of the variables
+of the siteCov and Daily_Cov datasets, predicting shannon's diversity index and 
+selecting model by AICc.
+
+```{r, echo=TRUE, cache=TRUE}
+BirdDiversity<-diversityoccu(pres = IslandBirds, sitecov = siteCov, obscov = Daily_Cov, spp = 13, dredge = TRUE, form = ~ Wind + Rain + Noise ~ Elev + RPR + AgroFo + SecVeg + Wetland + Upland)
+```
+
+After the models have been selected we can see the selected models for each 
+species, and find the predicted diversity for each site.
+
+```{r, echo=TRUE}
+#see selected models
+BirdDiversity$models
+#see predicted alpha diversity for each site
+BirdDiversity$Diversity
+#plot an histogram of the predicted diversity
+hist(BirdDiversity$Diversity, xlab="Shanon's index")
+```
+
 ###Selecting the best model to predict diversity
 
+Once diversity has been predicted the function *model.diversity* can be used. 
+This function takes a *diversityoccu* object and heuristically searches for the 
+glm that best explains the alpha diversity of the modelled species ranked by 
+AICc.
+If the number of variables are to much for practical computing, we can change
+method to "g", in this case a genetical algorithm is used to select an optimal 
+model. If squared = TRUE, *model.diversity* will take the linear and quadratic
+version of each variable, by default, this function keeps all models within delta
+AICc < 2, but this can be changed by changing the parameter *delta*.
+The following example shows an example using the object produced in the previous
+model to select a glm model using a genetic algorithm and using both linear and
+quadratic versions of the variables.
+
+```{r, echo=TRUE}
+set.seed(123)
+glmBirds <- model.diversity(BirdDiversity, method="g", squared = TRUE)
+```
+
+A table with all kept models can be shown, also the coefficients of the best 
+model can be explored.
+
+```{r, echo=TRUE}
+#see table with all kept models
+glmBirds$Table
+kable(glmBirds$Table)
+#check coefficients of the best selected models
+glmBirds$coeff
+```
+
 ###Visualising the response of diversity to the selected Variables
+
+Another function within *DiversityOccupancy* is *response.plot*. This function 
+takes a model.diversity object and one of the variables used to predict the alpha 
+diversity index, and makes a plot showing the response of the diversity index 
+against the selected variable. This function automatically limits the values of 
+that variable to the maximum and minimum values of the dataset.
+
+```{r, echo=TRUE}
+response.plot(glmBirds, Elev)
+```
+
+The resulting plot is a ggplot object, and as such it can be stored and modified
+accordingly.
 
 ###Predicting to a new dataset 
 

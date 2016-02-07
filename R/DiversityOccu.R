@@ -196,13 +196,6 @@ model.diversity <- function(DivOcc, method = "h", delta = 2, squared = FALSE){
   return(result)
 }
 
-# You need the suggested package for this function
-my_fun <- function(a, b) {
-  if (!requireNamespace("pkg", quietly = TRUE)) {
-    stop("Pkg needed for this function to work. Please install it.",
-         call. = FALSE)
-  }
-}
 
 #' plot the response of the calculated alpha diversity to the change of a
 #' particular variable
