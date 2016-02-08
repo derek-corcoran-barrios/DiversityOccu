@@ -50,7 +50,7 @@ batchoccu<- function(pres, sitecov, obscov, spp, form, dredge = FALSE) {
 
   models <- list()
   data<- list()
-  div <- list()
+  fit <- list()
   dredged <- list ()
   if (dredge == FALSE){
 
@@ -59,6 +59,9 @@ batchoccu<- function(pres, sitecov, obscov, spp, form, dredge = FALSE) {
       data[[i]] <- pres[, data[[i]]]
       models[[i]] <- unmarkedFrameOccu(y = data[[i]], siteCovs = sitecov, obsCovs = obscov)
       models[[i]] <- occu(form, models[[i]])
+      fit[[i]] <- predict(models[[i]], type = "state", newdata = sitecov)$Predicted
+      fit <- as.data.frame(fit)
+      colnames(fit) = paste("species",c(1:ncol(fit)), sep =".")
     }
   }
 
@@ -72,11 +75,14 @@ batchoccu<- function(pres, sitecov, obscov, spp, form, dredge = FALSE) {
       models[[i]] <- occu(form, data2)
       dredged[[i]] <- dredge(models[[i]], data2)
       models[[i]] <- get.models(dredged[[i]], 1)[[1]]
+      fit[[i]] <- predict(models[[i]], type = "state", newdata = sitecov)$Predicted
+      fit<- as.data.frame(fit)
+      colnames(fit) = paste("species",c(1:ncol(fit)), sep =".")
     }
     rm(data2, pos=".GlobalEnv")
   }
 
-  result <- list(Covs = sitecov, models = models)
+  result <- list(Covs = sitecov, models = models, fit = fit)
   return(result)
 }
 
@@ -328,5 +334,62 @@ response.plot<- function(model, variable){
   B<-predict(glm(model$Best_model, data= model$dataset), newdata = A, se.fit = TRUE)
   C<- data.frame(preditction = B$fit, upper = (B$fit + B$se), lower = (B$fit - B$se), dependent = A[colnames(A)== as.character(substitute(variable))])
   result <- ggplot(C, aes(x= C[,4], y = C[,1])) + geom_ribbon(aes(ymax= C[,2], ymin = C[,3]), fill = "grey") + geom_line() + theme_bw() + theme(axis.line = element_line(colour = "black"), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.border = element_blank(), panel.background = element_blank()) + labs(x = as.character(substitute(variable)), y = "Diversity")
+  return(result)
+}
+
+#' Predict the occupancy; occupancy and diversity ; or abundance and diversity
+#' of multiple species
+#'
+#' This function takes an batchoccu object and predicts occupancy for all species
+#' in new data, either a data.frame or a rasterstack. It can also return a subset
+#' of the total area of a rasterstack, where diversity and occupancy/abundance are
+#' higher than the nth quantile.
+#' @param model A result from either diversityoccu or batchoccu
+#' @param diversity A result from the model.diversity function.
+#' @param new.data a rasterstack, or a dataframe containing the same variables as
+#' the siteCovs variable in diversityoccu or batchoccu
+#' @param quantile the nth quantile, over which is a goal to keep both diversity
+#' and selected species. default = NULL
+#' @param species, a boolean vector of the species to take into acount
+#' @return a data frame with predicted values, or a raster stack with predictions
+#' for each species, a raster for diversity and a raster with the area meeting the
+#' quantile criteria.
+#' @examples
+#' data("BatOccu")
+#' data("Dailycov")
+#' data("sampling.cov")
+#' x <-diversityoccu(pres = BatOccu, sitecov = sampling.cov, obscov = Dailycov,
+#' spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum + sdtemp ~
+#' Burn.intensity.soil + I(Burn.intensity.soil^2) + Burn.intensity.Canopy +
+#' I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
+#' I(Burn.intensity.basal^2))
+#' y <- model.diversity(x, method = "g")
+
+#' @export
+#' @seealso \code{\link[DiversityOccupancy]{diversityoccu}}
+#' @seealso \code{\link[DiversityOccupancy]{batchoccu}}
+#' @seealso \code{\link[DiversityOccupancy]{model.diversity}}
+#' @importFrom raster quantile
+#' @importFrom raster stack
+#' @importFrom raster writeRaster
+#' @importFrom ggplot2 geom_line
+#' @importFrom ggplot2 geom_ribbon
+#' @importFrom ggplot2 theme_bw
+#' @importFrom ggplot2 theme
+#' @importFrom ggplot2 element_line
+#' @importFrom ggplot2 element_blank
+#' @importFrom ggplot2 labs
+#' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
+
+predict.diversity<- function(model, diverse, new.data, quantile = 0.5 , species) {
+  models <- model$models[species]
+  layers <- list()
+  for (i in 1:length(models)){
+    layers[[i]] <- predict(models[[i]], new.data, type = "state")$predicted
+  }
+  glm.model <- glm(diverse$Best_model, data = y$dataset)
+  diversity.raster<- predict(object = new.data, model = glm.model)
+  layers <- stack (unlist(layers))
+  result <- list(species = layers, diversity.raster = diversity.raster)
   return(result)
 }
