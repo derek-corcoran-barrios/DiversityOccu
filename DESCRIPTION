@@ -8,8 +8,8 @@ Authors@R: person("Derek", "Corcoran", email = "derek.corcoran.barrios@gmail.com
   role = c("aut", "cre"))
 Description: This package predict alpha diversity from presence data, first
     it models abundance from occupancy models and then, from that it calculates
-    several diversity indices and finally it uses GLM models to predict diversity in
-    different environments.
+    several diversity indices and finally it uses GLM models to predict diversity
+    in different environments.
 Depends:
     R (>= 3.2.2)
 Imports:
@@ -17,11 +17,11 @@ Imports:
     ggplot2,
     glmulti,
     MuMIn,
+    raster,
     qpcR,
     unmarked,
     vegan
 Suggests:
-    raster,
     knitr,
     rmarkdown
 License: GPL-3

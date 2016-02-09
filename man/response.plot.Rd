@@ -6,31 +6,15 @@
 particular variable}
 \usage{
 response.plot(model, variable)
-
-response.plot(model, variable)
 }
 \arguments{
 \item{model}{A result from the model.diversity function.}
 
 \item{variable}{The variable of which the response is to be ploted.}
-
-\item{model}{A result from either diversityoccu or batchoccu}
-
-\item{diversity}{A result from the model.diversity function.}
-
-\item{new.data}{a rasterstack, or a dataframe containing the same variables as
-the siteCovs variable in diversityoccu or batchoccu}
-
-\item{quantile}{the nth quantile, over which is a goal to keep both diversity
-and selected species. default = NULL}
 }
 \value{
 a ggplot object plotting the alpha diversity response to the selected
 variable.
-
-a data frame with predicted values, or a raster stack with predictions
-for each species, a raster for diversity and a raster with the area meeting the
-quantile criteria.
 }
 \description{
 This function takes a model.diversity object and one of the variables used to
@@ -38,11 +22,6 @@ predict the alpha diversity index, and makes a plot showing the response of
 the diversity index against the selected variable. This function automatically
 limits the values of that variable to the maximum and minimum values of the
 dataset.
-
-This function takes an batchoccu object and predicts occupancy for all species
-in new data, either a data.frame or a rasterstack. It can also return a subset
-of the total area of a rasterstack, where diversity and occupancy/abundance are
-higher than the nth quantile.
 }
 \examples{
 data("BatOccu")
@@ -56,29 +35,12 @@ I(Burn.intensity.basal^2))
 y <- model.diversity(x, method = "g")
 response.plot(y, Burn.intensity.soil)
 response.plot(y, Existing.vegetation)
-data("BatOccu")
-data("Dailycov")
-data("sampling.cov")
-x <-diversityoccu(pres = BatOccu, sitecov = sampling.cov, obscov = Dailycov,
-spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum + sdtemp ~
-Burn.intensity.soil + I(Burn.intensity.soil^2) + Burn.intensity.Canopy +
-I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
-I(Burn.intensity.basal^2))
-y <- model.diversity(x, method = "g")
 }
 \author{
-Derek Corcoran <derek.corcoran.barrios@gmail.com>
-
 Derek Corcoran <derek.corcoran.barrios@gmail.com>
 }
 \seealso{
 \code{\link[DiversityOccupancy]{diversityoccu}}
-
-\code{\link[DiversityOccupancy]{model.diversity}}
-
-\code{\link[DiversityOccupancy]{diversityoccu}}
-
-\code{\link[DiversityOccupancy]{batchoccu}}
 
 \code{\link[DiversityOccupancy]{model.diversity}}
 }

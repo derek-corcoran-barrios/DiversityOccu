@@ -348,7 +348,7 @@ response.plot<- function(model, variable){
 #' @param diversity A result from the model.diversity function.
 #' @param new.data a rasterstack, or a dataframe containing the same variables as
 #' the siteCovs variable in diversityoccu or batchoccu
-#' @param quantile the nth quantile, over which is a goal to keep both diversity
+#' @param quantile.nth the nth quantile, over which is a goal to keep both diversity
 #' and selected species. default = NULL
 #' @param species, a boolean vector of the species to take into acount
 #' @return a data frame with predicted values, or a raster stack with predictions
@@ -369,16 +369,13 @@ response.plot<- function(model, variable){
 #' @seealso \code{\link[DiversityOccupancy]{diversityoccu}}
 #' @seealso \code{\link[DiversityOccupancy]{batchoccu}}
 #' @seealso \code{\link[DiversityOccupancy]{model.diversity}}
+#' @importFrom raster addLayer
+#' @importFrom raster KML
 #' @importFrom raster quantile
 #' @importFrom raster stack
+#' @importFrom raster subset
+#' @importFrom raster unstack
 #' @importFrom raster writeRaster
-#' @importFrom ggplot2 geom_line
-#' @importFrom ggplot2 geom_ribbon
-#' @importFrom ggplot2 theme_bw
-#' @importFrom ggplot2 theme
-#' @importFrom ggplot2 element_line
-#' @importFrom ggplot2 element_blank
-#' @importFrom ggplot2 labs
 #' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
 
 predict.diversity<- function(model, diverse, new.data, quantile.nth = 0.5 , species) {
@@ -391,10 +388,19 @@ predict.diversity<- function(model, diverse, new.data, quantile.nth = 0.5 , spec
   glm.model <- glm(diverse$Best_model, data = y$dataset)
   diversity.raster<- predict(object = new.data, model = glm.model)
   layers <- stack (unlist(layers))
-  desition <- list(unstack(layers), diversity.raster)
-  #for (i in 1:length(desition)){
-  # nths <- quantile(desition[i], quantile.nth)
-  #}
-  result <- list(species = layers, diversity.raster = diversity.raster, desition = desition)
+  desition <- addLayer(layers, diversity.raster)
+  nths <- quantile(desition, quantile.nth)
+  desition <- unstack(desition)
+  rc<-list()
+  for (i in 1:length(nths)){
+    m <- c(-Inf, nths[i], NA,  nths[i], Inf, 1)
+    rclmat <- matrix(m, ncol=3, byrow=TRUE)
+    rc[[i]]<-reclassify(desition[[i]] , rcl = rclmat)
+  }
+  rc<- stack(unlist(rc))
+  priority.area <- prod(rc)
+  plot(priority.area, colNA="black", legend = FALSE)
+  KML(priority.area, file='priority_area.kml')
+  result <- list(species = layers, diversity.raster = diversity.raster, priority.area = priority.area)
   return(result)
 }
