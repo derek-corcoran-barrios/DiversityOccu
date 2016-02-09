@@ -381,15 +381,20 @@ response.plot<- function(model, variable){
 #' @importFrom ggplot2 labs
 #' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
 
-predict.diversity<- function(model, diverse, new.data, quantile = 0.5 , species) {
+predict.diversity<- function(model, diverse, new.data, quantile.nth = 0.5 , species) {
   models <- model$models[species]
   layers <- list()
   for (i in 1:length(models)){
-    layers[[i]] <- predict(models[[i]], new.data, type = "state")$predicted
+    layers [[i]] <- predict(models[[i]], new.data, type = "state")
+    layers [[i]] <- subset(layers[[i]], 1)
   }
   glm.model <- glm(diverse$Best_model, data = y$dataset)
   diversity.raster<- predict(object = new.data, model = glm.model)
   layers <- stack (unlist(layers))
-  result <- list(species = layers, diversity.raster = diversity.raster)
+  desition <- list(unstack(layers), diversity.raster)
+  #for (i in 1:length(desition)){
+  # nths <- quantile(desition[i], quantile.nth)
+  #}
+  result <- list(species = layers, diversity.raster = diversity.raster, desition = desition)
   return(result)
 }
