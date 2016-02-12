@@ -380,7 +380,7 @@ predict.diversity<- function(model, diverse, new.data, quantile.nth = 0.8 , spec
     layers [[i]] <- predict(models[[i]], new.data, type = "state")
     layers [[i]] <- subset(layers[[i]], 1)
   }
-  glm.model <- glm(diverse$Best_model, data = y$dataset)
+  glm.model <- glm(diverse$Best_model, data = diverse$dataset)
   diversity.raster<- predict(object = new.data, model = glm.model)
   layers <- stack (unlist(layers))
   desition <- addLayer(layers, diversity.raster)
