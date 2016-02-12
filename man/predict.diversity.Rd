@@ -2,13 +2,13 @@
 % Please edit documentation in R/DiversityOccu.R
 \name{predict.diversity}
 \alias{predict.diversity}
-\title{Predict the occupancy; occupancy and diversity ; or abundance and diversity
-of multiple species}
+\title{Makes a spacially explicit prediction of the occupancy of multiple species
+and alpha diversity, and select the area where}
 \usage{
-predict.diversity(model, diverse, new.data, quantile.nth = 0.5, species)
+predict.diversity(model, diverse, new.data, quantile.nth = 0.8, species)
 }
 \arguments{
-\item{model}{A result from either diversityoccu or batchoccu}
+\item{model}{A result from diversityoccu}
 
 \item{new.data}{a rasterstack, or a dataframe containing the same variables as
 the siteCovs variable in diversityoccu or batchoccu}
@@ -26,21 +26,39 @@ for each species, a raster for diversity and a raster with the area meeting the
 quantile criteria.
 }
 \description{
-This function takes an batchoccu object and predicts occupancy for all species
+This function takes an deiversityoccu object and predicts occupancy for all species
 in new data, either a data.frame or a rasterstack. It can also return a subset
 of the total area of a rasterstack, where diversity and occupancy/abundance are
 higher than the nth quantile.
 }
 \examples{
+#Load the data
 data("BatOccu")
 data("Dailycov")
 data("sampling.cov")
-x <-diversityoccu(pres = BatOccu, sitecov = sampling.cov, obscov = Dailycov,
-spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum + sdtemp ~
-Burn.intensity.soil + I(Burn.intensity.soil^2) + Burn.intensity.Canopy +
-I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
+data("plumas.stack")
+
+#Model the abundance for 17 bat species and calculate alpha diversity from that
+
+BatDiversity <-diversityoccu(pres = BatOccu, sitecov = sampling.cov[,1:8],
+obscov = Dailycov,spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum +
+sdtemp ~ Burn.intensity.soil + I(Burn.intensity.soil^2) +
+Burn.intensity.Canopy + I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
 I(Burn.intensity.basal^2))
-y <- model.diversity(x, method = "g")
+
+#Select the best model that explains diversity using genetic algorithms
+set.seed(123)
+glm.Batdiversity <- model.diversity(x, method = "g")
+
+# get the area where the first two bat species Myyu and Myca are most abundant
+# and the diversity is most abundant
+
+Selected.area <- predict.diversity(model = BatDiversity, diverse = glm.batdiversity,
+new.data = plunas.stack, quantile.nth = 0.85, species =
+c(T,T,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F))
+
+Selected.area
+
 }
 \author{
 Derek Corcoran <derek.corcoran.barrios@gmail.com>

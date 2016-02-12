@@ -32,8 +32,9 @@ occupancy.}
 model will be determined by fitting all possible models and rankin by AICc.}
 }
 \value{
-A list with the fitted models for each species and the calculated
-Alpha diversity for each site.
+A list with the fitted models for each species, the calculated
+Alpha diversity for each site, and a dataframe with the abundance of each
+species and diversity.
 }
 \description{
 This function takes a data.frame with multiple presence absence-data from
@@ -48,14 +49,28 @@ using that abundance it calculates the alpha diversity index for each site
 based on that abundance.
 }
 \examples{
+#Load the data
 data("BatOccu")
 data("Dailycov")
 data("sampling.cov")
-diversityoccu(pres = BatOccu, sitecov = sampling.cov, obscov = Dailycov,
-spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum + sdtemp ~
-Burn.intensity.soil + I(Burn.intensity.soil^2) + Burn.intensity.Canopy +
-I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
+
+#Model the abundance for 17 bat species and calculate alpha diversity from that
+
+BatDiversity <-diversityoccu(pres = BatOccu, sitecov = sampling.cov[,1:8],
+obscov = Dailycov,spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum +
+sdtemp ~ Burn.intensity.soil + I(Burn.intensity.soil^2) +
+Burn.intensity.Canopy + I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
 I(Burn.intensity.basal^2))
+
+#To see the estimates and p values for each model:
+
+BatDiversity$models
+
+#see a summary of the predicted abundance for each species and the alpha
+#diversity
+
+summary(BatDiversity)
+
 }
 \author{
 Derek Corcoran <derek.corcoran.barrios@gmail.com>

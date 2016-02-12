@@ -83,6 +83,7 @@ batchoccu<- function(pres, sitecov, obscov, spp, form, dredge = FALSE) {
   }
 
   result <- list(Covs = sitecov, models = models, fit = fit)
+  class(result)<- "batchoccupancy"
   return(result)
 }
 
@@ -110,22 +111,37 @@ batchoccu<- function(pres, sitecov, obscov, spp, form, dredge = FALSE) {
 #' @param index Diversity index, one of "shannon", "simpson" or "invsimpson".
 #' @param dredge default = FALSE, if TRUE, for each species, the best occupancy
 #' model will be determined by fitting all possible models and rankin by AICc.
-#' @return A list with the fitted models for each species and the calculated
-#' Alpha diversity for each site.
+#' @return A list with the fitted models for each species, the calculated
+#' Alpha diversity for each site, and a dataframe with the abundance of each
+#' species and diversity.
 #' @details
 #' This function fits the latent abundance mixture model described in Royle and
 #' Nichols (2003), to calculate the abundance of every species in each site, the
 #' using that abundance it calculates the alpha diversity index for each site
 #' based on that abundance.
 #' @examples
+#' #Load the data
 #' data("BatOccu")
 #' data("Dailycov")
 #' data("sampling.cov")
-#' diversityoccu(pres = BatOccu, sitecov = sampling.cov, obscov = Dailycov,
-#' spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum + sdtemp ~
-#' Burn.intensity.soil + I(Burn.intensity.soil^2) + Burn.intensity.Canopy +
-#' I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
+#'
+#' #Model the abundance for 17 bat species and calculate alpha diversity from that
+#'
+#' BatDiversity <-diversityoccu(pres = BatOccu, sitecov = sampling.cov[,1:8],
+#' obscov = Dailycov,spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum +
+#' sdtemp ~ Burn.intensity.soil + I(Burn.intensity.soil^2) +
+#' Burn.intensity.Canopy + I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
 #' I(Burn.intensity.basal^2))
+#'
+#' #To see the estimates and p values for each model:
+#'
+#' BatDiversity$models
+#'
+#' #see a summary of the predicted abundance for each species and the alpha
+#' #diversity
+#'
+#' summary(BatDiversity)
+#'
 #' @seealso \code{\link[vegan]{diversity}}
 #' @seealso \code{\link[DiversityOccupancy]{model.diversity}}
 #' @seealso \code{\link[DiversityOccupancy]{response.plot}}
@@ -159,7 +175,9 @@ diversityoccu<- function(pres, sitecov, obscov, spp, form, index = "shannon", dr
       models[[i]] <- occuRN(form, models[[i]])
       div[[i]] <- predict(models[[i]], type = "state", newdata = sitecov)$Predicted
       div<- as.data.frame(div)
+      colnames(div) = paste("species",c(1:ncol(div)), sep =".")
       h<- diversity(div, index)
+      DF <- cbind(h, div)
     }
   }
 
@@ -184,13 +202,16 @@ diversityoccu<- function(pres, sitecov, obscov, spp, form, index = "shannon", dr
       div<- as.data.frame(div)
       colnames(div) = paste("species",c(1:ncol(div)), sep =".")
       data[[i]] <- data2
-      h<- diversity(div, index)
+      h <- diversity(div, index)
+      DF <- cbind(h, div)
     }
     # remove temporary data file from the global environment
     rm(data2, pos=".GlobalEnv")
   }
 
-  result <- list(Covs = sitecov, models = models, Diversity = h)
+  result <- list(Covs = sitecov, models = models, Diversity = h, species = DF)
+  class(result)<- "diversityoccupancy"
+
   return(result)
 }
 
@@ -219,33 +240,41 @@ diversityoccu<- function(pres, sitecov, obscov, spp, form, index = "shannon", dr
 #' @details
 #' This function fits every first order glm possible and ranks them by AICc.
 #' @examples
-#' #To fit and explore the only the linear components of the model
+#' #Load the data
 #' data("BatOccu")
 #' data("Dailycov")
 #' data("sampling.cov")
-#' x <-diversityoccu(pres = BatOccu, sitecov = sampling.cov, obscov = Dailycov,
-#' spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum + sdtemp ~
-#' Burn.intensity.soil + I(Burn.intensity.soil^2) + Burn.intensity.Canopy +
-#' I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
+#'
+#' #Model the abundance for 17 bat species and calculate alpha diversity from that
+#'
+#' BatDiversity <-diversityoccu(pres = BatOccu, sitecov = sampling.cov[,1:8],
+#' obscov = Dailycov,spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum +
+#' sdtemp ~ Burn.intensity.soil + I(Burn.intensity.soil^2) +
+#' Burn.intensity.Canopy + I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
 #' I(Burn.intensity.basal^2))
-#' y <- model.diversity(x, method = "g")
-#' y$Table
-#' y
+#'
+#' #Select the best model that explains diversity using genetic algorithms
+#' set.seed(123)
+#' glm.Batdiversity <- model.diversity(x, method = "g")
+#'
+#' #see the best models
+#'
+#' summary(glm.Batdiversity)
+#'
+#' #plot the response of diversity to individual variables
+#'
+#' plot(glm.Batdiversity, Burn.intensity.soil)
 #'
 #' #To add the quadratic components of models
 #'
-#' data("BatOccu")
-#' data("Dailycov")
-#' data("sampling.cov")
-#' x <-diversityoccu(pres = BatOccu, sitecov = sampling.cov[,1:8], obscov = Dailycov,
-#' spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum + sdtemp ~
-#' Burn.intensity.soil + I(Burn.intensity.soil^2) + Burn.intensity.Canopy +
-#' I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
-#' I(Burn.intensity.basal^2))
-#' y <- model.diversity(x, method = "g", squared = TRUE)
-#' y$Table
-#' y
+#' batdiversity2 <-diversityoccu(pres = BatOccu, sitecov = sampling.cov[,1:8],
+#' obscov = Dailycov, spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum +
+#' sdtemp ~Burn.intensity.soil + I(Burn.intensity.soil^2) + Burn.intensity.Canopy +
+#' I(Burn.intensity.Canopy^2) + Burn.intensity.basal +I(Burn.intensity.basal^2))
+#' setseed(123)
+#' glm.batdiversity2 <- model.diversity(batdiversity2 , method = "g", squared = TRUE)
 #'
+#' plot(glm.batdiversity2, Burn.intensity.Canopy)
 #' @seealso \code{\link[DiversityOccupancy]{diversityoccu}}
 #' @seealso \code{\link[DiversityOccupancy]{response.plot}}
 #' @export
@@ -282,69 +311,18 @@ model.diversity <- function(DivOcc, method = "h", delta = 2, squared = FALSE){
   Table$weights <- akaike.weights(Table$aicc)$weights
   d<-summary(glm(Best.model, data = A))
   result <- list(Best_model = Best.model, Table = Table, coeff = d, dataset= A)
+  class(result) <- "modeldiversity"
   return(result)
 }
 
-
-#' plot the response of the calculated alpha diversity to the change of a
-#' particular variable
+#' Makes a spacially explicit prediction of the occupancy of multiple species
+#' and alpha diversity, and select the area where
 #'
-#' This function takes a model.diversity object and one of the variables used to
-#' predict the alpha diversity index, and makes a plot showing the response of
-#' the diversity index against the selected variable. This function automatically
-#' limits the values of that variable to the maximum and minimum values of the
-#' dataset.
-#' @param model A result from the model.diversity function.
-#' @param variable The variable of which the response is to be ploted.
-#' @return a ggplot object plotting the alpha diversity response to the selected
-#' variable.
-#' @examples
-#' data("BatOccu")
-#' data("Dailycov")
-#' data("sampling.cov")
-#' x <-diversityoccu(pres = BatOccu, sitecov = sampling.cov, obscov = Dailycov,
-#' spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum + sdtemp ~
-#' Burn.intensity.soil + I(Burn.intensity.soil^2) + Burn.intensity.Canopy +
-#' I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
-#' I(Burn.intensity.basal^2))
-#' y <- model.diversity(x, method = "g")
-#' response.plot(y, Burn.intensity.soil)
-#' response.plot(y, Existing.vegetation)
-#' @export
-#' @seealso \code{\link[DiversityOccupancy]{diversityoccu}}
-#' @seealso \code{\link[DiversityOccupancy]{model.diversity}}
-#' @importFrom ggplot2 ggplot
-#' @importFrom ggplot2 aes
-#' @importFrom ggplot2 geom_line
-#' @importFrom ggplot2 geom_ribbon
-#' @importFrom ggplot2 theme_bw
-#' @importFrom ggplot2 theme
-#' @importFrom ggplot2 element_line
-#' @importFrom ggplot2 element_blank
-#' @importFrom ggplot2 labs
-#' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
-
-response.plot<- function(model, variable){
-  A<-data.frame(matrix(rep(colMeans(model$dataset), each=length(model$dataset[,1])), nrow = length(model$dataset[,1]), ncol = ncol(model$dataset)))
-  colnames(A)<-colnames(model$dataset)
-  maxval<-apply(model$dataset,2,max)
-  minval<-apply(model$dataset,2,min)
-  newdata<- seq(from = minval[colnames(A)== as.character(substitute(variable))], to = maxval[colnames(A)== as.character(substitute(variable))], along.with = model$dataset[,1])
-  A[colnames(A)== as.character(substitute(variable))] <- newdata
-  B<-predict(glm(model$Best_model, data= model$dataset), newdata = A, se.fit = TRUE)
-  C<- data.frame(preditction = B$fit, upper = (B$fit + B$se), lower = (B$fit - B$se), dependent = A[colnames(A)== as.character(substitute(variable))])
-  result <- ggplot(C, aes(x= C[,4], y = C[,1])) + geom_ribbon(aes(ymax= C[,2], ymin = C[,3]), fill = "grey") + geom_line() + theme_bw() + theme(axis.line = element_line(colour = "black"), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.border = element_blank(), panel.background = element_blank()) + labs(x = as.character(substitute(variable)), y = "Diversity")
-  return(result)
-}
-
-#' Predict the occupancy; occupancy and diversity ; or abundance and diversity
-#' of multiple species
-#'
-#' This function takes an batchoccu object and predicts occupancy for all species
+#' This function takes an deiversityoccu object and predicts occupancy for all species
 #' in new data, either a data.frame or a rasterstack. It can also return a subset
 #' of the total area of a rasterstack, where diversity and occupancy/abundance are
 #' higher than the nth quantile.
-#' @param model A result from either diversityoccu or batchoccu
+#' @param model A result from diversityoccu
 #' @param diversity A result from the model.diversity function.
 #' @param new.data a rasterstack, or a dataframe containing the same variables as
 #' the siteCovs variable in diversityoccu or batchoccu
@@ -355,16 +333,33 @@ response.plot<- function(model, variable){
 #' for each species, a raster for diversity and a raster with the area meeting the
 #' quantile criteria.
 #' @examples
+#' #Load the data
 #' data("BatOccu")
 #' data("Dailycov")
 #' data("sampling.cov")
-#' x <-diversityoccu(pres = BatOccu, sitecov = sampling.cov, obscov = Dailycov,
-#' spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum + sdtemp ~
-#' Burn.intensity.soil + I(Burn.intensity.soil^2) + Burn.intensity.Canopy +
-#' I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
+#' data("plumas.stack")
+#'
+#' #Model the abundance for 17 bat species and calculate alpha diversity from that
+#'
+#' BatDiversity <-diversityoccu(pres = BatOccu, sitecov = sampling.cov[,1:8],
+#' obscov = Dailycov,spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum +
+#' sdtemp ~ Burn.intensity.soil + I(Burn.intensity.soil^2) +
+#' Burn.intensity.Canopy + I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
 #' I(Burn.intensity.basal^2))
-#' y <- model.diversity(x, method = "g")
-
+#'
+#' #Select the best model that explains diversity using genetic algorithms
+#' set.seed(123)
+#' glm.Batdiversity <- model.diversity(x, method = "g")
+#'
+#' # get the area where the first two bat species Myyu and Myca are most abundant
+#' # and the diversity is most abundant
+#'
+#' Selected.area <- predict.diversity(model = BatDiversity, diverse = glm.batdiversity,
+#' new.data = plunas.stack, quantile.nth = 0.85, species =
+#' c(T,T,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F))
+#'
+#' Selected.area
+#'
 #' @export
 #' @seealso \code{\link[DiversityOccupancy]{diversityoccu}}
 #' @seealso \code{\link[DiversityOccupancy]{batchoccu}}
@@ -378,7 +373,7 @@ response.plot<- function(model, variable){
 #' @importFrom raster writeRaster
 #' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
 
-predict.diversity<- function(model, diverse, new.data, quantile.nth = 0.5 , species) {
+predict.diversity<- function(model, diverse, new.data, quantile.nth = 0.8 , species) {
   models <- model$models[species]
   layers <- list()
   for (i in 1:length(models)){
@@ -404,3 +399,5 @@ predict.diversity<- function(model, diverse, new.data, quantile.nth = 0.5 , spec
   result <- list(species = layers, diversity.raster = diversity.raster, priority.area = priority.area)
   return(result)
 }
+
+

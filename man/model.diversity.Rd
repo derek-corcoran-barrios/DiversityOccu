@@ -38,33 +38,41 @@ glm that best explains the alpha diversity of the modelled species.
 This function fits every first order glm possible and ranks them by AICc.
 }
 \examples{
-#To fit and explore the only the linear components of the model
+#Load the data
 data("BatOccu")
 data("Dailycov")
 data("sampling.cov")
-x <-diversityoccu(pres = BatOccu, sitecov = sampling.cov, obscov = Dailycov,
-spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum + sdtemp ~
-Burn.intensity.soil + I(Burn.intensity.soil^2) + Burn.intensity.Canopy +
-I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
+
+#Model the abundance for 17 bat species and calculate alpha diversity from that
+
+BatDiversity <-diversityoccu(pres = BatOccu, sitecov = sampling.cov[,1:8],
+obscov = Dailycov,spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum +
+sdtemp ~ Burn.intensity.soil + I(Burn.intensity.soil^2) +
+Burn.intensity.Canopy + I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
 I(Burn.intensity.basal^2))
-y <- model.diversity(x, method = "g")
-y$Table
-y
+
+#Select the best model that explains diversity using genetic algorithms
+set.seed(123)
+glm.Batdiversity <- model.diversity(x, method = "g")
+
+#see the best models
+
+summary(glm.Batdiversity)
+
+#plot the response of diversity to individual variables
+
+plot(glm.Batdiversity, Burn.intensity.soil)
 
 #To add the quadratic components of models
 
-data("BatOccu")
-data("Dailycov")
-data("sampling.cov")
-x <-diversityoccu(pres = BatOccu, sitecov = sampling.cov[,1:8], obscov = Dailycov,
-spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum + sdtemp ~
-Burn.intensity.soil + I(Burn.intensity.soil^2) + Burn.intensity.Canopy +
-I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
-I(Burn.intensity.basal^2))
-y <- model.diversity(x, method = "g", squared = TRUE)
-y$Table
-y
+batdiversity2 <-diversityoccu(pres = BatOccu, sitecov = sampling.cov[,1:8],
+obscov = Dailycov, spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum +
+sdtemp ~Burn.intensity.soil + I(Burn.intensity.soil^2) + Burn.intensity.Canopy +
+I(Burn.intensity.Canopy^2) + Burn.intensity.basal +I(Burn.intensity.basal^2))
+setseed(123)
+glm.batdiversity2 <- model.diversity(batdiversity2 , method = "g", squared = TRUE)
 
+plot(glm.batdiversity2, Burn.intensity.Canopy)
 }
 \author{
 Derek Corcoran <derek.corcoran.barrios@gmail.com>

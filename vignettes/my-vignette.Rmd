@@ -90,8 +90,8 @@ The following example shows how to model Bird Diversity using part of the variab
 of the siteCov and Daily_Cov datasets, predicting shannon's diversity index and 
 selecting model by AICc.
 
-```{r, echo=TRUE, cache=TRUE}
-BirdDiversity<-diversityoccu(pres = IslandBirds, sitecov = siteCov, obscov = Daily_Cov, spp = 13, dredge = TRUE, form = ~ Wind + Rain + Noise ~ Elev + RPR + AgroFo + SecVeg + Wetland + Upland)
+```{r, echo=TRUE, cache=TRUE, warning=FALSE, message=FALSE}
+BirdDiversity<-diversityoccu(pres = IslandBirds, sitecov = siteCov, obscov = Daily_Cov, spp = 13, dredge = FALSE, form = ~ Wind + Rain + Noise ~ Elev + RPR + AgroFo + SecVeg + Wetland + Upland)
 ```
 
 After the models have been selected we can see the selected models for each 
