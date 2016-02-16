@@ -144,7 +144,6 @@ batchoccu<- function(pres, sitecov, obscov, spp, form, dredge = FALSE) {
 #'
 #' @seealso \code{\link[vegan]{diversity}}
 #' @seealso \code{\link[DiversityOccupancy]{model.diversity}}
-#' @seealso \code{\link[DiversityOccupancy]{response.plot}}
 #' @export
 #' @importFrom vegan diversity
 #' @importFrom unmarked occuRN
@@ -276,7 +275,6 @@ diversityoccu<- function(pres, sitecov, obscov, spp, form, index = "shannon", dr
 #'
 #' plot(glm.batdiversity2, Burn.intensity.Canopy)
 #' @seealso \code{\link[DiversityOccupancy]{diversityoccu}}
-#' @seealso \code{\link[DiversityOccupancy]{response.plot}}
 #' @export
 #' @importFrom glmulti glmulti
 #' @importFrom glmulti weightable
@@ -395,7 +393,7 @@ predict.diversity<- function(model, diverse, new.data, quantile.nth = 0.8 , spec
   rc<- stack(unlist(rc))
   priority.area <- prod(rc)
   plot(priority.area, colNA="black", legend = FALSE)
-  KML(priority.area, file='priority_area.kml')
+  KML(priority.area, file='priority_area.kml', overwrite = TRUE)
   result <- list(species = layers, diversity.raster = diversity.raster, priority.area = priority.area)
   return(result)
 }

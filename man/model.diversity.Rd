@@ -79,7 +79,5 @@ Derek Corcoran <derek.corcoran.barrios@gmail.com>
 }
 \seealso{
 \code{\link[DiversityOccupancy]{diversityoccu}}
-
-\code{\link[DiversityOccupancy]{response.plot}}
 }
 

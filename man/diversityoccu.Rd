@@ -81,7 +81,5 @@ Nicole L. Michel
 \code{\link[vegan]{diversity}}
 
 \code{\link[DiversityOccupancy]{model.diversity}}
-
-\code{\link[DiversityOccupancy]{response.plot}}
 }
 

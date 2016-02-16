@@ -41,5 +41,5 @@ summary.diversityoccupancy <- function (x) {
 #' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
 
 summary.modeldiversity <- function (x) {
-  y$Table
+  x$Table
   }
