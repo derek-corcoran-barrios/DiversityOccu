@@ -1,3 +1,60 @@
+#' plot the response of an occupancy model to the change of aparticular variable
+#'
+#' This function takes a batchoccupancy object and one of the variables used to
+#' predict occupacy, and makes a plot showing the response of occupancyt against
+#' the selected variable. This function automatically limits the values of that
+#' variable to the maximum and minimum values of the dataset.
+#' @param batch A result from the batchoccu function.
+#' @param spp The species number of which response is going to be ploted.
+#' @param variable The variable of which the response is to be ploted.
+#' @return a ggplot object plotting the alpha diversity response to the selected
+#' variable.
+#' @examples
+#' data("BatOccu")
+#' data("Dailycov")
+#' data("sampling.cov")
+#' BatOccupancy <-batchoccu(pres = BatOccu, sitecov = sampling.cov[,1:8],
+#' obscov = Dailycov,spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum +
+#' sdtemp ~ Burn.intensity.soil + I(Burn.intensity.soil^2) +
+#' Burn.intensity.Canopy + I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
+#' I(Burn.intensity.basal^2))
+#'
+#' #plot the response of occupancy to individual variables for species 4, 11
+#' and 15
+#'
+#' plot(batch = BatOccupancy, spp = 4, variable = Burn.intensity.soil)
+#'
+#' plot(batch = BatOccupancy, spp = 11, variable = Burn.intensity.soil)
+#'
+#' plot(batch = BatOccupancy, spp = 15, variable = Burn.intensity.soil)
+#'
+#' @export
+#' @seealso \code{\link[DiversityOccupancy]{batchoccu}}
+#' @importFrom ggplot2 ggplot
+#' @importFrom ggplot2 aes
+#' @importFrom ggplot2 geom_line
+#' @importFrom ggplot2 geom_ribbon
+#' @importFrom ggplot2 theme_bw
+#' @importFrom ggplot2 theme
+#' @importFrom ggplot2 element_line
+#' @importFrom ggplot2 element_blank
+#' @importFrom ggplot2 labs
+#' @importFrom ggplot2 ylim
+#' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
+
+plot.batchoccupancy <- function(batch, spp, variable){
+  A<-data.frame(matrix(rep(colMeans(batch$Covs), each=length(batch$Covs[,1])), nrow = length(batch$Covs[,1]), ncol = ncol(batch$Covs)))
+  colnames(A)<-colnames(batch$Covs)
+  maxval<-apply(batch$Covs,2,max)
+  minval<-apply(batch$Covs,2,min)
+  newdata<- seq(from = minval[colnames(A)== as.character(substitute(variable))], to = maxval[colnames(A)== as.character(substitute(variable))], along.with = batch$Covs[,1])
+  A[colnames(A)== as.character(substitute(variable))] <- newdata
+  B<-predict(batch$models[[spp]], type = "state", newdata = A)
+  DF<- data.frame(preditction = B$Predicted, upper = (B$Predicted + B$SE), lower = (B$Predicted - B$SE), dependent = A[colnames(A)== as.character(substitute(variable))])
+  result <- ggplot(DF, aes(x= DF[,4], y = DF[,1])) + geom_ribbon(aes(ymax= upper, ymin = lower), fill = "grey") + geom_line() + theme_bw() + theme(axis.line = element_line(colour = "black"), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.border = element_blank(), panel.background = element_blank()) + labs(x = as.character(substitute(variable)), y = "Occupancy") + ylim(c(min(c(DF$lower, 0)),max(c(DF$upper, 1))))
+  return(result)
+}
+
 
 #' plot the response of the calculated alpha diversity to the change of a
 #' particular variable
