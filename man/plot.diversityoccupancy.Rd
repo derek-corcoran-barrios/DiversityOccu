@@ -2,30 +2,51 @@
 % Please edit documentation in R/Plotfunctions.R
 \name{plot.diversityoccupancy}
 \alias{plot.diversityoccupancy}
-\title{plots a histogram of diversity of a predicted diversityoccupancy object}
+\title{plot the response of an occupancy model to the change of aparticular variable}
 \usage{
-\method{plot}{diversityoccupancy}(x)
+\method{plot}{diversityoccupancy}(batch, spp, variable)
+}
+\arguments{
+\item{batch}{A result from the batchoccu function.}
+
+\item{spp}{The species number of which response is going to be ploted.}
+
+\item{variable}{The variable of which the response is to be ploted.}
+}
+\value{
+a ggplot object plotting the alpha diversity response to the selected
+variable.
 }
 \description{
-plots a histogram of diversity of a predicted diversityoccupancy object
+This function takes a diversityoccupancy object and one of the variables used
+to predict abundance, and makes a plot showing the response of occupancyt
+against the selected variable. This function automatically limits the values
+of that variable to the maximum and minimum values of the dataset.
 }
 \examples{
 data("BatOccu")
 data("Dailycov")
 data("sampling.cov")
-x <-diversityoccu(pres = BatOccu, sitecov = sampling.cov, obscov = Dailycov,
-spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum + sdtemp ~
-Burn.intensity.soil + I(Burn.intensity.soil^2) + Burn.intensity.Canopy +
-I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
+BatDiv <-batchoccu(pres = BatDiv, sitecov = sampling.cov[,1:8],
+obscov = Dailycov,spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum +
+sdtemp ~ Burn.intensity.soil + I(Burn.intensity.soil^2) +
+Burn.intensity.Canopy + I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
 I(Burn.intensity.basal^2))
 
-plot (x)
+#plot the response of abundance to individual variables for species 4, 11
+and 15
+
+plot(batch = BatDiv, spp = 4, variable = Burn.intensity.soil)
+
+plot(batch = BatDiv, spp = 11, variable = Burn.intensity.soil)
+
+plot(batch = BatDiv, spp = 15, variable = Burn.intensity.soil)
 
 }
 \author{
 Derek Corcoran <derek.corcoran.barrios@gmail.com>
 }
 \seealso{
-\code{\link[DiversityOccupancy]{diversityoccu}}
+\code{\link[DiversityOccupancy]{batchoccu}}
 }
 
