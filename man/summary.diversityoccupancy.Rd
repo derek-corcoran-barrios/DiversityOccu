@@ -7,6 +7,10 @@ object}
 \usage{
 \method{summary}{diversityoccupancy}(x)
 }
+\arguments{
+\item{x}{a diversityoccupancy object which is a result from the diversityoccu
+function}
+}
 \description{
 summarizes the diversity and abundances predicted from a diversityoccupancy
 object

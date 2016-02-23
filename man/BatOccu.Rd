@@ -26,32 +26,88 @@
    on day 3}
   \item{Myvo1}{Detection (1) or non-detection (0), of \emph{Myotis volans}:
    on day 1}
+  \item{Myvo2}{Detection (1) or non-detection (0), of \emph{Myotis volans}:
+   on day 2}
+  \item{Myvo3}{Detection (1) or non-detection (0), of \emph{Myotis volans}:
+   on day 3}
   \item{Mylu1}{Detection (1) or non-detection (0), of \emph{Myotis lucifugus}:
    on day 1}
+  \item{Mylu2}{Detection (1) or non-detection (0), of \emph{Myotis lucifugus}:
+   on day 2}
+  \item{Mylu3}{Detection (1) or non-detection (0), of \emph{Myotis lucifugus}:
+   on day 3}
   \item{Pahe1}{Detection (1) or non-detection (0), of \emph{Parastrellus hesperus}:
    on day 1}
+  \item{Pahe2}{Detection (1) or non-detection (0), of \emph{Parastrellus hesperus}:
+   on day 2}
+  \item{Pahe3}{Detection (1) or non-detection (0), of \emph{Parastrellus hesperus}:
+   on day 3}
   \item{Labl1}{Detection (1) or non-detection (0), of \emph{Lasiurus blossevillii}:
    on day 1}
+  \item{Labl2}{Detection (1) or non-detection (0), of \emph{Lasiurus blossevillii}:
+   on day 2}
+  \item{Labl3}{Detection (1) or non-detection (0), of \emph{Lasiurus blossevillii}:
+   on day 3}
   \item{Myev1}{Detection (1) or non-detection (0), of \emph{Myotis evotis}:
    on day 1}
+  \item{Myev2}{Detection (1) or non-detection (0), of \emph{Myotis evotis}:
+   on day 2}
+  \item{Myev3}{Detection (1) or non-detection (0), of \emph{Myotis evotis}:
+   on day 3}
   \item{Anpa1}{Detection (1) or non-detection (0), of \emph{Antrozous pallidus}:
    on day 1}
+  \item{Anpa2}{Detection (1) or non-detection (0), of \emph{Antrozous pallidus}:
+   on day 2}
+  \item{Anpa3}{Detection (1) or non-detection (0), of \emph{Antrozous pallidus}:
+   on day 3}
   \item{Epfu1}{Detection (1) or non-detection (0), of \emph{Eptesicus fuscus}:
    on day 1}
+  \item{Epfu2}{Detection (1) or non-detection (0), of \emph{Eptesicus fuscus}:
+   on day 2}
+  \item{Epfu3}{Detection (1) or non-detection (0), of \emph{Eptesicus fuscus}:
+   on day 3}
   \item{Lano1}{Detection (1) or non-detection (0), of \emph{Lasionycteris noctivagans}:
    on day 1}
+  \item{Lano2}{Detection (1) or non-detection (0), of \emph{Lasionycteris noctivagans}:
+   on day 2}
+  \item{Lano3}{Detection (1) or non-detection (0), of \emph{Lasionycteris noctivagans}:
+   on day 3}
   \item{Myth1}{Detection (1) or non-detection (0), of \emph{Myotis thysanodes}:
    on day 1}
+  \item{Myth2}{Detection (1) or non-detection (0), of \emph{Myotis thysanodes}:
+   on day 2}
+  \item{Myth3}{Detection (1) or non-detection (0), of \emph{Myotis thysanodes}:
+   on day 3}
   \item{Tabr1}{Detection (1) or non-detection (0), of \emph{Tadarida brasiliensis}:
    on day 1}
+  \item{Tabr2}{Detection (1) or non-detection (0), of \emph{Tadarida brasiliensis}:
+   on day 2}
+  \item{Tabr3}{Detection (1) or non-detection (0), of \emph{Tadarida brasiliensis}:
+   on day 3}
   \item{Laci1}{Detection (1) or non-detection (0), of \emph{Lasiurus cinereus}:
    on day 1}
+  \item{Laci2}{Detection (1) or non-detection (0), of \emph{Lasiurus cinereus}:
+   on day 2}
+  \item{Laci3}{Detection (1) or non-detection (0), of \emph{Lasiurus cinereus}:
+   on day 3}
   \item{Coto1}{Detection (1) or non-detection (0), of \emph{Corynorhinus townsendii}:
    on day 1}
+  \item{Coto2}{Detection (1) or non-detection (0), of \emph{Corynorhinus townsendii}:
+   on day 2}
+  \item{Coto3}{Detection (1) or non-detection (0), of \emph{Corynorhinus townsendii}:
+   on day 3}
   \item{Euma1}{Detection (1) or non-detection (0), of \emph{Euderma maculatum}:
    on day 1}
+  \item{Euma2}{Detection (1) or non-detection (0), of \emph{Euderma maculatum}:
+   on day 2}
+  \item{Euma3}{Detection (1) or non-detection (0), of \emph{Euderma maculatum}:
+   on day 3}
   \item{Eupe1}{Detection (1) or non-detection (0), of \emph{Eumops perotis}:
    on day 1}
+  \item{Eupe2}{Detection (1) or non-detection (0), of \emph{Eumops perotis}:
+   on day 2}
+  \item{Eupe3}{Detection (1) or non-detection (0), of \emph{Eumops perotis}:
+   on day 3}
 }}
 \usage{
 BatOccu

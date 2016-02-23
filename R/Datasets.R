@@ -25,32 +25,88 @@
 #'    on day 3}
 #'   \item{Myvo1}{Detection (1) or non-detection (0), of \emph{Myotis volans}:
 #'    on day 1}
+#'   \item{Myvo2}{Detection (1) or non-detection (0), of \emph{Myotis volans}:
+#'    on day 2}
+#'   \item{Myvo3}{Detection (1) or non-detection (0), of \emph{Myotis volans}:
+#'    on day 3}
 #'   \item{Mylu1}{Detection (1) or non-detection (0), of \emph{Myotis lucifugus}:
 #'    on day 1}
+#'   \item{Mylu2}{Detection (1) or non-detection (0), of \emph{Myotis lucifugus}:
+#'    on day 2}
+#'   \item{Mylu3}{Detection (1) or non-detection (0), of \emph{Myotis lucifugus}:
+#'    on day 3}
 #'   \item{Pahe1}{Detection (1) or non-detection (0), of \emph{Parastrellus hesperus}:
 #'    on day 1}
+#'   \item{Pahe2}{Detection (1) or non-detection (0), of \emph{Parastrellus hesperus}:
+#'    on day 2}
+#'   \item{Pahe3}{Detection (1) or non-detection (0), of \emph{Parastrellus hesperus}:
+#'    on day 3}
 #'   \item{Labl1}{Detection (1) or non-detection (0), of \emph{Lasiurus blossevillii}:
 #'    on day 1}
+#'   \item{Labl2}{Detection (1) or non-detection (0), of \emph{Lasiurus blossevillii}:
+#'    on day 2}
+#'   \item{Labl3}{Detection (1) or non-detection (0), of \emph{Lasiurus blossevillii}:
+#'    on day 3}
 #'   \item{Myev1}{Detection (1) or non-detection (0), of \emph{Myotis evotis}:
 #'    on day 1}
+#'   \item{Myev2}{Detection (1) or non-detection (0), of \emph{Myotis evotis}:
+#'    on day 2}
+#'   \item{Myev3}{Detection (1) or non-detection (0), of \emph{Myotis evotis}:
+#'    on day 3}
 #'   \item{Anpa1}{Detection (1) or non-detection (0), of \emph{Antrozous pallidus}:
 #'    on day 1}
+#'   \item{Anpa2}{Detection (1) or non-detection (0), of \emph{Antrozous pallidus}:
+#'    on day 2}
+#'   \item{Anpa3}{Detection (1) or non-detection (0), of \emph{Antrozous pallidus}:
+#'    on day 3}
 #'   \item{Epfu1}{Detection (1) or non-detection (0), of \emph{Eptesicus fuscus}:
 #'    on day 1}
+#'   \item{Epfu2}{Detection (1) or non-detection (0), of \emph{Eptesicus fuscus}:
+#'    on day 2}
+#'   \item{Epfu3}{Detection (1) or non-detection (0), of \emph{Eptesicus fuscus}:
+#'    on day 3}
 #'   \item{Lano1}{Detection (1) or non-detection (0), of \emph{Lasionycteris noctivagans}:
 #'    on day 1}
+#'   \item{Lano2}{Detection (1) or non-detection (0), of \emph{Lasionycteris noctivagans}:
+#'    on day 2}
+#'   \item{Lano3}{Detection (1) or non-detection (0), of \emph{Lasionycteris noctivagans}:
+#'    on day 3}
 #'   \item{Myth1}{Detection (1) or non-detection (0), of \emph{Myotis thysanodes}:
 #'    on day 1}
+#'   \item{Myth2}{Detection (1) or non-detection (0), of \emph{Myotis thysanodes}:
+#'    on day 2}
+#'   \item{Myth3}{Detection (1) or non-detection (0), of \emph{Myotis thysanodes}:
+#'    on day 3}
 #'   \item{Tabr1}{Detection (1) or non-detection (0), of \emph{Tadarida brasiliensis}:
 #'    on day 1}
+#'   \item{Tabr2}{Detection (1) or non-detection (0), of \emph{Tadarida brasiliensis}:
+#'    on day 2}
+#'   \item{Tabr3}{Detection (1) or non-detection (0), of \emph{Tadarida brasiliensis}:
+#'    on day 3}
 #'   \item{Laci1}{Detection (1) or non-detection (0), of \emph{Lasiurus cinereus}:
 #'    on day 1}
+#'   \item{Laci2}{Detection (1) or non-detection (0), of \emph{Lasiurus cinereus}:
+#'    on day 2}
+#'   \item{Laci3}{Detection (1) or non-detection (0), of \emph{Lasiurus cinereus}:
+#'    on day 3}
 #'   \item{Coto1}{Detection (1) or non-detection (0), of \emph{Corynorhinus townsendii}:
 #'    on day 1}
+#'   \item{Coto2}{Detection (1) or non-detection (0), of \emph{Corynorhinus townsendii}:
+#'    on day 2}
+#'   \item{Coto3}{Detection (1) or non-detection (0), of \emph{Corynorhinus townsendii}:
+#'    on day 3}
 #'   \item{Euma1}{Detection (1) or non-detection (0), of \emph{Euderma maculatum}:
 #'    on day 1}
+#'   \item{Euma2}{Detection (1) or non-detection (0), of \emph{Euderma maculatum}:
+#'    on day 2}
+#'   \item{Euma3}{Detection (1) or non-detection (0), of \emph{Euderma maculatum}:
+#'    on day 3}
 #'   \item{Eupe1}{Detection (1) or non-detection (0), of \emph{Eumops perotis}:
 #'    on day 1}
+#'   \item{Eupe2}{Detection (1) or non-detection (0), of \emph{Eumops perotis}:
+#'    on day 2}
+#'   \item{Eupe3}{Detection (1) or non-detection (0), of \emph{Eumops perotis}:
+#'    on day 3}
 #' }
 "BatOccu"
 
@@ -178,7 +234,7 @@
 #'   \item{Noise}{Ambient noise (1-10 being 10 the loudest)}
 #'   \item{Clouds}{Cloud cover in percentage}
 #' }
-#' @format A data frame with 120 rows and 9 variables
+#' @format A list with 6 elements, each of them with a data frame
 #' @seealso \code{\link[DiversityOccupancy]{IslandBirds}}
 #' @seealso \code{\link[DiversityOccupancy]{siteCov}}
 #' @references Oleiro P. 2014. Avian population responses to anthropogenic
@@ -186,3 +242,77 @@
 #' University of Missouri.
 
 "Daily_Cov"
+
+#' Eight covariables measured at 49 survey stations in the Plumas National Forest
+#'
+#' A dataframe containing the measurements of 8 variables (columns) correspondant
+#' to 49 different sampling sites (Rows) in the Plumas National Forest where the
+#' detection histories of the BatOccu where taken.
+#' \describe{
+#'   \item{Distance.to.water}{Distance to the closest water source measured in
+#'   meters}
+#'   \item{Distance.to.road}{Distance to the closest road measured in meters}
+#'   \item{Existing.vegetation}{Numeric code to vegetation type}
+#'   \item{Fire.Interval}{Average interval between wildfires, measured in years}
+#'   \item{Altitude}{Metres above sea level of the sampled point}
+#'   \item{Burn.intensity.soil}{This data set reflects fire intensity as
+#'   measured by soil scorched in a scale from 0 to 5}
+#'   \item{Burn.intensity.Canopy}{This data set reflects fire intensity as
+#'   measured by canopy scorched in a scale from 0 to 6}
+#'   \item{Burn.intensity.basal}{This data set reflects fire intensity as
+#'   measured by tree tunks scorched in a scale from 0 to 8}
+#' }
+#' @format A data frame with 49 rows and 8 variables:
+#' @seealso \code{\link[DiversityOccupancy]{Dailycov}}
+#' @seealso \code{\link[DiversityOccupancy]{BatOccu}}
+
+"sampling.cov"
+
+#' Nine covariables measured at 49 sampling points in Plumas National Forest, Ca
+#'
+#' A list containing the measurements of nine variables correspondant to 49
+#' different sampling sites (Rows) in Plumas National Forest where the detection
+#' histories of the BatOccu dataset where taken.
+#'
+#' \describe{
+#'   \item{Julian}{Ordinal day}
+#'   \item{Maxhum}{Maximum humidity measured on that day}
+#'   \item{Maxtemp}{Maximum temperature meassured on that day}
+#'   \item{Meanhum}{Average humidity meassured on that day}
+#'   \item{Meantemp}{Average temperature meassured on that day}
+#'   \item{Mimhum}{Minimum humidity measured on that day}
+#'   \item{Mintemp}{Minimum temperature meassured on that day}
+#'   \item{sdhum}{Standard deviation of the humidity meassured on that day}
+#'   \item{sdtemp}{Standard devuatuib of the temperature meassured on that day}
+#' }
+#' @format A list with 9 elements, each of them with a data frame
+#' @seealso \code{\link[DiversityOccupancy]{BatOccu}}
+#' @seealso \code{\link[DiversityOccupancy]{plumas.stack}}
+#' @seealso \code{\link[DiversityOccupancy]{sampling.cov}}
+
+"Dailycov"
+
+#' Raster Stack with eight variables measured in the Plumas National Forest
+#'
+#' A Raster Stack containing eight rasters from in the Plumas National Forest
+#' where the detection histories of the BatOccu where taken.
+#' \describe{
+#'   \item{Distance.to.water}{Distance to the closest water source measured in
+#'   meters}
+#'   \item{Distance.to.road}{Distance to the closest road measured in meters}
+#'   \item{Existing.vegetation}{Numeric code to vegetation type}
+#'   \item{Fire.Interval}{Average interval between wildfires, measured in years}
+#'   \item{Altitude}{Metres above sea level of the sampled point}
+#'   \item{Burn.intensity.soil}{This data set reflects fire intensity as
+#'   measured by soil scorched in a scale from 0 to 5}
+#'   \item{Burn.intensity.Canopy}{This data set reflects fire intensity as
+#'   measured by canopy scorched in a scale from 0 to 6}
+#'   \item{Burn.intensity.basal}{This data set reflects fire intensity as
+#'   measured by tree tunks scorched in a scale from 0 to 8}
+#' }
+#' @format A data frame with 49 rows and 8 variables:
+#' @seealso \code{\link[DiversityOccupancy]{BatOccu}}
+#' @seealso \code{\link[DiversityOccupancy]{Dailycov}}
+#' @seealso \code{\link[DiversityOccupancy]{sampling.cov}}
+
+"plumas.stack"

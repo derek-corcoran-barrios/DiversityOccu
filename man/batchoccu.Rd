@@ -26,7 +26,7 @@ will be used to calculate probability of detection and the second part the
 occupancy.}
 
 \item{dredge}{default = FALSE, if TRUE, for each species, the best occupancy
-model will be determined by fitting all possible models and rankin by AICc.}
+model will be determined by fitting all possible models and ranking by AICc.}
 }
 \value{
 A list with the fitted models for each species and the calculated
@@ -44,11 +44,16 @@ for multiple species and it can automatically select the best model for each
 specie based on AICc.
 }
 \examples{
-data("IslandBirds")
-data("Daily_Cov")
-data("siteCov")
-batchoccu(pres = IslandBirds, sitecov = siteCov, obscov = Daily_Cov, spp = 13,
-dredge = TRUE, form = ~ Wind + Noise ~ Elev + RPR)
+data("BatOccu")
+data("Dailycov")
+data("sampling.cov")
+BatOccupancy <-batchoccu(pres = BatOccu, sitecov = sampling.cov, obscov =
+Dailycov,spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum + sdtemp ~
+Burn.intensity.soil + I(Burn.intensity.soil^2) + Burn.intensity.Canopy +
+I(Burn.intensity.Canopy^2) + Burn.intensity.basal + I(Burn.intensity.basal^2))
+#plot the response of occupancy to individual variables for species 4, 11 and
+#15
+plot(batch = BatOccupancy, spp = 4, variable = Burn.intensity.soil)
 }
 \author{
 Derek Corcoran <derek.corcoran.barrios@gmail.com>

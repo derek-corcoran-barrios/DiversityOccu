@@ -29,7 +29,7 @@ occupancy.}
 \item{index}{Diversity index, one of "shannon", "simpson" or "invsimpson".}
 
 \item{dredge}{default = FALSE, if TRUE, for each species, the best occupancy
-model will be determined by fitting all possible models and rankin by AICc.}
+model will be determined by fitting all possible models and ranking by AICc.}
 }
 \value{
 A list with the fitted models for each species, the calculated
@@ -56,7 +56,7 @@ data("sampling.cov")
 
 #Model the abundance for 17 bat species and calculate alpha diversity from that
 
-BatDiversity <-diversityoccu(pres = BatOccu, sitecov = sampling.cov[,1:8],
+BatDiversity <-diversityoccu(pres = BatOccu, sitecov = sampling.cov,
 obscov = Dailycov,spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum +
 sdtemp ~ Burn.intensity.soil + I(Burn.intensity.soil^2) +
 Burn.intensity.Canopy + I(Burn.intensity.Canopy^2) + Burn.intensity.basal +

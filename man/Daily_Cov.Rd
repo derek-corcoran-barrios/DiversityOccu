@@ -4,7 +4,7 @@
 \name{Daily_Cov}
 \alias{Daily_Cov}
 \title{Seven covariables measured at 120 survey stations in an island in micronesia}
-\format{A data frame with 120 rows and 9 variables}
+\format{A list with 6 elements, each of them with a data frame}
 \usage{
 Daily_Cov
 }

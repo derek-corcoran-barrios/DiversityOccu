@@ -13,14 +13,14 @@
 #' data("BatOccu")
 #' data("Dailycov")
 #' data("sampling.cov")
-#' BatOccupancy <-batchoccu(pres = BatOccu, sitecov = sampling.cov[,1:8],
+#' BatOccupancy <-batchoccu(pres = BatOccu, sitecov = sampling.cov,
 #' obscov = Dailycov,spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum +
 #' sdtemp ~ Burn.intensity.soil + I(Burn.intensity.soil^2) +
 #' Burn.intensity.Canopy + I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
 #' I(Burn.intensity.basal^2))
 #'
 #' #plot the response of occupancy to individual variables for species 4, 11
-#' and 15
+#' #and 15
 #'
 #' plot(batch = BatOccupancy, spp = 4, variable = Burn.intensity.soil)
 #'
@@ -29,6 +29,7 @@
 #' plot(batch = BatOccupancy, spp = 15, variable = Burn.intensity.soil)
 #'
 #' @export
+#' @method plot batchoccupancy
 #' @seealso \code{\link[DiversityOccupancy]{batchoccu}}
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 aes
@@ -70,14 +71,14 @@ plot.batchoccupancy <- function(batch, spp, variable){
 #' data("BatOccu")
 #' data("Dailycov")
 #' data("sampling.cov")
-#' BatDiv <-diversityoccu(pres = BatOccu, sitecov = sampling.cov[,1:8],
+#' BatDiv <-diversityoccu(pres = BatOccu, sitecov = sampling.cov,
 #' obscov = Dailycov,spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum +
 #' sdtemp ~ Burn.intensity.soil + I(Burn.intensity.soil^2) +
 #' Burn.intensity.Canopy + I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
 #' I(Burn.intensity.basal^2))
 #'
 #' #plot the response of abundance to individual variables for species 4, 11
-#' and 15
+#' #and 15
 #'
 #' plot(batch = BatDiv, spp = 4, variable = Burn.intensity.soil)
 #'
@@ -86,6 +87,7 @@ plot.batchoccupancy <- function(batch, spp, variable){
 #' plot(batch = BatDiv, spp = 15, variable = Burn.intensity.soil)
 #'
 #' @export
+#' @method plot diversityoccupancy
 #' @seealso \code{\link[DiversityOccupancy]{batchoccu}}
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 aes
@@ -128,15 +130,15 @@ plot.diversityoccupancy <- function(batch, spp, variable){
 #' data("BatOccu")
 #' data("Dailycov")
 #' data("sampling.cov")
-#' BatDiversity <-diversityoccu(pres = BatOccu, sitecov = sampling.cov[,1:8],
-#' obscov = Dailycov,spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum +
+#' BatDiv <-diversityoccu(pres = BatOccu, sitecov = sampling.cov, obscov =
+#' Dailycov,spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum +
 #' sdtemp ~ Burn.intensity.soil + I(Burn.intensity.soil^2) +
 #' Burn.intensity.Canopy + I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
 #' I(Burn.intensity.basal^2))
 #'
 #' #Select the best model that explains diversity using genetic algorithms
 #' set.seed(123)
-#' glm.Batdiversity <- model.diversity(x, method = "g")
+#' glm.Batdiversity <- model.diversity(BatDiv, method = "g")
 #'
 #' #see the best models
 #'
@@ -146,6 +148,7 @@ plot.diversityoccupancy <- function(batch, spp, variable){
 #'
 #' plot(glm.Batdiversity, Burn.intensity.soil)
 #' @export
+#' @method plot modeldiversity
 #' @seealso \code{\link[DiversityOccupancy]{diversityoccu}}
 #' @seealso \code{\link[DiversityOccupancy]{model.diversity}}
 #' @importFrom ggplot2 ggplot
@@ -167,7 +170,7 @@ plot.modeldiversity<- function(model, variable){
   newdata<- seq(from = minval[colnames(A)== as.character(substitute(variable))], to = maxval[colnames(A)== as.character(substitute(variable))], along.with = model$dataset[,1])
   A[colnames(A)== as.character(substitute(variable))] <- newdata
   B<-predict(glm(model$Best_model, data= model$dataset), newdata = A, se.fit = TRUE)
-  C<- data.frame(preditction = B$fit, upper = (B$fit + B$se), lower = (B$fit - B$se), dependent = A[colnames(A)== as.character(substitute(variable))])
-  result <- ggplot(C, aes(x= C[,4], y = C[,1])) + geom_ribbon(aes(ymax= C[,2], ymin = C[,3]), fill = "grey") + geom_line() + theme_bw() + theme(axis.line = element_line(colour = "black"), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.border = element_blank(), panel.background = element_blank()) + labs(x = as.character(substitute(variable)), y = "Diversity")
+  DF<- data.frame(preditction = B$fit, upper = (B$fit + B$se), lower = (B$fit - B$se), dependent = A[colnames(A)== as.character(substitute(variable))])
+  result <- ggplot(DF, aes(x= DF[,4], y = DF[,1])) + geom_ribbon(aes(ymax= DF[,2], ymin = DF[,3]), fill = "grey") + geom_line() + theme_bw() + theme(axis.line = element_line(colour = "black"), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.border = element_blank(), panel.background = element_blank()) + labs(x = as.character(substitute(variable)), y = "Diversity")
   return(result)
 }

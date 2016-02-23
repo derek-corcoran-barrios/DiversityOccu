@@ -1,6 +1,7 @@
 #' summarizes the diversity and abundances predicted from a diversityoccupancy
 #' object
-
+#' @param x a diversityoccupancy object which is a result from the diversityoccu
+#' function
 #' @examples
 #' data("BatOccu")
 #' data("Dailycov")
@@ -14,6 +15,7 @@
 #' summary(x)
 #'
 #' @export
+#' @method summary diversityoccupancy
 #' @seealso \code{\link[DiversityOccupancy]{diversityoccu}}
 #' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
 
@@ -24,6 +26,8 @@ summary.diversityoccupancy <- function (x) {
 #' summarizes the diversity and abundances predicted from a diversityoccupancy
 #' object
 
+#' @param x a modeldiversity object which is a result from the modeldiversity
+#' function
 #' @examples
 #' data("BatOccu")
 #' data("Dailycov")
@@ -37,6 +41,7 @@ summary.diversityoccupancy <- function (x) {
 #' summary(y)
 #'
 #' @export
+#' @method summary modeldiversity
 #' @seealso \code{\link[DiversityOccupancy]{diversityoccu}}
 #' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
 

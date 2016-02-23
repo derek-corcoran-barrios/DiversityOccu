@@ -27,14 +27,14 @@ variable to the maximum and minimum values of the dataset.
 data("BatOccu")
 data("Dailycov")
 data("sampling.cov")
-BatOccupancy <-batchoccu(pres = BatOccu, sitecov = sampling.cov[,1:8],
+BatOccupancy <-batchoccu(pres = BatOccu, sitecov = sampling.cov,
 obscov = Dailycov,spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum +
 sdtemp ~ Burn.intensity.soil + I(Burn.intensity.soil^2) +
 Burn.intensity.Canopy + I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
 I(Burn.intensity.basal^2))
 
 #plot the response of occupancy to individual variables for species 4, 11
-and 15
+#and 15
 
 plot(batch = BatOccupancy, spp = 4, variable = Burn.intensity.soil)
 

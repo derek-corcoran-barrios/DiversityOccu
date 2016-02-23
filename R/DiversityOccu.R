@@ -19,7 +19,7 @@
 #' will be used to calculate probability of detection and the second part the
 #' occupancy.
 #' @param dredge default = FALSE, if TRUE, for each species, the best occupancy
-#' model will be determined by fitting all possible models and rankin by AICc.
+#' model will be determined by fitting all possible models and ranking by AICc.
 #' @return A list with the fitted models for each species and the calculated
 #' Alpha diversity for each site.
 #' @details
@@ -27,11 +27,16 @@
 #' for multiple species and it can automatically select the best model for each
 #' specie based on AICc.
 #' @examples
-#' data("IslandBirds")
-#' data("Daily_Cov")
-#' data("siteCov")
-#' batchoccu(pres = IslandBirds, sitecov = siteCov, obscov = Daily_Cov, spp = 13,
-#' dredge = TRUE, form = ~ Wind + Noise ~ Elev + RPR)
+#' data("BatOccu")
+#' data("Dailycov")
+#' data("sampling.cov")
+#' BatOccupancy <-batchoccu(pres = BatOccu, sitecov = sampling.cov, obscov =
+#' Dailycov,spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum + sdtemp ~
+#' Burn.intensity.soil + I(Burn.intensity.soil^2) + Burn.intensity.Canopy +
+#' I(Burn.intensity.Canopy^2) + Burn.intensity.basal + I(Burn.intensity.basal^2))
+#' #plot the response of occupancy to individual variables for species 4, 11 and
+#' #15
+#' plot(batch = BatOccupancy, spp = 4, variable = Burn.intensity.soil)
 #' @seealso \code{\link[DiversityOccupancy]{diversityoccu}}
 #' @export
 #' @importFrom unmarked occu
@@ -110,7 +115,7 @@ batchoccu<- function(pres, sitecov, obscov, spp, form, dredge = FALSE) {
 #' occupancy.
 #' @param index Diversity index, one of "shannon", "simpson" or "invsimpson".
 #' @param dredge default = FALSE, if TRUE, for each species, the best occupancy
-#' model will be determined by fitting all possible models and rankin by AICc.
+#' model will be determined by fitting all possible models and ranking by AICc.
 #' @return A list with the fitted models for each species, the calculated
 #' Alpha diversity for each site, and a dataframe with the abundance of each
 #' species and diversity.
@@ -127,7 +132,7 @@ batchoccu<- function(pres, sitecov, obscov, spp, form, dredge = FALSE) {
 #'
 #' #Model the abundance for 17 bat species and calculate alpha diversity from that
 #'
-#' BatDiversity <-diversityoccu(pres = BatOccu, sitecov = sampling.cov[,1:8],
+#' BatDiversity <-diversityoccu(pres = BatOccu, sitecov = sampling.cov,
 #' obscov = Dailycov,spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum +
 #' sdtemp ~ Burn.intensity.soil + I(Burn.intensity.soil^2) +
 #' Burn.intensity.Canopy + I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
@@ -246,7 +251,7 @@ diversityoccu<- function(pres, sitecov, obscov, spp, form, index = "shannon", dr
 #'
 #' #Model the abundance for 17 bat species and calculate alpha diversity from that
 #'
-#' BatDiversity <-diversityoccu(pres = BatOccu, sitecov = sampling.cov[,1:8],
+#' BatDiversity <-diversityoccu(pres = BatOccu, sitecov = sampling.cov,
 #' obscov = Dailycov,spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum +
 #' sdtemp ~ Burn.intensity.soil + I(Burn.intensity.soil^2) +
 #' Burn.intensity.Canopy + I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
@@ -254,7 +259,7 @@ diversityoccu<- function(pres, sitecov, obscov, spp, form, index = "shannon", dr
 #'
 #' #Select the best model that explains diversity using genetic algorithms
 #' set.seed(123)
-#' glm.Batdiversity <- model.diversity(x, method = "g")
+#' glm.Batdiversity <- model.diversity(BatDiversity, method = "g")
 #'
 #' #see the best models
 #'
@@ -266,11 +271,11 @@ diversityoccu<- function(pres, sitecov, obscov, spp, form, index = "shannon", dr
 #'
 #' #To add the quadratic components of models
 #'
-#' batdiversity2 <-diversityoccu(pres = BatOccu, sitecov = sampling.cov[,1:8],
+#' batdiversity2 <-diversityoccu(pres = BatOccu, sitecov = sampling.cov,
 #' obscov = Dailycov, spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum +
 #' sdtemp ~Burn.intensity.soil + I(Burn.intensity.soil^2) + Burn.intensity.Canopy +
 #' I(Burn.intensity.Canopy^2) + Burn.intensity.basal +I(Burn.intensity.basal^2))
-#' setseed(123)
+#' set.seed(123)
 #' glm.batdiversity2 <- model.diversity(batdiversity2 , method = "g", squared = TRUE)
 #'
 #' plot(glm.batdiversity2, Burn.intensity.Canopy)
@@ -321,7 +326,7 @@ model.diversity <- function(DivOcc, method = "h", delta = 2, squared = FALSE){
 #' of the total area of a rasterstack, where diversity and occupancy/abundance are
 #' higher than the nth quantile.
 #' @param model A result from diversityoccu
-#' @param diversity A result from the model.diversity function.
+#' @param diverse A result from the model.diversity function.
 #' @param new.data a rasterstack, or a dataframe containing the same variables as
 #' the siteCovs variable in diversityoccu or batchoccu
 #' @param quantile.nth the nth quantile, over which is a goal to keep both diversity
@@ -339,7 +344,7 @@ model.diversity <- function(DivOcc, method = "h", delta = 2, squared = FALSE){
 #'
 #' #Model the abundance for 17 bat species and calculate alpha diversity from that
 #'
-#' BatDiversity <-diversityoccu(pres = BatOccu, sitecov = sampling.cov[,1:8],
+#' BatDiversity <-diversityoccu(pres = BatOccu, sitecov = sampling.cov,
 #' obscov = Dailycov,spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum +
 #' sdtemp ~ Burn.intensity.soil + I(Burn.intensity.soil^2) +
 #' Burn.intensity.Canopy + I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
@@ -347,14 +352,15 @@ model.diversity <- function(DivOcc, method = "h", delta = 2, squared = FALSE){
 #'
 #' #Select the best model that explains diversity using genetic algorithms
 #' set.seed(123)
-#' glm.Batdiversity <- model.diversity(x, method = "g")
+#' glm.Batdiversity <- model.diversity(BatDiversity, method = "g")
 #'
 #' # get the area where the first two bat species Myyu and Myca are most abundant
 #' # and the diversity is most abundant
 #'
-#' Selected.area <- predict.diversity(model = BatDiversity, diverse = glm.batdiversity,
-#' new.data = plunas.stack, quantile.nth = 0.85, species =
-#' c(T,T,F,F,F,F,F,F,F,F,F,F,F,F,F,F,F))
+#' Selected.area <- diversity.predict(model = BatDiversity, diverse = glm.Batdiversity,
+#' new.data = plumas.stack, quantile.nth = 0.85, species =
+#' c(TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE,
+#' FALSE, FALSE, FALSE, FALSE,FALSE,FALSE))
 #'
 #' Selected.area
 #'
@@ -365,13 +371,14 @@ model.diversity <- function(DivOcc, method = "h", delta = 2, squared = FALSE){
 #' @importFrom raster addLayer
 #' @importFrom raster KML
 #' @importFrom raster quantile
+#' @importFrom raster reclassify
 #' @importFrom raster stack
 #' @importFrom raster subset
 #' @importFrom raster unstack
 #' @importFrom raster writeRaster
 #' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
 
-predict.diversity<- function(model, diverse, new.data, quantile.nth = 0.8 , species) {
+diversity.predict<- function(model, diverse, new.data, quantile.nth = 0.8 , species) {
   models <- model$models[species]
   layers <- list()
   for (i in 1:length(models)){
@@ -397,5 +404,3 @@ predict.diversity<- function(model, diverse, new.data, quantile.nth = 0.8 , spec
   result <- list(species = layers, diversity.raster = diversity.raster, priority.area = priority.area)
   return(result)
 }
-
-

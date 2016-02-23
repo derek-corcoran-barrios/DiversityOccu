@@ -7,6 +7,10 @@ object}
 \usage{
 \method{summary}{modeldiversity}(x)
 }
+\arguments{
+\item{x}{a modeldiversity object which is a result from the modeldiversity
+function}
+}
 \description{
 summarizes the diversity and abundances predicted from a diversityoccupancy
 object
