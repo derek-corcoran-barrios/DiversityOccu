@@ -2,6 +2,7 @@
 #' object
 #' @param x a diversityoccupancy object which is a result from the diversityoccu
 #' function
+#' @param ... further summary parameters.
 #' @examples
 #' \dontrun{
 #' data("BatOccu")
@@ -16,7 +17,12 @@
 #' summary(x)
 #' }
 #' @export
+summary <- function(x, ...){
+UseMethod("summary")
+}
+
 #' @method summary diversityoccupancy
+#' @export
 #' @seealso \code{\link[DiversityOccupancy]{diversityoccu}}
 #' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
 
@@ -29,6 +35,7 @@ summary.diversityoccupancy <- function (x, ...) {
 
 #' @param x a modeldiversity object which is a result from the modeldiversity
 #' function
+#' @param ... further summary parameters.
 #' @examples
 #' \dontrun{
 #' data("BatOccu")
@@ -43,10 +50,14 @@ summary.diversityoccupancy <- function (x, ...) {
 #' summary(y)
 #' }
 #' @export
+summary <- function(x, ...){
+  UseMethod("summary")
+}
+#' @export
 #' @method summary modeldiversity
 #' @seealso \code{\link[DiversityOccupancy]{diversityoccu}}
 #' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
 
-summary.modeldiversity <- function (x) {
+summary.modeldiversity <- function (x, ...) {
   x$Table
   }

@@ -4,7 +4,7 @@
 \alias{plot.batchoccupancy}
 \title{plot the response of an occupancy model to the change of aparticular variable}
 \usage{
-\method{plot}{batchoccupancy}(batch, spp, variable, ...)
+\method{plot}{batchoccupancy}(batch, spp, variable)
 }
 \arguments{
 \item{batch}{A result from the batchoccu function.}

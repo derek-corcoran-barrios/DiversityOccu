@@ -30,7 +30,6 @@
 #' plot(batch = BatOccupancy, spp = 15, variable = Burn.intensity.soil)
 #' }
 #'
-#' @rdname batchoccupancy
 #' @method plot batchoccupancy
 #' @seealso \code{\link[DiversityOccupancy]{batchoccu}}
 #' @importFrom ggplot2 ggplot
@@ -46,7 +45,7 @@
 #' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
 #' @export
 
-plot.batchoccupancy <- function(batch, spp, variable, ...){
+plot.batchoccupancy <- function(batch, spp, variable){
   upper <- lower <- NULL # Setting the variables to NULL first
   A<-data.frame(matrix(rep(colMeans(batch$Covs), each=length(batch$Covs[,1])), nrow = length(batch$Covs[,1]), ncol = ncol(batch$Covs)))
   colnames(A)<-colnames(batch$Covs)
@@ -93,7 +92,6 @@ plot.batchoccupancy <- function(batch, spp, variable, ...){
 #' plot(batch = BatDiv, spp = 15, variable = Burn.intensity.soil)
 #' }
 #' @export
-#' @rdname diversityoccupancy
 #' @method plot diversityoccupancy
 #' @seealso \code{\link[DiversityOccupancy]{batchoccu}}
 #' @importFrom ggplot2 ggplot
@@ -108,7 +106,7 @@ plot.batchoccupancy <- function(batch, spp, variable, ...){
 #' @importFrom ggplot2 ylim
 #' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
 
-plot.diversityoccupancy <- function(batch, spp, variable, ...){
+plot.diversityoccupancy <- function(batch, spp, variable){
   upper <- lower <- NULL # Setting the variables to NULL first
   A<-data.frame(matrix(rep(colMeans(batch$Covs), each=length(batch$Covs[,1])), nrow = length(batch$Covs[,1]), ncol = ncol(batch$Covs)))
   colnames(A)<-colnames(batch$Covs)
@@ -159,7 +157,6 @@ plot.diversityoccupancy <- function(batch, spp, variable, ...){
 #' plot(glm.Batdiversity, Burn.intensity.soil)
 #' }
 #' @export
-#' @rdname modeldiversity
 #' @method plot modeldiversity
 #' @seealso \code{\link[DiversityOccupancy]{diversityoccu}}
 #' @seealso \code{\link[DiversityOccupancy]{model.diversity}}
@@ -174,7 +171,7 @@ plot.diversityoccupancy <- function(batch, spp, variable, ...){
 #' @importFrom ggplot2 labs
 #' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
 
-plot.modeldiversity<- function(model, variable, ...){
+plot.modeldiversity<- function(model, variable){
   A<-data.frame(matrix(rep(colMeans(model$dataset), each=length(model$dataset[,1])), nrow = length(model$dataset[,1]), ncol = ncol(model$dataset)))
   colnames(A)<-colnames(model$dataset)
   maxval<-apply(model$dataset,2,max)

@@ -5,7 +5,7 @@
 \title{plot the response of the calculated alpha diversity to the change of a
 particular variable}
 \usage{
-\method{plot}{modeldiversity}(model, variable, ...)
+\method{plot}{modeldiversity}(model, variable)
 }
 \arguments{
 \item{model}{A result from the model.diversity function.}

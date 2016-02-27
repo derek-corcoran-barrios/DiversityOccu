@@ -4,7 +4,7 @@
 \alias{plot.diversityoccupancy}
 \title{plot the response of an occupancy model to the change of aparticular variable}
 \usage{
-\method{plot}{diversityoccupancy}(batch, spp, variable, ...)
+\method{plot}{diversityoccupancy}(batch, spp, variable)
 }
 \arguments{
 \item{batch}{A result from the batchoccu function.}
