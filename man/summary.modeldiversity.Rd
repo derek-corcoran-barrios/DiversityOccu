@@ -16,6 +16,7 @@ summarizes the diversity and abundances predicted from a diversityoccupancy
 object
 }
 \examples{
+\dontrun{
 data("BatOccu")
 data("Dailycov")
 data("sampling.cov")
@@ -26,7 +27,7 @@ I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
 I(Burn.intensity.basal^2))
 y <- model.diversity(x, method = "g", squared = TRUE)
 summary(y)
-
+}
 }
 \author{
 Derek Corcoran <derek.corcoran.barrios@gmail.com>

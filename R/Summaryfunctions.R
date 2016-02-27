@@ -3,6 +3,7 @@
 #' @param x a diversityoccupancy object which is a result from the diversityoccu
 #' function
 #' @examples
+#' \dontrun{
 #' data("BatOccu")
 #' data("Dailycov")
 #' data("sampling.cov")
@@ -13,13 +14,13 @@
 #' I(Burn.intensity.basal^2))
 #'
 #' summary(x)
-#'
+#' }
 #' @export
 #' @method summary diversityoccupancy
 #' @seealso \code{\link[DiversityOccupancy]{diversityoccu}}
 #' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
 
-summary.diversityoccupancy <- function (x) {
+summary.diversityoccupancy <- function (x, ...) {
   summary(x$species)
 }
 
@@ -29,6 +30,7 @@ summary.diversityoccupancy <- function (x) {
 #' @param x a modeldiversity object which is a result from the modeldiversity
 #' function
 #' @examples
+#' \dontrun{
 #' data("BatOccu")
 #' data("Dailycov")
 #' data("sampling.cov")
@@ -39,7 +41,7 @@ summary.diversityoccupancy <- function (x) {
 #' I(Burn.intensity.basal^2))
 #' y <- model.diversity(x, method = "g", squared = TRUE)
 #' summary(y)
-#'
+#' }
 #' @export
 #' @method summary modeldiversity
 #' @seealso \code{\link[DiversityOccupancy]{diversityoccu}}

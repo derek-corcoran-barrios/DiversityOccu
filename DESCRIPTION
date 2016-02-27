@@ -1,15 +1,11 @@
 Package: DiversityOccupancy
 Type: Package
-Title: Building Diversity models from multiple species presence data from
-    occupancy models
+Title: Building Diversity Models from Multiple Species Presence Data from Occupancy Models
 Version: 1.0.0
 Date: 2016-01-07
 Authors@R: person("Derek", "Corcoran", email = "derek.corcoran.barrios@gmail.com",
   role = c("aut", "cre"))
-Description: This package predict alpha diversity from presence data, first
-    it models abundance from occupancy models and then, from that it calculates
-    several diversity indices and finally it uses GLM models to predict diversity
-    in different environments.
+Description: Predictions of alpha diversity are fitted from presence data, first abundance is modeled from occupancy models and then, several diversity indices are calculated and finally GLM models are used to predict diversity in different environments and select prioriy areas.
 Depends:
     R (>= 3.2.2)
 Imports:
@@ -23,7 +19,7 @@ Imports:
     vegan
 Suggests:
     knitr,
-    rmarkdown
+    rmarkdown,
 License: GPL-3
 LazyData: TRUE
 RoxygenNote: 5.0.1

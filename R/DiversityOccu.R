@@ -27,6 +27,7 @@
 #' for multiple species and it can automatically select the best model for each
 #' specie based on AICc.
 #' @examples
+#' \dontrun{
 #' data("BatOccu")
 #' data("Dailycov")
 #' data("sampling.cov")
@@ -37,6 +38,7 @@
 #' #plot the response of occupancy to individual variables for species 4, 11 and
 #' #15
 #' plot(batch = BatOccupancy, spp = 4, variable = Burn.intensity.soil)
+#' }
 #' @seealso \code{\link[DiversityOccupancy]{diversityoccu}}
 #' @export
 #' @importFrom unmarked occu
@@ -49,7 +51,7 @@
 #' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
 
 batchoccu<- function(pres, sitecov, obscov, spp, form, dredge = FALSE) {
-
+  data2 <- NULL # Setting the variables to NULL first
   secuencia <- c(1:spp)*(ncol(pres)/spp)
   secuencia2<-secuencia-(secuencia[1]-1)
 
@@ -125,6 +127,7 @@ batchoccu<- function(pres, sitecov, obscov, spp, form, dredge = FALSE) {
 #' using that abundance it calculates the alpha diversity index for each site
 #' based on that abundance.
 #' @examples
+#' \dontrun{
 #' #Load the data
 #' data("BatOccu")
 #' data("Dailycov")
@@ -146,7 +149,7 @@ batchoccu<- function(pres, sitecov, obscov, spp, form, dredge = FALSE) {
 #' #diversity
 #'
 #' summary(BatDiversity)
-#'
+#' }
 #' @seealso \code{\link[vegan]{diversity}}
 #' @seealso \code{\link[DiversityOccupancy]{model.diversity}}
 #' @export
@@ -162,7 +165,7 @@ batchoccu<- function(pres, sitecov, obscov, spp, form, dredge = FALSE) {
 #' @author Nicole L. Michel
 
 diversityoccu<- function(pres, sitecov, obscov, spp, form, index = "shannon", dredge = FALSE) {
-
+  data2 <- NULL # Setting the variables to NULL first
   secuencia <- c(1:spp)*(ncol(pres)/spp)
   secuencia2<-secuencia-(secuencia[1]-1)
 
@@ -244,6 +247,7 @@ diversityoccu<- function(pres, sitecov, obscov, spp, form, index = "shannon", dr
 #' @details
 #' This function fits every first order glm possible and ranks them by AICc.
 #' @examples
+#' \dontrun{
 #' #Load the data
 #' data("BatOccu")
 #' data("Dailycov")
@@ -279,6 +283,7 @@ diversityoccu<- function(pres, sitecov, obscov, spp, form, index = "shannon", dr
 #' glm.batdiversity2 <- model.diversity(batdiversity2 , method = "g", squared = TRUE)
 #'
 #' plot(glm.batdiversity2, Burn.intensity.Canopy)
+#' }
 #' @seealso \code{\link[DiversityOccupancy]{diversityoccu}}
 #' @export
 #' @importFrom glmulti glmulti
@@ -289,6 +294,7 @@ diversityoccu<- function(pres, sitecov, obscov, spp, form, index = "shannon", dr
 
 
 model.diversity <- function(DivOcc, method = "h", delta = 2, squared = FALSE){
+  Delta.AICc <- NULL # Setting the variables to NULL first
   A <- cbind(DivOcc$Diversity, DivOcc$Covs)
   colnames(A)[1]<-"Diversity"
   B <- paste(names(DivOcc$Covs), "+")
@@ -336,6 +342,7 @@ model.diversity <- function(DivOcc, method = "h", delta = 2, squared = FALSE){
 #' for each species, a raster for diversity and a raster with the area meeting the
 #' quantile criteria.
 #' @examples
+#' \dontrun{
 #' #Load the data
 #' data("BatOccu")
 #' data("Dailycov")
@@ -363,7 +370,7 @@ model.diversity <- function(DivOcc, method = "h", delta = 2, squared = FALSE){
 #' FALSE, FALSE, FALSE, FALSE,FALSE,FALSE))
 #'
 #' Selected.area
-#'
+#' }
 #' @export
 #' @seealso \code{\link[DiversityOccupancy]{diversityoccu}}
 #' @seealso \code{\link[DiversityOccupancy]{batchoccu}}

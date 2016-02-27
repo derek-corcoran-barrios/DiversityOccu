@@ -49,6 +49,7 @@ using that abundance it calculates the alpha diversity index for each site
 based on that abundance.
 }
 \examples{
+\dontrun{
 #Load the data
 data("BatOccu")
 data("Dailycov")
@@ -70,7 +71,7 @@ BatDiversity$models
 #diversity
 
 summary(BatDiversity)
-
+}
 }
 \author{
 Derek Corcoran <derek.corcoran.barrios@gmail.com>

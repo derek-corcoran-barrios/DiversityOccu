@@ -10,6 +10,7 @@
 #' @return a ggplot object plotting the alpha diversity response to the selected
 #' variable.
 #' @examples
+#' \dontrun{
 #' data("BatOccu")
 #' data("Dailycov")
 #' data("sampling.cov")
@@ -27,8 +28,9 @@
 #' plot(batch = BatOccupancy, spp = 11, variable = Burn.intensity.soil)
 #'
 #' plot(batch = BatOccupancy, spp = 15, variable = Burn.intensity.soil)
+#' }
 #'
-#' @export
+#' @rdname batchoccupancy
 #' @method plot batchoccupancy
 #' @seealso \code{\link[DiversityOccupancy]{batchoccu}}
 #' @importFrom ggplot2 ggplot
@@ -42,8 +44,10 @@
 #' @importFrom ggplot2 labs
 #' @importFrom ggplot2 ylim
 #' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
+#' @export
 
-plot.batchoccupancy <- function(batch, spp, variable){
+plot.batchoccupancy <- function(batch, spp, variable, ...){
+  upper <- lower <- NULL # Setting the variables to NULL first
   A<-data.frame(matrix(rep(colMeans(batch$Covs), each=length(batch$Covs[,1])), nrow = length(batch$Covs[,1]), ncol = ncol(batch$Covs)))
   colnames(A)<-colnames(batch$Covs)
   maxval<-apply(batch$Covs,2,max)
@@ -54,6 +58,7 @@ plot.batchoccupancy <- function(batch, spp, variable){
   DF<- data.frame(preditction = B$Predicted, upper = (B$Predicted + B$SE), lower = (B$Predicted - B$SE), dependent = A[colnames(A)== as.character(substitute(variable))])
   result <- ggplot(DF, aes(x= DF[,4], y = DF[,1])) + geom_ribbon(aes(ymax= upper, ymin = lower), fill = "grey") + geom_line() + theme_bw() + theme(axis.line = element_line(colour = "black"), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.border = element_blank(), panel.background = element_blank()) + labs(x = as.character(substitute(variable)), y = "Occupancy") + ylim(c(min(c(DF$lower, 0)),max(c(DF$upper, 1))))
   return(result)
+  NextMethod(plot)
 }
 
 #' plot the response of an occupancy model to the change of aparticular variable
@@ -68,6 +73,7 @@ plot.batchoccupancy <- function(batch, spp, variable){
 #' @return a ggplot object plotting the alpha diversity response to the selected
 #' variable.
 #' @examples
+#' \dontrun{
 #' data("BatOccu")
 #' data("Dailycov")
 #' data("sampling.cov")
@@ -85,8 +91,9 @@ plot.batchoccupancy <- function(batch, spp, variable){
 #' plot(batch = BatDiv, spp = 11, variable = Burn.intensity.soil)
 #'
 #' plot(batch = BatDiv, spp = 15, variable = Burn.intensity.soil)
-#'
+#' }
 #' @export
+#' @rdname diversityoccupancy
 #' @method plot diversityoccupancy
 #' @seealso \code{\link[DiversityOccupancy]{batchoccu}}
 #' @importFrom ggplot2 ggplot
@@ -101,7 +108,8 @@ plot.batchoccupancy <- function(batch, spp, variable){
 #' @importFrom ggplot2 ylim
 #' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
 
-plot.diversityoccupancy <- function(batch, spp, variable){
+plot.diversityoccupancy <- function(batch, spp, variable, ...){
+  upper <- lower <- NULL # Setting the variables to NULL first
   A<-data.frame(matrix(rep(colMeans(batch$Covs), each=length(batch$Covs[,1])), nrow = length(batch$Covs[,1]), ncol = ncol(batch$Covs)))
   colnames(A)<-colnames(batch$Covs)
   maxval<-apply(batch$Covs,2,max)
@@ -112,6 +120,7 @@ plot.diversityoccupancy <- function(batch, spp, variable){
   DF<- data.frame(preditction = B$Predicted, upper = (B$Predicted + B$SE), lower = (B$Predicted - B$SE), dependent = A[colnames(A)== as.character(substitute(variable))])
   result <- ggplot(DF, aes(x= DF[,4], y = DF[,1])) + geom_ribbon(aes(ymax= upper, ymin = lower), fill = "grey") + geom_line() + theme_bw() + theme(axis.line = element_line(colour = "black"), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.border = element_blank(), panel.background = element_blank()) + labs(x = as.character(substitute(variable)), y = "Abundance") + ylim(c(min(c(DF$lower, 0)),max(DF$upper)))
   return(result)
+  NextMethod(plot)
 }
 
 #' plot the response of the calculated alpha diversity to the change of a
@@ -127,6 +136,7 @@ plot.diversityoccupancy <- function(batch, spp, variable){
 #' @return a ggplot object plotting the alpha diversity response to the selected
 #' variable.
 #' @examples
+#' \dontrun{
 #' data("BatOccu")
 #' data("Dailycov")
 #' data("sampling.cov")
@@ -147,7 +157,9 @@ plot.diversityoccupancy <- function(batch, spp, variable){
 #' #plot the response of diversity to individual variables
 #'
 #' plot(glm.Batdiversity, Burn.intensity.soil)
+#' }
 #' @export
+#' @rdname modeldiversity
 #' @method plot modeldiversity
 #' @seealso \code{\link[DiversityOccupancy]{diversityoccu}}
 #' @seealso \code{\link[DiversityOccupancy]{model.diversity}}
@@ -162,7 +174,7 @@ plot.diversityoccupancy <- function(batch, spp, variable){
 #' @importFrom ggplot2 labs
 #' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
 
-plot.modeldiversity<- function(model, variable){
+plot.modeldiversity<- function(model, variable, ...){
   A<-data.frame(matrix(rep(colMeans(model$dataset), each=length(model$dataset[,1])), nrow = length(model$dataset[,1]), ncol = ncol(model$dataset)))
   colnames(A)<-colnames(model$dataset)
   maxval<-apply(model$dataset,2,max)
@@ -173,4 +185,5 @@ plot.modeldiversity<- function(model, variable){
   DF<- data.frame(preditction = B$fit, upper = (B$fit + B$se), lower = (B$fit - B$se), dependent = A[colnames(A)== as.character(substitute(variable))])
   result <- ggplot(DF, aes(x= DF[,4], y = DF[,1])) + geom_ribbon(aes(ymax= DF[,2], ymin = DF[,3]), fill = "grey") + geom_line() + theme_bw() + theme(axis.line = element_line(colour = "black"), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.border = element_blank(), panel.background = element_blank()) + labs(x = as.character(substitute(variable)), y = "Diversity")
   return(result)
+  NextMethod(plot)
 }

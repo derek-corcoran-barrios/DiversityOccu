@@ -5,7 +5,7 @@
 \title{plot the response of the calculated alpha diversity to the change of a
 particular variable}
 \usage{
-\method{plot}{modeldiversity}(model, variable)
+\method{plot}{modeldiversity}(model, variable, ...)
 }
 \arguments{
 \item{model}{A result from the model.diversity function.}
@@ -24,6 +24,7 @@ limits the values of that variable to the maximum and minimum values of the
 dataset.
 }
 \examples{
+\dontrun{
 data("BatOccu")
 data("Dailycov")
 data("sampling.cov")
@@ -44,6 +45,7 @@ summary(glm.Batdiversity)
 #plot the response of diversity to individual variables
 
 plot(glm.Batdiversity, Burn.intensity.soil)
+}
 }
 \author{
 Derek Corcoran <derek.corcoran.barrios@gmail.com>

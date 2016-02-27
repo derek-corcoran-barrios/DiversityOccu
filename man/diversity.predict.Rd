@@ -32,6 +32,7 @@ of the total area of a rasterstack, where diversity and occupancy/abundance are
 higher than the nth quantile.
 }
 \examples{
+\dontrun{
 #Load the data
 data("BatOccu")
 data("Dailycov")
@@ -59,7 +60,7 @@ c(TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE,
 FALSE, FALSE, FALSE, FALSE,FALSE,FALSE))
 
 Selected.area
-
+}
 }
 \author{
 Derek Corcoran <derek.corcoran.barrios@gmail.com>

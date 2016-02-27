@@ -5,7 +5,7 @@
 \title{summarizes the diversity and abundances predicted from a diversityoccupancy
 object}
 \usage{
-\method{summary}{diversityoccupancy}(x)
+\method{summary}{diversityoccupancy}(x, ...)
 }
 \arguments{
 \item{x}{a diversityoccupancy object which is a result from the diversityoccu
@@ -16,6 +16,7 @@ summarizes the diversity and abundances predicted from a diversityoccupancy
 object
 }
 \examples{
+\dontrun{
 data("BatOccu")
 data("Dailycov")
 data("sampling.cov")
@@ -26,7 +27,7 @@ I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
 I(Burn.intensity.basal^2))
 
 summary(x)
-
+}
 }
 \author{
 Derek Corcoran <derek.corcoran.barrios@gmail.com>

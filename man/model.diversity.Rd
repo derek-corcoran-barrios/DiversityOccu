@@ -38,6 +38,7 @@ glm that best explains the alpha diversity of the modelled species.
 This function fits every first order glm possible and ranks them by AICc.
 }
 \examples{
+\dontrun{
 #Load the data
 data("BatOccu")
 data("Dailycov")
@@ -73,6 +74,7 @@ set.seed(123)
 glm.batdiversity2 <- model.diversity(batdiversity2 , method = "g", squared = TRUE)
 
 plot(glm.batdiversity2, Burn.intensity.Canopy)
+}
 }
 \author{
 Derek Corcoran <derek.corcoran.barrios@gmail.com>
