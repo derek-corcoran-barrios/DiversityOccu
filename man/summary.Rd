@@ -2,8 +2,7 @@
 % Please edit documentation in R/Summaryfunctions.R
 \name{summary}
 \alias{summary}
-\title{summarizes the diversity and abundances predicted from a diversityoccupancy
-object}
+\title{summary.diversityoccupancy: summary of an diversityoccupancy object}
 \usage{
 summary(x, ...)
 

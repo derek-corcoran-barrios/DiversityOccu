@@ -1,5 +1,6 @@
 #' summarizes the diversity and abundances predicted from a diversityoccupancy
 #' object
+#' @title summary.diversityoccupancy: summary of an diversityoccupancy object
 #' @param x a diversityoccupancy object which is a result from the diversityoccu
 #' function
 #' @param ... further summary parameters.
@@ -33,6 +34,7 @@ summary.diversityoccupancy <- function (x, ...) {
 #' summarizes the diversity and abundances predicted from a diversityoccupancy
 #' object
 
+#' @title summary.modeldiversity: summary of an diversityoccupancy object
 #' @param x a modeldiversity object which is a result from the modeldiversity
 #' function
 #' @param ... further summary parameters.
