@@ -66,11 +66,6 @@ I(Burn.intensity.basal^2))
 #To see the estimates and p values for each model:
 
 BatDiversity$models
-
-#see a summary of the predicted abundance for each species and the alpha
-#diversity
-
-summary(BatDiversity)
 }
 }
 \author{

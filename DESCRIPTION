@@ -7,15 +7,15 @@ Authors@R: person("Derek", "Corcoran", email = "derek.corcoran.barrios@gmail.com
   role = c("aut", "cre"))
 Description: Predictions of alpha diversity are fitted from presence data, first abundance is modeled from occupancy models and then, several diversity indices are calculated and finally GLM models are used to predict diversity in different environments and select prioriy areas.
 Depends:
-    R (>= 3.2.2)
+    R (>= 3.2.2),
+    MuMIn,
+    unmarked
 Imports:
     dplyr,
     ggplot2,
     glmulti,
-    MuMIn,
     raster,
     qpcR,
-    unmarked,
     vegan
 Suggests:
     knitr,

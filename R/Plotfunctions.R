@@ -23,14 +23,12 @@
 #' #plot the response of occupancy to individual variables for species 4, 11
 #' #and 15
 #'
-#' plot(batch = BatOccupancy, spp = 4, variable = Burn.intensity.soil)
+#' responseplot.occu(batch = BatOccupancy, spp = 4, variable = Burn.intensity.soil)
 #'
-#' plot(batch = BatOccupancy, spp = 11, variable = Burn.intensity.soil)
+#' responseplot.occu(batch = BatOccupancy, spp = 11, variable = Burn.intensity.soil)
 #'
-#' plot(batch = BatOccupancy, spp = 15, variable = Burn.intensity.soil)
+#' responseplot.occu(batch = BatOccupancy, spp = 15, variable = Burn.intensity.soil)
 #' }
-#'
-#' @method plot batchoccupancy
 #' @seealso \code{\link[DiversityOccupancy]{batchoccu}}
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 aes
@@ -45,7 +43,7 @@
 #' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
 #' @export
 
-plot.batchoccupancy <- function(batch, spp, variable){
+responseplot.occu <- function(batch, spp, variable){
   upper <- lower <- NULL # Setting the variables to NULL first
   A<-data.frame(matrix(rep(colMeans(batch$Covs), each=length(batch$Covs[,1])), nrow = length(batch$Covs[,1]), ncol = ncol(batch$Covs)))
   colnames(A)<-colnames(batch$Covs)
@@ -60,13 +58,13 @@ plot.batchoccupancy <- function(batch, spp, variable){
   NextMethod(plot)
 }
 
-#' plot the response of an occupancy model to the change of aparticular variable
+#' plot the response of an abundance model to the change of aparticular variable
 #'
 #' This function takes a diversityoccupancy object and one of the variables used
 #' to predict abundance, and makes a plot showing the response of occupancyt
 #' against the selected variable. This function automatically limits the values
 #' of that variable to the maximum and minimum values of the dataset.
-#' @param batch A result from the batchoccu function.
+#' @param batch A result from the diversityoccu function.
 #' @param spp The species number of which response is going to be ploted.
 #' @param variable The variable of which the response is to be ploted.
 #' @return a ggplot object plotting the alpha diversity response to the selected
@@ -85,14 +83,13 @@ plot.batchoccupancy <- function(batch, spp, variable){
 #' #plot the response of abundance to individual variables for species 4, 11
 #' #and 15
 #'
-#' plot(batch = BatDiv, spp = 4, variable = Burn.intensity.soil)
+#' responseplot.abund(batch = BatDiv, spp = 4, variable = Burn.intensity.soil)
 #'
-#' plot(batch = BatDiv, spp = 11, variable = Burn.intensity.soil)
+#' responseplot.abund(batch = BatDiv, spp = 11, variable = Burn.intensity.soil)
 #'
-#' plot(batch = BatDiv, spp = 15, variable = Burn.intensity.soil)
+#' responseplot.abund(batch = BatDiv, spp = 15, variable = Burn.intensity.soil)
 #' }
 #' @export
-#' @method plot diversityoccupancy
 #' @seealso \code{\link[DiversityOccupancy]{batchoccu}}
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 aes
@@ -106,7 +103,7 @@ plot.batchoccupancy <- function(batch, spp, variable){
 #' @importFrom ggplot2 ylim
 #' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
 
-plot.diversityoccupancy <- function(batch, spp, variable){
+responseplot.abund <- function(batch, spp, variable){
   upper <- lower <- NULL # Setting the variables to NULL first
   A<-data.frame(matrix(rep(colMeans(batch$Covs), each=length(batch$Covs[,1])), nrow = length(batch$Covs[,1]), ncol = ncol(batch$Covs)))
   colnames(A)<-colnames(batch$Covs)
@@ -150,14 +147,13 @@ plot.diversityoccupancy <- function(batch, spp, variable){
 #'
 #' #see the best models
 #'
-#' summary(glm.Batdiversity)
+#' glm.Batdiversity$Best.model
 #'
 #' #plot the response of diversity to individual variables
 #'
-#' plot(glm.Batdiversity, Burn.intensity.soil)
+#' responseplot.diver(glm.Batdiversity, Burn.intensity.soil)
 #' }
 #' @export
-#' @method plot modeldiversity
 #' @seealso \code{\link[DiversityOccupancy]{diversityoccu}}
 #' @seealso \code{\link[DiversityOccupancy]{model.diversity}}
 #' @importFrom ggplot2 ggplot
@@ -171,7 +167,7 @@ plot.diversityoccupancy <- function(batch, spp, variable){
 #' @importFrom ggplot2 labs
 #' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
 
-plot.modeldiversity<- function(model, variable){
+responseplot.diver<- function(model, variable){
   A<-data.frame(matrix(rep(colMeans(model$dataset), each=length(model$dataset[,1])), nrow = length(model$dataset[,1]), ncol = ncol(model$dataset)))
   colnames(A)<-colnames(model$dataset)
   maxval<-apply(model$dataset,2,max)

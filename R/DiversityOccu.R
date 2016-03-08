@@ -74,8 +74,6 @@ batchoccu<- function(pres, sitecov, obscov, spp, form, dredge = FALSE) {
 
   else if (dredge==TRUE) {
     for(i in 1:length(secuencia)) {
-      require(MuMIn)
-      require(unmarked)
       data[[i]] <-c(secuencia2[i]:secuencia[i])
       data[[i]] <- pres[, data[[i]]]
       data2 <<- unmarkedFrameOccu(y = data[[i]], siteCovs = sitecov, obsCovs = obscov)
@@ -144,11 +142,6 @@ batchoccu<- function(pres, sitecov, obscov, spp, form, dredge = FALSE) {
 #' #To see the estimates and p values for each model:
 #'
 #' BatDiversity$models
-#'
-#' #see a summary of the predicted abundance for each species and the alpha
-#' #diversity
-#'
-#' summary(BatDiversity)
 #' }
 #' @seealso \code{\link[vegan]{diversity}}
 #' @seealso \code{\link[DiversityOccupancy]{model.diversity}}
@@ -190,8 +183,6 @@ diversityoccu<- function(pres, sitecov, obscov, spp, form, index = "shannon", dr
 
   else if (dredge==TRUE) {
     for(i in 1:length(secuencia)) {
-      require(MuMIn)
-      require(unmarked)
       data[[i]] <-c(secuencia2[i]:secuencia[i])
       data[[i]] <- pres[, data[[i]]]
       #data is a list of class unmarkedFrames from package unmarked.
@@ -267,7 +258,7 @@ diversityoccu<- function(pres, sitecov, obscov, spp, form, index = "shannon", dr
 #'
 #' #see the best models
 #'
-#' summary(glm.Batdiversity)
+#' glm.Batdiversity$Best.model
 #'
 #' #plot the response of diversity to individual variables
 #'

@@ -58,7 +58,7 @@ glm.Batdiversity <- model.diversity(BatDiversity, method = "g")
 
 #see the best models
 
-summary(glm.Batdiversity)
+glm.Batdiversity$Best.model
 
 #plot the response of diversity to individual variables
 
