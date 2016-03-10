@@ -1,3 +1,4 @@
+globalVariables(c("data2"))
 #' Fits occupancy models for multiple species detection history
 #'
 #' This function takes a data.frame with multiple detection history from
@@ -81,8 +82,7 @@ batchoccu<- function(pres, sitecov, obscov, spp, form, dredge = FALSE) {
       data[[i]] <- pres[, data[[i]]]
       #data is a list of class unmarkedFrames from package unmarked.
       # NM: write to the global environment so he data won't be "lost"
-      assign("data2",  unmarkedFrameOccu(y = data[[i]], siteCovs = sitecov, obsCovs = obscov), envir = .GlobalEnv)
-      #uses the data list above to fit one model per specie
+      data2 <<- unmarkedFrameOccu(y = data[[i]], siteCovs = sitecov, obsCovs = obscov)      #uses the data list above to fit one model per specie
       models[[i]] <- occu(form, data2)
       #selects models
       # NM: saved this to dredged object rather than overwriting models object
@@ -202,8 +202,7 @@ diversityoccu<- function(pres, sitecov, obscov, spp, form, index = "shannon", dr
       data[[i]] <- pres[, data[[i]]]
       #data is a list of class unmarkedFrames from package unmarked.
       # NM: write to the global environment so he data won't be "lost"
-      assign("data2",  unmarkedFrameOccu(y = data[[i]], siteCovs = sitecov, obsCovs = obscov), envir = .GlobalEnv)
-      #uses the data list above to fit one model per specie
+      data2 <<- unmarkedFrameOccu(y = data[[i]], siteCovs = sitecov, obsCovs = obscov)      #uses the data list above to fit one model per specie
       models[[i]] <- occuRN(form, data2)
       #selects models
       # NM: saved this to dredged object rather than overwriting models object
