@@ -21,6 +21,8 @@ globalVariables(c("data2"))
 #' occupancy.
 #' @param dredge default = FALSE, if TRUE, for each species, the best occupancy
 #' model will be determined by fitting all possible models and ranking by AICc.
+#' @param pos where to do the removal. By default, uses the current environment.
+#' @param envir the environment to use.
 #' @return A list with the fitted models for each species and the calculated
 #' Alpha diversity for each site.
 #' @details
@@ -56,7 +58,7 @@ globalVariables(c("data2"))
 
 #' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
 
-batchoccu<- function(pres, sitecov, obscov, spp, form, dredge = FALSE) {
+batchoccu<- function(pres, sitecov, obscov, spp, form, dredge = FALSE,  pos = 1, envir = as.environment(pos)) {
   secuencia <- c(1:spp)*(ncol(pres)/spp)
   secuencia2<-secuencia-(secuencia[1]-1)
   models <- list()
@@ -82,7 +84,7 @@ batchoccu<- function(pres, sitecov, obscov, spp, form, dredge = FALSE) {
       data[[i]] <- pres[, data[[i]]]
       #data is a list of class unmarkedFrames from package unmarked.
       # NM: write to the global environment so he data won't be "lost"
-      data2 <<- unmarkedFrameOccu(y = data[[i]], siteCovs = sitecov, obsCovs = obscov)      #uses the data list above to fit one model per specie
+      assign("data2",  unmarkedFrameOccu(y = data[[i]], siteCovs = sitecov, obsCovs = obscov), envir = envir)
       models[[i]] <- occu(form, data2)
       #selects models
       # NM: saved this to dredged object rather than overwriting models object
@@ -96,7 +98,7 @@ batchoccu<- function(pres, sitecov, obscov, spp, form, dredge = FALSE) {
       data[[i]] <- data2
     }
     # remove temporary data file from the global environment
-    rm(data2, pos=".GlobalEnv")
+    rm(data2, pos= envir)
   }
 
   result <- list(Covs = sitecov, models = models, fit = fit)
@@ -128,6 +130,8 @@ batchoccu<- function(pres, sitecov, obscov, spp, form, dredge = FALSE) {
 #' @param index Diversity index, one of "shannon", "simpson" or "invsimpson".
 #' @param dredge default = FALSE, if TRUE, for each species, the best occupancy
 #' model will be determined by fitting all possible models and ranking by AICc.
+#' @param pos where to do the removal. By default, uses the current environment.
+#' @param envir the environment to use.
 #' @return A list with the fitted models for each species, the calculated
 #' Alpha diversity for each site, and a dataframe with the abundance of each
 #' species and diversity.
@@ -173,7 +177,7 @@ batchoccu<- function(pres, sitecov, obscov, spp, form, dredge = FALSE) {
 #' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
 #' @author Nicole L. Michel
 
-diversityoccu<- function(pres, sitecov, obscov, spp, form, index = "shannon", dredge = FALSE) {
+diversityoccu<- function(pres, sitecov, obscov, spp, form, index = "shannon", dredge = FALSE,  pos = 1, envir = as.environment(pos)) {
   secuencia <- c(1:spp)*(ncol(pres)/spp)
   secuencia2<-secuencia-(secuencia[1]-1)
 
@@ -202,7 +206,7 @@ diversityoccu<- function(pres, sitecov, obscov, spp, form, index = "shannon", dr
       data[[i]] <- pres[, data[[i]]]
       #data is a list of class unmarkedFrames from package unmarked.
       # NM: write to the global environment so he data won't be "lost"
-      data2 <<- unmarkedFrameOccu(y = data[[i]], siteCovs = sitecov, obsCovs = obscov)      #uses the data list above to fit one model per specie
+      assign("data2",  unmarkedFrameOccu(y = data[[i]], siteCovs = sitecov, obsCovs = obscov), envir = envir)
       models[[i]] <- occuRN(form, data2)
       #selects models
       # NM: saved this to dredged object rather than overwriting models object
@@ -218,7 +222,7 @@ diversityoccu<- function(pres, sitecov, obscov, spp, form, index = "shannon", dr
       DF <- cbind(h, div)
     }
     # remove temporary data file from the global environment
-    rm(data2, pos=".GlobalEnv")
+    rm(data2, pos=envir)
   }
 
   result <- list(Covs = sitecov, models = models, Diversity = h, species = DF)
