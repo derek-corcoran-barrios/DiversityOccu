@@ -56,10 +56,8 @@
 #' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
 
 batchoccu<- function(pres, sitecov, obscov, spp, form, dredge = FALSE) {
-  data2 <- NULL
   secuencia <- c(1:spp)*(ncol(pres)/spp)
   secuencia2<-secuencia-(secuencia[1]-1)
-
   models <- list()
   data<- list()
   fit <- list()
@@ -81,14 +79,24 @@ batchoccu<- function(pres, sitecov, obscov, spp, form, dredge = FALSE) {
     for(i in 1:length(secuencia)) {
       data[[i]] <-c(secuencia2[i]:secuencia[i])
       data[[i]] <- pres[, data[[i]]]
-      data2 <- unmarkedFrameOccu(y = data[[i]], siteCovs = sitecov, obsCovs = obscov)
+      #data is a list of class unmarkedFrames from package unmarked.
+      # NM: write to the global environment so he data won't be "lost"
+      assign("data2",  unmarkedFrameOccu(y = data[[i]], siteCovs = sitecov, obsCovs = obscov), envir = .GlobalEnv)
+      #uses the data list above to fit one model per specie
       models[[i]] <- occu(form, data2)
+      #selects models
+      # NM: saved this to dredged object rather than overwriting models object
       dredged[[i]] <- dredge(models[[i]], data2)
+      #select the first model
       models[[i]] <- get.models(dredged[[i]], 1)[[1]]
+      #predictions for the best model
       fit[[i]] <- predict(models[[i]], type = "state", newdata = sitecov)$Predicted
       fit<- as.data.frame(fit)
       colnames(fit) = paste("species",c(1:ncol(fit)), sep =".")
+      data[[i]] <- data2
     }
+    # remove temporary data file from the global environment
+    rm(data2, pos=".GlobalEnv")
   }
 
   result <- list(Covs = sitecov, models = models, fit = fit)
@@ -147,6 +155,10 @@ batchoccu<- function(pres, sitecov, obscov, spp, form, dredge = FALSE) {
 #'
 #' BatDiversity$models
 #' }
+#' #Dredge for 2 species
+#' A <- diversityoccu(pres = BatOccu[,1:6], sitecov = sampling.cov, obscov = Dailycov,
+#' spp = 2, form = ~ Meanhum + Meantemp ~  Burn.intensity.basal +
+#' I(Burn.intensity.basal^2), dredge = TRUE)
 #' @seealso \code{\link[vegan]{diversity}}
 #' @seealso \code{\link[DiversityOccupancy]{model.diversity}}
 #' @export
@@ -162,7 +174,6 @@ batchoccu<- function(pres, sitecov, obscov, spp, form, dredge = FALSE) {
 #' @author Nicole L. Michel
 
 diversityoccu<- function(pres, sitecov, obscov, spp, form, index = "shannon", dredge = FALSE) {
-  data2 <- NULL
   secuencia <- c(1:spp)*(ncol(pres)/spp)
   secuencia2<-secuencia-(secuencia[1]-1)
 
@@ -189,10 +200,17 @@ diversityoccu<- function(pres, sitecov, obscov, spp, form, index = "shannon", dr
     for(i in 1:length(secuencia)) {
       data[[i]] <-c(secuencia2[i]:secuencia[i])
       data[[i]] <- pres[, data[[i]]]
-      data2 <- unmarkedFrameOccu(y = data[[i]], siteCovs = sitecov, obsCovs = obscov)
+      #data is a list of class unmarkedFrames from package unmarked.
+      # NM: write to the global environment so he data won't be "lost"
+      assign("data2",  unmarkedFrameOccu(y = data[[i]], siteCovs = sitecov, obsCovs = obscov), envir = .GlobalEnv)
+      #uses the data list above to fit one model per specie
       models[[i]] <- occuRN(form, data2)
+      #selects models
+      # NM: saved this to dredged object rather than overwriting models object
       dredged[[i]] <- dredge(models[[i]], data2)
+      #select the first model
       models[[i]] <- get.models(dredged[[i]], 1)[[1]]
+      #predictions for the best model
       div[[i]] <- predict(models[[i]], type = "state", newdata = sitecov)$Predicted
       div<- as.data.frame(div)
       colnames(div) = paste("species",c(1:ncol(div)), sep =".")
@@ -200,6 +218,8 @@ diversityoccu<- function(pres, sitecov, obscov, spp, form, index = "shannon", dr
       h <- diversity(div, index)
       DF <- cbind(h, div)
     }
+    # remove temporary data file from the global environment
+    rm(data2, pos=".GlobalEnv")
   }
 
   result <- list(Covs = sitecov, models = models, Diversity = h, species = DF)
