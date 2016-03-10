@@ -35,9 +35,14 @@
 #' Dailycov,spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum + sdtemp ~
 #' Burn.intensity.soil + I(Burn.intensity.soil^2) + Burn.intensity.Canopy +
 #' I(Burn.intensity.Canopy^2) + Burn.intensity.basal + I(Burn.intensity.basal^2))
-#' #plot the response of occupancy to individual variables for species 4, 11 and
-#' #15
-#' plot(batch = BatOccupancy, spp = 4, variable = Burn.intensity.soil)
+#' #plot the response of occupancy to individual variables for species 4, 11
+#' #and 15
+#'
+#' responseplot.occu(batch = BatOccupancy, spp = 4, variable = Burn.intensity.soil)
+#'
+#' responseplot.occu(batch = BatOccupancy, spp = 11, variable = Burn.intensity.soil)
+#'
+#' responseplot.occu(batch = BatOccupancy, spp = 15, variable = Burn.intensity.soil)
 #' }
 #' @seealso \code{\link[DiversityOccupancy]{diversityoccu}}
 #' @export
@@ -51,7 +56,7 @@
 #' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
 
 batchoccu<- function(pres, sitecov, obscov, spp, form, dredge = FALSE) {
-  data2 <- NULL # Setting the variables to NULL first
+  data2 <- NULL
   secuencia <- c(1:spp)*(ncol(pres)/spp)
   secuencia2<-secuencia-(secuencia[1]-1)
 
@@ -76,7 +81,7 @@ batchoccu<- function(pres, sitecov, obscov, spp, form, dredge = FALSE) {
     for(i in 1:length(secuencia)) {
       data[[i]] <-c(secuencia2[i]:secuencia[i])
       data[[i]] <- pres[, data[[i]]]
-      data2 <<- unmarkedFrameOccu(y = data[[i]], siteCovs = sitecov, obsCovs = obscov)
+      data2 <- unmarkedFrameOccu(y = data[[i]], siteCovs = sitecov, obsCovs = obscov)
       models[[i]] <- occu(form, data2)
       dredged[[i]] <- dredge(models[[i]], data2)
       models[[i]] <- get.models(dredged[[i]], 1)[[1]]
@@ -84,7 +89,6 @@ batchoccu<- function(pres, sitecov, obscov, spp, form, dredge = FALSE) {
       fit<- as.data.frame(fit)
       colnames(fit) = paste("species",c(1:ncol(fit)), sep =".")
     }
-    rm(data2, pos=".GlobalEnv")
   }
 
   result <- list(Covs = sitecov, models = models, fit = fit)
@@ -158,7 +162,7 @@ batchoccu<- function(pres, sitecov, obscov, spp, form, dredge = FALSE) {
 #' @author Nicole L. Michel
 
 diversityoccu<- function(pres, sitecov, obscov, spp, form, index = "shannon", dredge = FALSE) {
-  data2 <- NULL # Setting the variables to NULL first
+  data2 <- NULL
   secuencia <- c(1:spp)*(ncol(pres)/spp)
   secuencia2<-secuencia-(secuencia[1]-1)
 
@@ -185,17 +189,10 @@ diversityoccu<- function(pres, sitecov, obscov, spp, form, index = "shannon", dr
     for(i in 1:length(secuencia)) {
       data[[i]] <-c(secuencia2[i]:secuencia[i])
       data[[i]] <- pres[, data[[i]]]
-      #data is a list of class unmarkedFrames from package unmarked.
-      # NM: write to the global environment so he data won't be "lost"
-      data2 <<- unmarkedFrameOccu(y = data[[i]], siteCovs = sitecov, obsCovs = obscov)
-      #uses the data list above to fit one model per specie
+      data2 <- unmarkedFrameOccu(y = data[[i]], siteCovs = sitecov, obsCovs = obscov)
       models[[i]] <- occuRN(form, data2)
-      #selects models
-      # NM: saved this to dredged object rather than overwriting models object
       dredged[[i]] <- dredge(models[[i]], data2)
-      #select the first model
       models[[i]] <- get.models(dredged[[i]], 1)[[1]]
-      #predictions for the best model
       div[[i]] <- predict(models[[i]], type = "state", newdata = sitecov)$Predicted
       div<- as.data.frame(div)
       colnames(div) = paste("species",c(1:ncol(div)), sep =".")
@@ -203,8 +200,6 @@ diversityoccu<- function(pres, sitecov, obscov, spp, form, index = "shannon", dr
       h <- diversity(div, index)
       DF <- cbind(h, div)
     }
-    # remove temporary data file from the global environment
-    rm(data2, pos=".GlobalEnv")
   }
 
   result <- list(Covs = sitecov, models = models, Diversity = h, species = DF)
@@ -266,17 +261,19 @@ diversityoccu<- function(pres, sitecov, obscov, spp, form, index = "shannon", dr
 #'
 #' #To add the quadratic components of models
 #'
-#' batdiversity2 <-diversityoccu(pres = BatOccu, sitecov = sampling.cov,
+#' batdiversity <-diversityoccu(pres = BatOccu, sitecov = sampling.cov,
 #' obscov = Dailycov, spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum +
 #' sdtemp ~Burn.intensity.soil + I(Burn.intensity.soil^2) + Burn.intensity.Canopy +
 #' I(Burn.intensity.Canopy^2) + Burn.intensity.basal +I(Burn.intensity.basal^2))
 #' set.seed(123)
-#' glm.batdiversity2 <- model.diversity(batdiversity2 , method = "g", squared = TRUE)
+#' glm.batdiversity <- model.diversity(batdiversity , method = "g", squared = TRUE)
 #'
-#' plot(glm.batdiversity2, Burn.intensity.Canopy)
+#' responseplot.diver(glm.batdiversity, Burn.intensity.Canopy)
 #' }
 #' @seealso \code{\link[DiversityOccupancy]{diversityoccu}}
 #' @export
+#' @importFrom stats glm
+#' @importFrom stats as.formula
 #' @importFrom glmulti glmulti
 #' @importFrom glmulti weightable
 #' @importFrom dplyr filter
@@ -285,7 +282,7 @@ diversityoccu<- function(pres, sitecov, obscov, spp, form, index = "shannon", dr
 
 
 model.diversity <- function(DivOcc, method = "h", delta = 2, squared = FALSE){
-  Delta.AICc <- NULL # Setting the variables to NULL first
+  Delta.AICc <- NULL
   A <- cbind(DivOcc$Diversity, DivOcc$Covs)
   colnames(A)[1]<-"Diversity"
   B <- paste(names(DivOcc$Covs), "+")
@@ -366,6 +363,8 @@ model.diversity <- function(DivOcc, method = "h", delta = 2, squared = FALSE){
 #' @seealso \code{\link[DiversityOccupancy]{diversityoccu}}
 #' @seealso \code{\link[DiversityOccupancy]{batchoccu}}
 #' @seealso \code{\link[DiversityOccupancy]{model.diversity}}
+#' @importFrom graphics plot
+#' @importFrom stats glm
 #' @importFrom raster addLayer
 #' @importFrom raster KML
 #' @importFrom raster quantile

@@ -66,14 +66,14 @@ plot(glm.Batdiversity, Burn.intensity.soil)
 
 #To add the quadratic components of models
 
-batdiversity2 <-diversityoccu(pres = BatOccu, sitecov = sampling.cov,
+batdiversity <-diversityoccu(pres = BatOccu, sitecov = sampling.cov,
 obscov = Dailycov, spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum +
 sdtemp ~Burn.intensity.soil + I(Burn.intensity.soil^2) + Burn.intensity.Canopy +
 I(Burn.intensity.Canopy^2) + Burn.intensity.basal +I(Burn.intensity.basal^2))
 set.seed(123)
-glm.batdiversity2 <- model.diversity(batdiversity2 , method = "g", squared = TRUE)
+glm.batdiversity <- model.diversity(batdiversity , method = "g", squared = TRUE)
 
-plot(glm.batdiversity2, Burn.intensity.Canopy)
+responseplot.diver(glm.batdiversity, Burn.intensity.Canopy)
 }
 }
 \author{

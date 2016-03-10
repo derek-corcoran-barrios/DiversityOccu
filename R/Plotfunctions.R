@@ -55,7 +55,6 @@ responseplot.occu <- function(batch, spp, variable){
   DF<- data.frame(preditction = B$Predicted, upper = (B$Predicted + B$SE), lower = (B$Predicted - B$SE), dependent = A[colnames(A)== as.character(substitute(variable))])
   result <- ggplot(DF, aes(x= DF[,4], y = DF[,1])) + geom_ribbon(aes(ymax= upper, ymin = lower), fill = "grey") + geom_line() + theme_bw() + theme(axis.line = element_line(colour = "black"), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.border = element_blank(), panel.background = element_blank()) + labs(x = as.character(substitute(variable)), y = "Occupancy") + ylim(c(min(c(DF$lower, 0)),max(c(DF$upper, 1))))
   return(result)
-  NextMethod(plot)
 }
 
 #' plot the response of an abundance model to the change of aparticular variable
@@ -115,7 +114,6 @@ responseplot.abund <- function(batch, spp, variable){
   DF<- data.frame(preditction = B$Predicted, upper = (B$Predicted + B$SE), lower = (B$Predicted - B$SE), dependent = A[colnames(A)== as.character(substitute(variable))])
   result <- ggplot(DF, aes(x= DF[,4], y = DF[,1])) + geom_ribbon(aes(ymax= upper, ymin = lower), fill = "grey") + geom_line() + theme_bw() + theme(axis.line = element_line(colour = "black"), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.border = element_blank(), panel.background = element_blank()) + labs(x = as.character(substitute(variable)), y = "Abundance") + ylim(c(min(c(DF$lower, 0)),max(DF$upper)))
   return(result)
-  NextMethod(plot)
 }
 
 #' plot the response of the calculated alpha diversity to the change of a
@@ -156,6 +154,7 @@ responseplot.abund <- function(batch, spp, variable){
 #' @export
 #' @seealso \code{\link[DiversityOccupancy]{diversityoccu}}
 #' @seealso \code{\link[DiversityOccupancy]{model.diversity}}
+#' @importFrom stats glm
 #' @importFrom ggplot2 ggplot
 #' @importFrom ggplot2 aes
 #' @importFrom ggplot2 geom_line
@@ -178,5 +177,4 @@ responseplot.diver<- function(model, variable){
   DF<- data.frame(preditction = B$fit, upper = (B$fit + B$se), lower = (B$fit - B$se), dependent = A[colnames(A)== as.character(substitute(variable))])
   result <- ggplot(DF, aes(x= DF[,4], y = DF[,1])) + geom_ribbon(aes(ymax= DF[,2], ymin = DF[,3]), fill = "grey") + geom_line() + theme_bw() + theme(axis.line = element_line(colour = "black"), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), panel.border = element_blank(), panel.background = element_blank()) + labs(x = as.character(substitute(variable)), y = "Diversity")
   return(result)
-  NextMethod(plot)
 }
