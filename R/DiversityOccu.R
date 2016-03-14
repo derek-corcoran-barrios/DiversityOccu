@@ -47,6 +47,10 @@ globalVariables(c("data2"))
 #'
 #' responseplot.occu(batch = BatOccupancy, spp = 15, variable = Burn.intensity.soil)
 #' }
+#' #Dredge for 2 species
+#' A <- batchoccu(pres = BatOccu[,1:6], sitecov = sampling.cov, obscov = Dailycov,
+#' spp = 2, form = ~ Meanhum + Meantemp ~  Burn.intensity.basal +
+#' I(Burn.intensity.basal^2), dredge = TRUE)
 #' @seealso \code{\link[DiversityOccupancy]{diversityoccu}}
 #' @export
 #' @importFrom unmarked occu
@@ -55,7 +59,6 @@ globalVariables(c("data2"))
 #' @importFrom MuMIn dredge
 #' @importFrom MuMIn get.models
 #' @importFrom MuMIn AICc
-
 #' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
 
 batchoccu<- function(pres, sitecov, obscov, spp, form, dredge = FALSE,  pos = 1, envir = as.environment(pos)) {
@@ -159,10 +162,6 @@ batchoccu<- function(pres, sitecov, obscov, spp, form, dredge = FALSE,  pos = 1,
 #'
 #' BatDiversity$models
 #' }
-#' #Dredge for 2 species
-#' A <- diversityoccu(pres = BatOccu[,1:6], sitecov = sampling.cov, obscov = Dailycov,
-#' spp = 2, form = ~ Meanhum + Meantemp ~  Burn.intensity.basal +
-#' I(Burn.intensity.basal^2), dredge = TRUE)
 #' @seealso \code{\link[vegan]{diversity}}
 #' @seealso \code{\link[DiversityOccupancy]{model.diversity}}
 #' @export
@@ -402,12 +401,11 @@ diversity.predict<- function(model, diverse, new.data, quantile.nth = 0.8 , spec
   models <- model$models[species]
   layers <- list()
   for (i in 1:length(models)){
-    layers [[i]] <- predict(models[[i]], new.data, type = "state")
-    layers [[i]] <- subset(layers[[i]], 1)
+    layers [[i]] <- predict(models[[i]], new.data, type = "state")$Predicted
   }
   glm.model <- glm(diverse$Best_model, data = diverse$dataset)
   diversity.raster<- predict(object = new.data, model = glm.model)
-  layers <- stack (unlist(layers))
+  layers <- stack(unlist(layers))
   desition <- addLayer(layers, diversity.raster)
   nths <- quantile(desition, quantile.nth)
   desition <- unstack(desition)
@@ -420,7 +418,55 @@ diversity.predict<- function(model, diverse, new.data, quantile.nth = 0.8 , spec
   rc<- stack(unlist(rc))
   priority.area <- prod(rc)
   plot(priority.area, colNA="black", legend = FALSE)
-  KML(priority.area, file='priority_area.kml', overwrite = TRUE)
+  KML(priority.area, file='priority_area.kml', overwrite = TRUE, col = "red")
   result <- list(species = layers, diversity.raster = diversity.raster, priority.area = priority.area)
   return(result)
+}
+
+#' Predicts occupancy for all the species in a batchoccupancy class object
+#'
+#' This function takes an batchoccupancy object and predicts occupancy for all species
+#' in new data, either a data.frame or a rasterstack.
+#' @param batch A result from the batchoccu
+#' @param new.data a rasterstack, or a dataframe containing the same variables as
+#' the siteCovs variable in batchoccu
+#' @return a raster stack with predictions
+#' for each species.
+#' @examples
+#' \dontrun{
+#' #Load the data
+#' data("BatOccu")
+#' data("Dailycov")
+#' data("sampling.cov")
+#' data("plumas.stack")
+#'
+#' #Model the abundance for 17 bat species and calculate alpha diversity from that
+#'
+#' BatOccupancy <-batchoccu(pres = BatOccu, sitecov = sampling.cov,
+#' obscov = Dailycov,spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum +
+#' sdtemp ~ Burn.intensity.soil + I(Burn.intensity.soil^2) +
+#' Burn.intensity.Canopy + I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
+#' I(Burn.intensity.basal^2))
+#'
+#' Occupancy.stack <- occupancy.predict(batch = BatOccupancy, new.data =
+#' plumas.stack)
+#' }
+#' @export
+#' @seealso \code{\link[DiversityOccupancy]{batchoccu}}
+#' @importFrom raster plot
+#' @importFrom raster addLayer
+#' @importFrom raster stack
+#' @importFrom raster subset
+#' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
+
+
+occupancy.predict<- function(batch, new.data) {
+  models <- batch$models
+  layers <- list()
+  for (i in 1:length(models)){
+    layers [[i]] <- predict(models[[i]], new.data, type = "state")
+    layers [[i]] <- subset(layers[[i]], 1)
+  }
+  layers <- stack (unlist(layers))
+  return(layers)
 }

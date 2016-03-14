@@ -66,6 +66,10 @@ responseplot.occu(batch = BatOccupancy, spp = 11, variable = Burn.intensity.soil
 
 responseplot.occu(batch = BatOccupancy, spp = 15, variable = Burn.intensity.soil)
 }
+#Dredge for 2 species
+A <- batchoccu(pres = BatOccu[,1:6], sitecov = sampling.cov, obscov = Dailycov,
+spp = 2, form = ~ Meanhum + Meantemp ~  Burn.intensity.basal +
+I(Burn.intensity.basal^2), dredge = TRUE)
 }
 \author{
 Derek Corcoran <derek.corcoran.barrios@gmail.com>
