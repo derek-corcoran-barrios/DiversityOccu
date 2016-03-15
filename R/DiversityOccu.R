@@ -453,10 +453,11 @@ diversity.predict<- function(model, diverse, new.data, quantile.nth = 0.8 , spec
 #' }
 #' @export
 #' @seealso \code{\link[DiversityOccupancy]{batchoccu}}
-#' @importMethodsFrom raster plot
+#' @importFrom raster plot
 #' @importFrom raster addLayer
 #' @importFrom raster stack
 #' @importFrom raster subset
+#' @importFrom graphics plot
 #' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
 
 
