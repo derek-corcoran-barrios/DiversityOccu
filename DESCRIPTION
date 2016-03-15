@@ -9,12 +9,12 @@ Description: Predictions of alpha diversity are fitted from presence data, first
 Depends:
     R (>= 3.2.2),
     MuMIn,
+    raster,
     unmarked
 Imports:
     dplyr,
     ggplot2,
     glmulti,
-    raster,
     qpcR,
     vegan
 Suggests:
