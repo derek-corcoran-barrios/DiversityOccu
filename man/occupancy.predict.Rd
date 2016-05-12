@@ -23,21 +23,16 @@ in new data, either a data.frame or a rasterstack.
 \examples{
 \dontrun{
 #Load the data
-data("BatOccu")
-data("Dailycov")
-data("sampling.cov")
-data("plumas.stack")
+data("IslandBirds")
+data("Daily_Cov")
+data("siteCov")
+data("Birdstack")
+BirdOccupancy <-batchoccu(pres = IslandBirds, sitecov = siteCov, obscov =
+Daily_Cov, spp =  5, form = ~ Day + Wind + Rime + Noise + Clouds ~
+Elev + AgroFo + SecVec + Wetland)
 
-#Model the abundance for 17 bat species and calculate alpha diversity from that
-
-BatOccupancy <-batchoccu(pres = BatOccu, sitecov = sampling.cov,
-obscov = Dailycov,spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum +
-sdtemp ~ Burn.intensity.soil + I(Burn.intensity.soil^2) +
-Burn.intensity.Canopy + I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
-I(Burn.intensity.basal^2))
-
-Occupancy.stack <- occupancy.predict(batch = BatOccupancy, new.data =
-plumas.stack)
+Occupancy.stack <- occupancy.predict(batch = BirdOccupancy, new.data =
+Birdstack)
 }
 }
 \author{

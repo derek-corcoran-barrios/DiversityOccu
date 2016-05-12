@@ -3,13 +3,13 @@
 \docType{data}
 \name{IslandBirds}
 \alias{IslandBirds}
-\title{Occupancy data of 13 bird species in Micronesia.}
-\format{A data frame with 120 rows and 52 variables}
+\title{Occupancy data of 5 bird species in Micronesia.}
+\format{A data frame with 120 rows and 20 variables}
 \usage{
 IslandBirds
 }
 \description{
-A dataset containing the detections history of 13 species in the
+A dataset containing the detections history of 5 species in the
 Pohnpei Island for 4 consecutive days (Columns) in 120 different sites (Rows).
 \describe{
   \item{CICA.1}{Detection history of \emph{Coracina tenurostris}: on day 1}
@@ -24,54 +24,14 @@ Pohnpei Island for 4 consecutive days (Columns) in 120 different sites (Rows).
   \item{CIWE.2}{Detection history of \emph{Zosterops semperi}: on day 2}
   \item{CIWE.3}{Detection history of \emph{Zosterops semperi}: on day 3}
   \item{CIWE.4}{Detection history of \emph{Zosterops semperi}: on day 4}
-  \item{GRWE.1}{Detection history of \emph{Zosterops cinereus}: on day 1}
-  \item{GRWE.2}{Detection history of \emph{Zosterops cinereus}: on day 2}
-  \item{GRWE.3}{Detection history of \emph{Zosterops cinereus}: on day 3}
-  \item{GRWE.4}{Detection history of \emph{Zosterops cinereus}: on day 4}
   \item{LBWE.1}{Detection history of \emph{Rukia longirostra}: on day 1}
   \item{LBWE.2}{Detection history of \emph{Rukia longirostra}: on day 2}
   \item{LBWE.3}{Detection history of \emph{Rukia longirostra}: on day 3}
   \item{LBWE.4}{Detection history of \emph{Rukia longirostra}: on day 4}
-  \item{MIHO.1}{Detection history of \emph{Myzomela rubratra}: on day 1}
-  \item{MIHO.2}{Detection history of \emph{Myzomela rubratra}: on day 2}
-  \item{MIHO.3}{Detection history of \emph{Myzomela rubratra}: on day 3}
-  \item{MIHO.4}{Detection history of \emph{Myzomela rubratra}: on day 4}
-  \item{MIKI.1}{Detection history of \emph{Toridamphus reichenbachii}: on
-  day 1}
-  \item{MIKI.2}{Detection history of \emph{Toridamphus reichenbachii}: on
-  day 2}
-  \item{MIKI.3}{Detection history of \emph{Toridamphus reichenbachii}: on
-  day 3}
-  \item{MIKI.4}{Detection history of \emph{Toridamphus reichenbachii}: on
-  day 4}
   \item{MIPI.1}{Detection history of \emph{Ducula oceanica}: on day 1}
   \item{MIPI.2}{Detection history of \emph{Ducula oceanica}: on day 2}
   \item{MIPI.3}{Detection history of \emph{Ducula oceanica}: on day 3}
   \item{MIPI.4}{Detection history of \emph{Ducula oceanica}: on day 4}
-  \item{MIST.1}{Detection history of \emph{Aplonis opaca}: on day 1}
-  \item{MIST.2}{Detection history of \emph{Aplonis opaca}: on day 2}
-  \item{MIST.3}{Detection history of \emph{Aplonis opaca}: on day 3}
-  \item{MIST.4}{Detection history of \emph{Aplonis opaca}: on day 4}
-  \item{PCFD.1}{Detection history of \emph{Ptilinopus porphyraceu}: on day 1}
-  \item{PCFD.2}{Detection history of \emph{Ptilinopus porphyraceu}: on day 2}
-  \item{PCFD.3}{Detection history of \emph{Ptilinopus porphyraceu}: on day 3}
-  \item{PCFD.4}{Detection history of \emph{Ptilinopus porphyraceu}: on day 4}
-  \item{POFA.1}{Detection history of \emph{Rhipidura kubaryi}: on day 1}
-  \item{POFA.2}{Detection history of \emph{Rhipidura kubaryi}: on day 2}
-  \item{POFA.3}{Detection history of \emph{Rhipidura kubaryi}: on day 3}
-  \item{POFA.4}{Detection history of \emph{Rhipidura kubaryi}: on day 4}
-  \item{POFL.1}{Detection history of \emph{Myigra pluto}: on day 1}
-  \item{POFL.2}{Detection history of \emph{Myigra pluto}: on day 2}
-  \item{POFL.3}{Detection history of \emph{Myigra pluto}: on day 3}
-  \item{POFL.4}{Detection history of \emph{Myigra pluto}: on day 4}
-  \item{POLO.1}{Detection history of \emph{Trichoglosuss rbiginosus}: on
-  day 1}
-  \item{POLO.2}{Detection history of \emph{Trichoglosuss rbiginosus}: on
-  day 2}
-  \item{POLO.3}{Detection history of \emph{Trichoglosuss rbiginosus}: on
-  day 3}
-  \item{POLO.4}{Detection history of \emph{Trichoglosuss rbiginosus}: on
-  day 4}
 }
 }
 \references{

@@ -25,23 +25,21 @@ of that variable to the maximum and minimum values of the dataset.
 }
 \examples{
 \dontrun{
-data("BatOccu")
-data("Dailycov")
-data("sampling.cov")
-BatDiv <-diversityoccu(pres = BatOccu, sitecov = sampling.cov,
-obscov = Dailycov,spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum +
-sdtemp ~ Burn.intensity.soil + I(Burn.intensity.soil^2) +
-Burn.intensity.Canopy + I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
-I(Burn.intensity.basal^2))
+data("IslandBirds")
+data("Daily_Cov")
+data("siteCov")
+
+#Model the abundance for 5 bird species and calculate alpha diversity from that
+
+BirdDiversity <-diversityoccu(pres = IslandBirds, sitecov = siteCov,
+obscov = Daily_Cov,spp = 5, form = ~ Day + Wind + Time + Rain +
+Noise ~ Elev + AgroFo + SecVec + Wetland + Upland)
 
 #plot the response of abundance to individual variables for species 4, 11
-#and 15
 
-responseplot.abund(batch = BatDiv, spp = 4, variable = Burn.intensity.soil)
+responseplot.abund(batch = BirdDiversity, spp = 4, variable = Elev)
 
-responseplot.abund(batch = BatDiv, spp = 11, variable = Burn.intensity.soil)
-
-responseplot.abund(batch = BatDiv, spp = 15, variable = Burn.intensity.soil)
+responseplot.abund(batch = BirdDiversity, spp = 11, variable = Elev)
 }
 }
 \author{

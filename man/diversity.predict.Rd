@@ -34,30 +34,30 @@ higher than the nth quantile.
 \examples{
 \dontrun{
 #Load the data
-data("BatOccu")
-data("Dailycov")
-data("sampling.cov")
-data("plumas.stack")
+data("IslandBirds")
+data("Daily_Cov")
+data("siteCov")
+data("Birdstack")
 
-#Model the abundance for 17 bat species and calculate alpha diversity from that
+#Model the abundance for  5 bat species and calculate alpha diversity from that
 
-BatDiversity <-diversityoccu(pres = BatOccu, sitecov = sampling.cov,
-obscov = Dailycov,spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum +
-sdtemp ~ Burn.intensity.soil + I(Burn.intensity.soil^2) +
-Burn.intensity.Canopy + I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
-I(Burn.intensity.basal^2))
+#Model the abundance for  5 bat species and calculate alpha diversity from that
+
+BirdDiversity <-diversityoccu(pres = IslandBirds, sitecov = siteCov,
+obscov = Daily_Cov,spp =  5, form = ~ Day + Wind + Time + Rain +
+Noise ~ Elev + AgroFo + SecVec + Wetland + Upland)
 
 #Select the best model that explains diversity using genetic algorithms
 set.seed(123)
-glm.Batdiversity <- model.diversity(BatDiversity, method = "g")
+glm.Birdiversity <- model.diversity(BirdDiversity, method = "g")
 
-# get the area where the first two bat species Myyu and Myca are most abundant
-# and the diversity is most abundant
+# get the area where the first two bird species are most abundant
+# and the diversity is high
 
-Selected.area <- diversity.predict(model = BatDiversity, diverse = glm.Batdiversity,
-new.data = plumas.stack, quantile.nth = 0.85, species =
+Selected.area <- diversity.predict(model = BirdDiversity, diverse = glm.Birdiversity,
+new.data = Birdstack, quantile.nth = 0.65, species =
 c(TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE,
-FALSE, FALSE, FALSE, FALSE,FALSE,FALSE))
+FALSE, FALSE))
 
 Selected.area
 }

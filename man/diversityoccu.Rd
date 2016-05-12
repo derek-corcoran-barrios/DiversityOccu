@@ -55,21 +55,19 @@ based on that abundance.
 \examples{
 \dontrun{
 #Load the data
-data("BatOccu")
-data("Dailycov")
-data("sampling.cov")
+data("IslandBirds")
+data("Daily_Cov")
+data("siteCov")
 
-#Model the abundance for 17 bat species and calculate alpha diversity from that
+#Model the abundance for  5 bird species and calculate alpha diversity from that
 
-BatDiversity <-diversityoccu(pres = BatOccu, sitecov = sampling.cov,
-obscov = Dailycov,spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum +
-sdtemp ~ Burn.intensity.soil + I(Burn.intensity.soil^2) +
-Burn.intensity.Canopy + I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
-I(Burn.intensity.basal^2))
+BirdDiversity <-diversityoccu(pres = IslandBirds, sitecov = siteCov,
+obscov = Daily_Cov,spp =  5, form = ~ Day + Wind + Time + Rain +
+Noise ~ Elev + AgroFo + SecVec + Wetland + Upland)
 
 #To see the estimates and p values for each model:
 
-BatDiversity$models
+BirdDiversity$models
 }
 }
 \author{

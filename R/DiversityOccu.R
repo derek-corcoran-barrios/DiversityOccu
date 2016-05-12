@@ -31,26 +31,22 @@ globalVariables(c("data2"))
 #' specie based on AICc.
 #' @examples
 #' \dontrun{
-#' data("BatOccu")
-#' data("Dailycov")
-#' data("sampling.cov")
-#' BatOccupancy <-batchoccu(pres = BatOccu, sitecov = sampling.cov, obscov =
-#' Dailycov,spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum + sdtemp ~
-#' Burn.intensity.soil + I(Burn.intensity.soil^2) + Burn.intensity.Canopy +
-#' I(Burn.intensity.Canopy^2) + Burn.intensity.basal + I(Burn.intensity.basal^2))
-#' #plot the response of occupancy to individual variables for species 4, 11
-#' #and 15
+#' data("IslandBirds")
+#' data("Daily_Cov")
+#' data("siteCov")
+#' BirdOccupancy <-batchoccu(pres = IslandBirds, sitecov = siteCov, obscov =
+#' Daily_Cov, spp =  5, form = ~ Day + Wind + Rain + Noise + Clouds ~
+#' Elev + AgroFo + SecVec + Wetland)
+#' #plot the response of occupancy to individual variables for species 4 and  5
 #'
-#' responseplot.occu(batch = BatOccupancy, spp = 4, variable = Burn.intensity.soil)
+#' responseplot.occu(batch = BirdOccupancy, spp = 4, variable = Elev)
 #'
-#' responseplot.occu(batch = BatOccupancy, spp = 11, variable = Burn.intensity.soil)
-#'
-#' responseplot.occu(batch = BatOccupancy, spp = 15, variable = Burn.intensity.soil)
+#' responseplot.occu(batch = BirdOccupancy, spp =  5, variable = Elev)
 #' }
-#' #Dredge for 2 species
-#' A <- batchoccu(pres = BatOccu[,1:6], sitecov = sampling.cov, obscov = Dailycov,
-#' spp = 2, form = ~ Meanhum + Meantemp ~  Burn.intensity.basal +
-#' I(Burn.intensity.basal^2), dredge = TRUE)
+#' #Dredge for all species
+#' BirdOccupancy2 <- batchoccu(pres = IslandBirds, sitecov = siteCov, obscov =
+#' Daily_Cov, spp = 5, form = ~ 1 ~
+#' Elev + AgroFo, dredge = TRUE)
 #' @seealso \code{\link[DiversityOccupancy]{diversityoccu}}
 #' @export
 #' @importFrom unmarked occu
@@ -146,21 +142,19 @@ batchoccu<- function(pres, sitecov, obscov, spp, form, dredge = FALSE,  pos = 1,
 #' @examples
 #' \dontrun{
 #' #Load the data
-#' data("BatOccu")
-#' data("Dailycov")
-#' data("sampling.cov")
+#' data("IslandBirds")
+#' data("Daily_Cov")
+#' data("siteCov")
 #'
-#' #Model the abundance for 17 bat species and calculate alpha diversity from that
+#' #Model the abundance for  5 bird species and calculate alpha diversity from that
 #'
-#' BatDiversity <-diversityoccu(pres = BatOccu, sitecov = sampling.cov,
-#' obscov = Dailycov,spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum +
-#' sdtemp ~ Burn.intensity.soil + I(Burn.intensity.soil^2) +
-#' Burn.intensity.Canopy + I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
-#' I(Burn.intensity.basal^2))
+#' BirdDiversity <-diversityoccu(pres = IslandBirds, sitecov = siteCov,
+#' obscov = Daily_Cov,spp =  5, form = ~ Day + Wind + Time + Rain +
+#' Noise ~ Elev + AgroFo + SecVec + Wetland + Upland)
 #'
 #' #To see the estimates and p values for each model:
 #'
-#' BatDiversity$models
+#' BirdDiversity$models
 #' }
 #' @seealso \code{\link[vegan]{diversity}}
 #' @seealso \code{\link[DiversityOccupancy]{model.diversity}}
@@ -257,40 +251,33 @@ diversityoccu<- function(pres, sitecov, obscov, spp, form, index = "shannon", dr
 #' @examples
 #' \dontrun{
 #' #Load the data
-#' data("BatOccu")
-#' data("Dailycov")
-#' data("sampling.cov")
+#' data("IslandBirds")
+#' data("Daily_Cov")
+#' data("siteCov")
 #'
-#' #Model the abundance for 17 bat species and calculate alpha diversity from that
+#' #Model the abundance for  5 bat species and calculate alpha diversity from that
 #'
-#' BatDiversity <-diversityoccu(pres = BatOccu, sitecov = sampling.cov,
-#' obscov = Dailycov,spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum +
-#' sdtemp ~ Burn.intensity.soil + I(Burn.intensity.soil^2) +
-#' Burn.intensity.Canopy + I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
-#' I(Burn.intensity.basal^2))
+#' BirdDiversity <-diversityoccu(pres = IslandBirds, sitecov = siteCov,
+#' obscov = Daily_Cov,spp =  5, form = ~ Day + Wind + Time + Rain +
+#' Noise ~ Elev + AgroFo + SecVec + Wetland + Upland)
 #'
 #' #Select the best model that explains diversity using genetic algorithms
 #' set.seed(123)
-#' glm.Batdiversity <- model.diversity(BatDiversity, method = "g")
+#' glm.Birdiversity <- model.diversity(BirdDiversity, method = "g")
 #'
 #' #see the best models
 #'
-#' glm.Batdiversity$Best.model
+#' glm.Birdiversity$Best.model
 #'
 #' #plot the response of diversity to individual variables
 #'
-#' plot(glm.Batdiversity, Burn.intensity.soil)
+#' plot(glm.Birdiversity, elev)
 #'
 #' #To add the quadratic components of models
 #'
-#' batdiversity <-diversityoccu(pres = BatOccu, sitecov = sampling.cov,
-#' obscov = Dailycov, spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum +
-#' sdtemp ~Burn.intensity.soil + I(Burn.intensity.soil^2) + Burn.intensity.Canopy +
-#' I(Burn.intensity.Canopy^2) + Burn.intensity.basal +I(Burn.intensity.basal^2))
-#' set.seed(123)
-#' glm.batdiversity <- model.diversity(batdiversity , method = "g", squared = TRUE)
+#' glm.birdiversity <- model.diversity(BirdDiversity , method = "g", squared = TRUE)
 #'
-#' responseplot.diver(glm.batdiversity, Burn.intensity.Canopy)
+#' responseplot.diver(glm.birdiversity, Elev)
 #' }
 #' @seealso \code{\link[DiversityOccupancy]{diversityoccu}}
 #' @export
@@ -354,30 +341,30 @@ model.diversity <- function(DivOcc, method = "h", delta = 2, squared = FALSE){
 #' @examples
 #' \dontrun{
 #' #Load the data
-#' data("BatOccu")
-#' data("Dailycov")
-#' data("sampling.cov")
-#' data("plumas.stack")
+#' data("IslandBirds")
+#' data("Daily_Cov")
+#' data("siteCov")
+#' data("Birdstack")
 #'
-#' #Model the abundance for 17 bat species and calculate alpha diversity from that
+#' #Model the abundance for  5 bat species and calculate alpha diversity from that
 #'
-#' BatDiversity <-diversityoccu(pres = BatOccu, sitecov = sampling.cov,
-#' obscov = Dailycov,spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum +
-#' sdtemp ~ Burn.intensity.soil + I(Burn.intensity.soil^2) +
-#' Burn.intensity.Canopy + I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
-#' I(Burn.intensity.basal^2))
+#' #Model the abundance for  5 bat species and calculate alpha diversity from that
+#'
+#' BirdDiversity <-diversityoccu(pres = IslandBirds, sitecov = siteCov,
+#' obscov = Daily_Cov,spp =  5, form = ~ Day + Wind + Time + Rain +
+#' Noise ~ Elev + AgroFo + SecVec + Wetland + Upland)
 #'
 #' #Select the best model that explains diversity using genetic algorithms
 #' set.seed(123)
-#' glm.Batdiversity <- model.diversity(BatDiversity, method = "g")
+#' glm.Birdiversity <- model.diversity(BirdDiversity, method = "g")
 #'
-#' # get the area where the first two bat species Myyu and Myca are most abundant
-#' # and the diversity is most abundant
+#' # get the area where the first two bird species are most abundant
+#' # and the diversity is high
 #'
-#' Selected.area <- diversity.predict(model = BatDiversity, diverse = glm.Batdiversity,
-#' new.data = plumas.stack, quantile.nth = 0.85, species =
+#' Selected.area <- diversity.predict(model = BirdDiversity, diverse = glm.Birdiversity,
+#' new.data = Birdstack, quantile.nth = 0.65, species =
 #' c(TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE,
-#' FALSE, FALSE, FALSE, FALSE,FALSE,FALSE))
+#' FALSE, FALSE))
 #'
 #' Selected.area
 #' }
@@ -435,21 +422,16 @@ diversity.predict<- function(model, diverse, new.data, quantile.nth = 0.8 , spec
 #' @examples
 #' \dontrun{
 #' #Load the data
-#' data("BatOccu")
-#' data("Dailycov")
-#' data("sampling.cov")
-#' data("plumas.stack")
+#' data("IslandBirds")
+#' data("Daily_Cov")
+#' data("siteCov")
+#' data("Birdstack")
+#' BirdOccupancy <-batchoccu(pres = IslandBirds, sitecov = siteCov, obscov =
+#' Daily_Cov, spp =  5, form = ~ Day + Wind + Rime + Noise + Clouds ~
+#' Elev + AgroFo + SecVec + Wetland)
 #'
-#' #Model the abundance for 17 bat species and calculate alpha diversity from that
-#'
-#' BatOccupancy <-batchoccu(pres = BatOccu, sitecov = sampling.cov,
-#' obscov = Dailycov,spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum +
-#' sdtemp ~ Burn.intensity.soil + I(Burn.intensity.soil^2) +
-#' Burn.intensity.Canopy + I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
-#' I(Burn.intensity.basal^2))
-#'
-#' Occupancy.stack <- occupancy.predict(batch = BatOccupancy, new.data =
-#' plumas.stack)
+#' Occupancy.stack <- occupancy.predict(batch = BirdOccupancy, new.data =
+#' Birdstack)
 #' }
 #' @export
 #' @seealso \code{\link[DiversityOccupancy]{batchoccu}}

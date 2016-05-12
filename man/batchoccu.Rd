@@ -50,26 +50,22 @@ specie based on AICc.
 }
 \examples{
 \dontrun{
-data("BatOccu")
-data("Dailycov")
-data("sampling.cov")
-BatOccupancy <-batchoccu(pres = BatOccu, sitecov = sampling.cov, obscov =
-Dailycov,spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum + sdtemp ~
-Burn.intensity.soil + I(Burn.intensity.soil^2) + Burn.intensity.Canopy +
-I(Burn.intensity.Canopy^2) + Burn.intensity.basal + I(Burn.intensity.basal^2))
-#plot the response of occupancy to individual variables for species 4, 11
-#and 15
+data("IslandBirds")
+data("Daily_Cov")
+data("siteCov")
+BirdOccupancy <-batchoccu(pres = IslandBirds, sitecov = siteCov, obscov =
+Daily_Cov, spp =  5, form = ~ Day + Wind + Rain + Noise + Clouds ~
+Elev + AgroFo + SecVec + Wetland)
+#plot the response of occupancy to individual variables for species 4 and  5
 
-responseplot.occu(batch = BatOccupancy, spp = 4, variable = Burn.intensity.soil)
+responseplot.occu(batch = BirdOccupancy, spp = 4, variable = Elev)
 
-responseplot.occu(batch = BatOccupancy, spp = 11, variable = Burn.intensity.soil)
-
-responseplot.occu(batch = BatOccupancy, spp = 15, variable = Burn.intensity.soil)
+responseplot.occu(batch = BirdOccupancy, spp =  5, variable = Elev)
 }
 #Dredge for 2 species
-A <- batchoccu(pres = BatOccu[,1:6], sitecov = sampling.cov, obscov = Dailycov,
-spp = 2, form = ~ Meanhum + Meantemp ~  Burn.intensity.basal +
-I(Burn.intensity.basal^2), dredge = TRUE)
+BirdOccupancy2 <- batchoccu(pres = IslandBirds[,1:8], sitecov = siteCov, obscov =
+Daily_Cov, spp = 2, form = ~ 1 ~
+Elev + AgroFo, dredge = TRUE)
 }
 \author{
 Derek Corcoran <derek.corcoran.barrios@gmail.com>

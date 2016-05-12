@@ -40,40 +40,33 @@ This function fits every first order glm possible and ranks them by AICc.
 \examples{
 \dontrun{
 #Load the data
-data("BatOccu")
-data("Dailycov")
-data("sampling.cov")
+data("IslandBirds")
+data("Daily_Cov")
+data("siteCov")
 
-#Model the abundance for 17 bat species and calculate alpha diversity from that
+#Model the abundance for  5 bat species and calculate alpha diversity from that
 
-BatDiversity <-diversityoccu(pres = BatOccu, sitecov = sampling.cov,
-obscov = Dailycov,spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum +
-sdtemp ~ Burn.intensity.soil + I(Burn.intensity.soil^2) +
-Burn.intensity.Canopy + I(Burn.intensity.Canopy^2) + Burn.intensity.basal +
-I(Burn.intensity.basal^2))
+BirdDiversity <-diversityoccu(pres = IslandBirds, sitecov = siteCov,
+obscov = Daily_Cov,spp =  5, form = ~ Day + Wind + Time + Rain +
+Noise ~ Elev + AgroFo + SecVec + Wetland + Upland)
 
 #Select the best model that explains diversity using genetic algorithms
 set.seed(123)
-glm.Batdiversity <- model.diversity(BatDiversity, method = "g")
+glm.Birdiversity <- model.diversity(BirdDiversity, method = "g")
 
 #see the best models
 
-glm.Batdiversity$Best.model
+glm.Birdiversity$Best.model
 
 #plot the response of diversity to individual variables
 
-plot(glm.Batdiversity, Burn.intensity.soil)
+plot(glm.Birdiversity, elev)
 
 #To add the quadratic components of models
 
-batdiversity <-diversityoccu(pres = BatOccu, sitecov = sampling.cov,
-obscov = Dailycov, spp = 17, form = ~ Julian + Meanhum + Meantemp + sdhum +
-sdtemp ~Burn.intensity.soil + I(Burn.intensity.soil^2) + Burn.intensity.Canopy +
-I(Burn.intensity.Canopy^2) + Burn.intensity.basal +I(Burn.intensity.basal^2))
-set.seed(123)
-glm.batdiversity <- model.diversity(batdiversity , method = "g", squared = TRUE)
+glm.birdiversity <- model.diversity(BirdDiversity , method = "g", squared = TRUE)
 
-responseplot.diver(glm.batdiversity, Burn.intensity.Canopy)
+responseplot.diver(glm.birdiversity, Elev)
 }
 }
 \author{
