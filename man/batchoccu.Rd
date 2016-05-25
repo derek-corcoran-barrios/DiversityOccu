@@ -4,8 +4,7 @@
 \alias{batchoccu}
 \title{Fits occupancy models for multiple species detection history}
 \usage{
-batchoccu(pres, sitecov, obscov, spp, form, dredge = FALSE, pos = 1,
-  envir = as.environment(pos))
+batchoccu(pres, sitecov, obscov, spp, form, dredge = FALSE)
 }
 \arguments{
 \item{pres}{a data.frame where rows are the sites and columns are a series of
@@ -28,10 +27,6 @@ occupancy.}
 
 \item{dredge}{default = FALSE, if TRUE, for each species, the best occupancy
 model will be determined by fitting all possible models and ranking by AICc.}
-
-\item{pos}{where to do the removal. By default, uses the current environment.}
-
-\item{envir}{the environment to use.}
 }
 \value{
 A list with the fitted models for each species and the calculated
@@ -62,9 +57,9 @@ responseplot.occu(batch = BirdOccupancy, spp = 4, variable = Elev)
 
 responseplot.occu(batch = BirdOccupancy, spp =  5, variable = Elev)
 }
-#Dredge for 2 species
-BirdOccupancy2 <- batchoccu(pres = IslandBirds[,1:8], sitecov = siteCov, obscov =
-Daily_Cov, spp = 2, form = ~ 1 ~
+#Dredge for all species
+BirdOccupancy2 <- batchoccu(pres = IslandBirds, sitecov = siteCov, obscov =
+Daily_Cov, spp = 5, form = ~ 1 ~
 Elev + AgroFo, dredge = TRUE)
 }
 \author{

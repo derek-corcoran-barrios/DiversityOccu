@@ -1,4 +1,3 @@
-globalVariables(c("data2"))
 #' Fits occupancy models for multiple species detection history
 #'
 #' This function takes a data.frame with multiple detection history from
@@ -21,8 +20,6 @@ globalVariables(c("data2"))
 #' occupancy.
 #' @param dredge default = FALSE, if TRUE, for each species, the best occupancy
 #' model will be determined by fitting all possible models and ranking by AICc.
-#' @param pos where to do the removal. By default, uses the current environment.
-#' @param envir the environment to use.
 #' @return A list with the fitted models for each species and the calculated
 #' Alpha diversity for each site.
 #' @details
@@ -53,58 +50,38 @@ globalVariables(c("data2"))
 #' @importFrom unmarked unmarkedFrameOccu
 #' @importMethodsFrom unmarked predict
 #' @importFrom MuMIn dredge
-#' @importFrom MuMIn get.models
 #' @importFrom MuMIn AICc
 #' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
 
-batchoccu<- function(pres, sitecov, obscov, spp, form, dredge = FALSE,  pos = 1, envir = as.environment(pos)) {
+batchoccu<- function(pres, sitecov, obscov, spp, form, dredge = FALSE) {
   secuencia <- c(1:spp)*(ncol(pres)/spp)
   secuencia2<-secuencia-(secuencia[1]-1)
-  models <- list()
-  data<- list()
-  fit <- list()
-  dredged <- list ()
-  if (dredge == FALSE){
-
+  models <- vector('list', spp)
+  fit <- matrix(NA, nrow(pres), spp)
+  colnames(fit) <- paste("species", 1:spp, sep =".")
+  if (dredge == FALSE) {
     for(i in 1:length(secuencia)) {
-      data[[i]] <-c(secuencia2[i]:secuencia[i])
-      data[[i]] <- pres[, data[[i]]]
-      models[[i]] <- unmarkedFrameOccu(y = data[[i]], siteCovs = sitecov, obsCovs = obscov)
-      models[[i]] <- occu(form, models[[i]])
-      fit[[i]] <- predict(models[[i]], type = "state", newdata = sitecov)$Predicted
-      fit <- as.data.frame(fit)
-      colnames(fit) = paste("species",c(1:ncol(fit)), sep =".")
-    }
-  }
-
-  else if (dredge==TRUE) {
-    for(i in 1:length(secuencia)) {
-      data[[i]] <-c(secuencia2[i]:secuencia[i])
-      data[[i]] <- pres[, data[[i]]]
-      #data is a list of class unmarkedFrames from package unmarked.
-      # NM: write to the global environment so he data won't be "lost"
-      assign("data2",  unmarkedFrameOccu(y = data[[i]], siteCovs = sitecov, obsCovs = obscov), envir = envir)
+      data <- pres[, secuencia2[i]:secuencia[i]]
+      data2 <- unmarkedFrameOccu(y = data, siteCovs = sitecov, obsCovs = obscov)
       models[[i]] <- occu(form, data2)
-      #selects models
-      # NM: saved this to dredged object rather than overwriting models object
-      dredged[[i]] <- dredge(models[[i]], data2)
-      #select the first model
-      models[[i]] <- get.models(dredged[[i]], 1)[[1]]
-      #predictions for the best model
-      fit[[i]] <- predict(models[[i]], type = "state", newdata = sitecov)$Predicted
-      fit<- as.data.frame(fit)
-      colnames(fit) = paste("species",c(1:ncol(fit)), sep =".")
-      data[[i]] <- data2
+      fit[, i] <- suppressWarnings(predict(models[[i]], type = "state", newdata = sitecov))$Predicted
     }
-    # remove temporary data file from the global environment
-    rm(data2, pos= envir)
   }
-
+  else {
+    for(i in 1:length(secuencia)) {
+      data <- pres[, secuencia2[i]:secuencia[i]]
+      data2 <- unmarkedFrameOccu(y = data, siteCovs = sitecov, obsCovs = obscov)
+      dredged <- suppressWarnings(dredge(occu(form, data2)))
+      # select the first model and evaluate
+      models[[i]] <- eval(getCall(dredged, 1))
+      #predictions for the best model
+      fit[, i] <- predict(models[[i]], type = "state", newdata = sitecov)$Predicted
+    }
+  }
   result <- list(Covs = sitecov, models = models, fit = fit)
   class(result)<- "batchoccupancy"
   return(result)
 }
-
 
 #' Calculates alpha diversity from multiple species occupancy data
 #'
@@ -129,8 +106,6 @@ batchoccu<- function(pres, sitecov, obscov, spp, form, dredge = FALSE,  pos = 1,
 #' @param index Diversity index, one of "shannon", "simpson" or "invsimpson".
 #' @param dredge default = FALSE, if TRUE, for each species, the best occupancy
 #' model will be determined by fitting all possible models and ranking by AICc.
-#' @param pos where to do the removal. By default, uses the current environment.
-#' @param envir the environment to use.
 #' @return A list with the fitted models for each species, the calculated
 #' Alpha diversity for each site, and a dataframe with the abundance of each
 #' species and diversity.
@@ -164,65 +139,48 @@ batchoccu<- function(pres, sitecov, obscov, spp, form, dredge = FALSE,  pos = 1,
 #' @importFrom unmarked unmarkedFrameOccu
 #' @importMethodsFrom unmarked predict
 #' @importFrom MuMIn dredge
-#' @importFrom MuMIn get.models
 #' @importFrom MuMIn AICc
 
 #' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
 #' @author Nicole L. Michel
+#' @author Mike Meredith
 
-diversityoccu<- function(pres, sitecov, obscov, spp, form, index = "shannon", dredge = FALSE,  pos = 1, envir = as.environment(pos)) {
-  secuencia <- c(1:spp)*(ncol(pres)/spp)
-  secuencia2<-secuencia-(secuencia[1]-1)
+diversityoccu <- function(pres, sitecov, obscov, spp, form, index = "shannon", dredge = FALSE) {
 
-  models <- list()
-  data<- list()
-  div <- list()
-  dredged <- list ()
-  if (dredge == FALSE){
+  secuencia <- c(1:spp) * (ncol(pres)/spp)
+  secuencia2 <- secuencia - (secuencia[1]-1)
 
+  models <- vector('list', spp)
+  div <- matrix(NA, nrow(pres), spp)
+  colnames(div) <- paste("species", 1:spp, sep =".")
+
+  if (dredge == FALSE) {
     for(i in 1:length(secuencia)) {
-      data[[i]] <-c(secuencia2[i]:secuencia[i])
-      data[[i]] <- pres[, data[[i]]]
-      models[[i]] <- unmarkedFrameOccu(y = data[[i]], siteCovs = sitecov, obsCovs = obscov)
-      models[[i]] <- occuRN(form, models[[i]])
-      div[[i]] <- predict(models[[i]], type = "state", newdata = sitecov)$Predicted
-      div<- as.data.frame(div)
-      colnames(div) = paste("species",c(1:ncol(div)), sep =".")
-      h<- diversity(div, index)
-      DF <- cbind(h, div)
-    }
-  }
-
-  else if (dredge==TRUE) {
-    for(i in 1:length(secuencia)) {
-      data[[i]] <-c(secuencia2[i]:secuencia[i])
-      data[[i]] <- pres[, data[[i]]]
-      #data is a list of class unmarkedFrames from package unmarked.
-      # NM: write to the global environment so he data won't be "lost"
-      assign("data2",  unmarkedFrameOccu(y = data[[i]], siteCovs = sitecov, obsCovs = obscov), envir = envir)
+      data <- pres[, secuencia2[i]:secuencia[i]]
+      data2 <- unmarkedFrameOccu(y = data, siteCovs = sitecov, obsCovs = obscov)
       models[[i]] <- occuRN(form, data2)
-      #selects models
-      # NM: saved this to dredged object rather than overwriting models object
-      dredged[[i]] <- dredge(models[[i]], data2)
-      #select the first model
-      models[[i]] <- get.models(dredged[[i]], 1)[[1]]
-      #predictions for the best model
-      div[[i]] <- predict(models[[i]], type = "state", newdata = sitecov)$Predicted
-      div<- as.data.frame(div)
-      colnames(div) = paste("species",c(1:ncol(div)), sep =".")
-      data[[i]] <- data2
-      h <- diversity(div, index)
-      DF <- cbind(h, div)
+      div[, i] <- suppressWarnings(predict(models[[i]], type = "state", newdata = sitecov))$Predicted
     }
-    # remove temporary data file from the global environment
-    rm(data2, pos=envir)
+  } else {
+    for(i in 1:length(secuencia)) {
+      data <- pres[, secuencia2[i]:secuencia[i]]
+      data2 <- unmarkedFrameOccu(y = data, siteCovs = sitecov, obsCovs = obscov)
+      dredged <- suppressWarnings(dredge(occuRN(form, data2)))
+      # select the first model and evaluate
+      models[[i]] <- eval(getCall(dredged, 1))
+      #predictions for the best model
+      div[, i] <- predict(models[[i]], type = "state", newdata = sitecov)$Predicted
+    }
   }
+  h <- diversity(div, index)
+  DF <- as.data.frame(cbind(h, div))
 
   result <- list(Covs = sitecov, models = models, Diversity = h, species = DF)
-  class(result)<- "diversityoccupancy"
+  class(result) <- "diversityoccupancy"
 
   return(result)
 }
+
 
 #' Find the best GLM model explaining the alpha divesity of the species
 #'
@@ -351,8 +309,7 @@ model.diversity <- function(DivOcc, method = "h", delta = 2, squared = FALSE){
 #' #Model the abundance for  5 bat species and calculate alpha diversity from that
 #'
 #' BirdDiversity <-diversityoccu(pres = IslandBirds, sitecov = siteCov,
-#' obscov = Daily_Cov,spp =  5, form = ~ Day + Wind + Time + Rain +
-#' Noise ~ Elev + AgroFo + SecVec + Wetland + Upland)
+#' obscov = Daily_Cov,spp =  5, form = ~ Day + Wind + Time ~ Elev + Wetland + Upland)
 #'
 #' #Select the best model that explains diversity using genetic algorithms
 #' set.seed(123)
@@ -363,8 +320,7 @@ model.diversity <- function(DivOcc, method = "h", delta = 2, squared = FALSE){
 #'
 #' Selected.area <- diversity.predict(model = BirdDiversity, diverse = glm.Birdiversity,
 #' new.data = Birdstack, quantile.nth = 0.65, species =
-#' c(TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE,
-#' FALSE, FALSE))
+#' c(TRUE, TRUE, FALSE, FALSE, FALSE))
 #'
 #' Selected.area
 #' }

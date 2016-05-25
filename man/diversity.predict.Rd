@@ -44,8 +44,7 @@ data("Birdstack")
 #Model the abundance for  5 bat species and calculate alpha diversity from that
 
 BirdDiversity <-diversityoccu(pres = IslandBirds, sitecov = siteCov,
-obscov = Daily_Cov,spp =  5, form = ~ Day + Wind + Time + Rain +
-Noise ~ Elev + AgroFo + SecVec + Wetland + Upland)
+obscov = Daily_Cov,spp =  5, form = ~ Day + Wind + Time ~ Elev + Wetland + Upland)
 
 #Select the best model that explains diversity using genetic algorithms
 set.seed(123)
@@ -56,8 +55,7 @@ glm.Birdiversity <- model.diversity(BirdDiversity, method = "g")
 
 Selected.area <- diversity.predict(model = BirdDiversity, diverse = glm.Birdiversity,
 new.data = Birdstack, quantile.nth = 0.65, species =
-c(TRUE, TRUE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE, FALSE,
-FALSE, FALSE))
+c(TRUE, TRUE, FALSE, FALSE, FALSE))
 
 Selected.area
 }
