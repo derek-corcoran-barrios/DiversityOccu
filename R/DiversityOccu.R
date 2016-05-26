@@ -51,6 +51,7 @@
 #' @importMethodsFrom unmarked predict
 #' @importFrom MuMIn dredge
 #' @importFrom MuMIn AICc
+#' @importFrom stats getCall
 #' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
 
 batchoccu<- function(pres, sitecov, obscov, spp, form, dredge = FALSE) {
@@ -140,6 +141,8 @@ batchoccu<- function(pres, sitecov, obscov, spp, form, dredge = FALSE) {
 #' @importMethodsFrom unmarked predict
 #' @importFrom MuMIn dredge
 #' @importFrom MuMIn AICc
+#' @importFrom stats getCall
+
 
 #' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
 #' @author Nicole L. Michel
