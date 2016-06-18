@@ -19,6 +19,7 @@ Imports:
     vegan
 Suggests:
     knitr,
+    rgdal,
     rmarkdown,
 License: GPL-3
 LazyData: TRUE

@@ -324,6 +324,7 @@ model.diversity <- function(DivOcc, method = "h", delta = 2, squared = FALSE){
 #' # get the area where the first two bird species are most abundant
 #' # and the diversity is high
 #'
+#' library(rgdal)
 #' Selected.area <- diversity.predict(model = BirdDiversity, diverse = glm.Birdiversity,
 #' new.data = Birdstack, quantile.nth = 0.65, species =
 #' c(TRUE, TRUE, FALSE, FALSE, FALSE))
@@ -344,7 +345,6 @@ model.diversity <- function(DivOcc, method = "h", delta = 2, squared = FALSE){
 #' @importFrom raster subset
 #' @importFrom raster unstack
 #' @importFrom raster writeRaster
-#' @importFrom raster projectRaster
 #' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
 
 diversity.predict<- function(model, diverse, new.data, quantile.nth = 0.8 , species, kml = TRUE, name = "Priority_Area.kml") {
@@ -369,8 +369,6 @@ diversity.predict<- function(model, diverse, new.data, quantile.nth = 0.8 , spec
   priority.area <- prod(rc)
   plot(priority.area, colNA="black", legend = FALSE)
   if (kml == TRUE) {
-    newproj <- '+proj=longlat +datum=WGS84 +ellps=WGS84 +towgs84=0,0,0'
-    projectRaster(priority.area, crs=newproj)
     KML(priority.area, file= name, overwrite = TRUE, col = "red")
   }
   result <- list(species = layers, diversity.raster = diversity.raster, priority.area = priority.area)

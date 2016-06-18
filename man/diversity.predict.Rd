@@ -59,6 +59,7 @@ glm.Birdiversity <- model.diversity(BirdDiversity, method = "g")
 # get the area where the first two bird species are most abundant
 # and the diversity is high
 
+library(rgdal)
 Selected.area <- diversity.predict(model = BirdDiversity, diverse = glm.Birdiversity,
 new.data = Birdstack, quantile.nth = 0.65, species =
 c(TRUE, TRUE, FALSE, FALSE, FALSE))
