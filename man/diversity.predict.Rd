@@ -5,7 +5,8 @@
 \title{Makes a spacially explicit prediction of the occupancy of multiple species
 and alpha diversity, and select the area where}
 \usage{
-diversity.predict(model, diverse, new.data, quantile.nth = 0.8, species)
+diversity.predict(model, diverse, new.data, quantile.nth = 0.8, species,
+  kml = TRUE, name = "Priority_Area.kml")
 }
 \arguments{
 \item{model}{A result from diversityoccu}
@@ -18,7 +19,12 @@ the siteCovs variable in diversityoccu or batchoccu}
 \item{quantile.nth}{the nth quantile, over which is a goal to keep both diversity
 and selected species. default = NULL}
 
-\item{species, }{a boolean vector of the species to take into acount}
+\item{species}{a boolean vector of the species to take into acount}
+
+\item{kml}{if TRUE builds a kml file of the selected area and saves it in your
+working directry}
+
+\item{name}{the name of the kml file if kml is TRUE}
 }
 \value{
 a data frame with predicted values, or a raster stack with predictions
