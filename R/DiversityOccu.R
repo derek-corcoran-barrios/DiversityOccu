@@ -66,6 +66,7 @@ batchoccu<- function(pres, sitecov, obscov, spp, form, dredge = FALSE) {
       data2 <- unmarkedFrameOccu(y = data, siteCovs = sitecov, obsCovs = obscov)
       models[[i]] <- occu(form, data2)
       fit[, i] <- suppressWarnings(predict(models[[i]], type = "state", newdata = sitecov))$Predicted
+      print(paste("Species", as.character(i), "ready!"))
     }
   }
   else {
@@ -77,6 +78,7 @@ batchoccu<- function(pres, sitecov, obscov, spp, form, dredge = FALSE) {
       models[[i]] <- eval(getCall(dredged, 1))
       #predictions for the best model
       fit[, i] <- predict(models[[i]], type = "state", newdata = sitecov)$Predicted
+      print(paste("Species", as.character(i), "ready!"))
     }
   }
   result <- list(Covs = sitecov, models = models, fit = fit)
@@ -163,6 +165,7 @@ diversityoccu <- function(pres, sitecov, obscov, spp, form, index = "shannon", d
       data2 <- unmarkedFrameOccu(y = data, siteCovs = sitecov, obsCovs = obscov)
       models[[i]] <- occuRN(form, data2)
       div[, i] <- suppressWarnings(predict(models[[i]], type = "state", newdata = sitecov))$Predicted
+      print(paste("Species", as.character(i), "ready!"))
     }
   } else {
     for(i in 1:length(secuencia)) {
@@ -173,6 +176,7 @@ diversityoccu <- function(pres, sitecov, obscov, spp, form, index = "shannon", d
       models[[i]] <- eval(getCall(dredged, 1))
       #predictions for the best model
       div[, i] <- predict(models[[i]], type = "state", newdata = sitecov)$Predicted
+      print(paste("Species", as.character(i), "ready!"))
     }
   }
   h <- diversity(div, index)
