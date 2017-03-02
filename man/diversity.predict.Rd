@@ -67,9 +67,6 @@ c(TRUE, TRUE, FALSE, FALSE, FALSE))
 Selected.area
 }
 }
-\author{
-Derek Corcoran <derek.corcoran.barrios@gmail.com>
-}
 \seealso{
 \code{\link[DiversityOccupancy]{diversityoccu}}
 
@@ -77,4 +74,6 @@ Derek Corcoran <derek.corcoran.barrios@gmail.com>
 
 \code{\link[DiversityOccupancy]{model.diversity}}
 }
-
+\author{
+Derek Corcoran <derek.corcoran.barrios@gmail.com>
+}

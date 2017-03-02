@@ -39,10 +39,9 @@ responseplot.occu(batch = BirdOccupancy, spp = 4, variable = Elev)
 responseplot.occu(batch = BirdOccupancy, spp = 5, variable = Elev)
 }
 }
-\author{
-Derek Corcoran <derek.corcoran.barrios@gmail.com>
-}
 \seealso{
 \code{\link[DiversityOccupancy]{batchoccu}}
 }
-
+\author{
+Derek Corcoran <derek.corcoran.barrios@gmail.com>
+}

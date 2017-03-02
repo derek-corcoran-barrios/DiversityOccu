@@ -34,4 +34,3 @@ where the detection histories of the IslandBirds where taken.
 \code{\link[DiversityOccupancy]{siteCov}}
 }
 \keyword{datasets}
-

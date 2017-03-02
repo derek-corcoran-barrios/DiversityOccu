@@ -38,4 +38,3 @@ University of Missouri.
 \code{\link[DiversityOccupancy]{IslandBirds}}
 }
 \keyword{datasets}
-

@@ -49,12 +49,11 @@ glm.Birdiversity$Best.model
 plot(glm.Birdiversity, elev)
 }
 }
-\author{
-Derek Corcoran <derek.corcoran.barrios@gmail.com>
-}
 \seealso{
 \code{\link[DiversityOccupancy]{diversityoccu}}
 
 \code{\link[DiversityOccupancy]{model.diversity}}
 }
-
+\author{
+Derek Corcoran <derek.corcoran.barrios@gmail.com>
+}

@@ -69,10 +69,9 @@ glm.birdiversity <- model.diversity(BirdDiversity , method = "g", squared = TRUE
 responseplot.diver(glm.birdiversity, Elev)
 }
 }
-\author{
-Derek Corcoran <derek.corcoran.barrios@gmail.com>
-}
 \seealso{
 \code{\link[DiversityOccupancy]{diversityoccu}}
 }
-
+\author{
+Derek Corcoran <derek.corcoran.barrios@gmail.com>
+}

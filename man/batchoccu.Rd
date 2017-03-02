@@ -62,10 +62,9 @@ BirdOccupancy2 <- batchoccu(pres = IslandBirds, sitecov = siteCov, obscov =
 Daily_Cov, spp = 5, form = ~ 1 ~
 Elev + AgroFo, dredge = TRUE)
 }
-\author{
-Derek Corcoran <derek.corcoran.barrios@gmail.com>
-}
 \seealso{
 \code{\link[DiversityOccupancy]{diversityoccu}}
 }
-
+\author{
+Derek Corcoran <derek.corcoran.barrios@gmail.com>
+}

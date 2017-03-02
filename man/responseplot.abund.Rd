@@ -42,10 +42,9 @@ responseplot.abund(batch = BirdDiversity, spp = 4, variable = Elev)
 responseplot.abund(batch = BirdDiversity, spp = 11, variable = Elev)
 }
 }
-\author{
-Derek Corcoran <derek.corcoran.barrios@gmail.com>
-}
 \seealso{
 \code{\link[DiversityOccupancy]{batchoccu}}
 }
-
+\author{
+Derek Corcoran <derek.corcoran.barrios@gmail.com>
+}

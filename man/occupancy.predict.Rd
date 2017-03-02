@@ -35,10 +35,9 @@ Occupancy.stack <- occupancy.predict(batch = BirdOccupancy, new.data =
 Birdstack)
 }
 }
-\author{
-Derek Corcoran <derek.corcoran.barrios@gmail.com>
-}
 \seealso{
 \code{\link[DiversityOccupancy]{batchoccu}}
 }
-
+\author{
+Derek Corcoran <derek.corcoran.barrios@gmail.com>
+}

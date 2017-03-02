@@ -36,4 +36,3 @@ University of Missouri.
 \code{\link[DiversityOccupancy]{siteCov}}
 }
 \keyword{datasets}
-
