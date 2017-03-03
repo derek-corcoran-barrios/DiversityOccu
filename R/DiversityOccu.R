@@ -158,7 +158,7 @@ batchoccuavg <- function (pres, sitecov, obscov, spp, form, dredge = FALSE, delt
       data <- pres[, secuencia2[i]:secuencia[i]]
       data2 <- unmarkedFrameOccu(y = data, siteCovs = sitecov,
                                  obsCovs = obscov)
-      models[[i]] <- model.avg(suppressWarnings(dredge(occu(form, data2))), delta < delta)
+      models[[i]] <- model.avg(suppressWarnings(dredge(occu(form, data2))), delta < 2)
       print(paste("Species", as.character(i), "ready!"))
     }
   }
