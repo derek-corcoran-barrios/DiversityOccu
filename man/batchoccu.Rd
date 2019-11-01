@@ -4,7 +4,8 @@
 \alias{batchoccu}
 \title{Fits occupancy models for multiple species detection history}
 \usage{
-batchoccu(pres, sitecov, obscov, spp, form, dredge = FALSE)
+batchoccu(pres, sitecov, obscov, spp, form, SppNames = NULL,
+  dredge = FALSE)
 }
 \arguments{
 \item{pres}{a data.frame where rows are the sites and columns are a series of
@@ -24,6 +25,9 @@ temperature of a day, this covariates are usually very .}
 \item{form}{a formula in the format ~ obscov ~ sitcov, the first arguments
 will be used to calculate probability of detection and the second part the
 occupancy.}
+
+\item{SppNames}{A character vector with the name of the Species to annotate results,
+if null (Default) the results will have generic names such as Species.1}
 
 \item{dredge}{default = FALSE, if TRUE, for each species, the best occupancy
 model will be determined by fitting all possible models and ranking by AICc.}

@@ -4,26 +4,17 @@
 \alias{model.diversity}
 \title{Find the best GLM model explaining the alpha divesity of the species}
 \usage{
-model.diversity(DivOcc, method = "h", delta = 2, squared = FALSE)
+model.diversity(DivOcc, delta = 2, form)
 }
 \arguments{
 \item{DivOcc}{is an object returned by the divesityoccu function of this
 package}
 
-\item{method}{The method to be used to explore the candidate set of models.
-If "h" an exhaustive screening is undertaken. If "g" the genetic algorithm is
-employed (recommended for large candidate sets). If "l", a very fast
-exhaustive branch-and-bound algorithm is used. Package leaps must then be
-loaded, and this can only be applied to linear models with covariates and no
-interactions.}
-
-\item{delta}{The number of models that will be returned will be the ones that
+\item{delta}{the number of models that will be returned will be the ones that
 have a maximum AICc difference with the top model equal to delta.}
 
-\item{squared, }{if FALSE (Default), only GLMs with linear components will be
-evaluated; If TRUE, GLMs with both linear and quadratic components will be evaluated.
-WARNING if squared is TRUE, the number of parameters duplicates and the models
-grow exponentially, this may result in to many variables for a CPU to compute.}
+\item{form}{is the formula to use in the glm, a character in the form of
+"~ x1 + x2 + I(x1^2)}
 }
 \value{
 An object with the best fitted model, the coefficients of that model,

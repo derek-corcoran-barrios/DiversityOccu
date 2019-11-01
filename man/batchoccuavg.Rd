@@ -4,7 +4,8 @@
 \alias{batchoccuavg}
 \title{Fits occupancy models for multiple species detection history and calculated model average}
 \usage{
-batchoccuavg(pres, sitecov, obscov, spp, form, dredge = FALSE, delta = 2)
+batchoccuavg(pres, sitecov, obscov, spp, form, dredge = FALSE,
+  delta = 2)
 }
 \arguments{
 \item{pres}{a data.frame where rows are the sites and columns are a series of

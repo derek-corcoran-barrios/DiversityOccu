@@ -18,6 +18,8 @@
 #' @param form a formula in the format ~ obscov ~ sitcov, the first arguments
 #' will be used to calculate probability of detection and the second part the
 #' occupancy.
+#' @param SppNames A character vector with the name of the Species to annotate results,
+#' if null (Default) the results will have generic names such as Species.1
 #' @param dredge default = FALSE, if TRUE, for each species, the best occupancy
 #' model will be determined by fitting all possible models and ranking by AICc.
 #' @return A list with the fitted models for each species and the calculated
@@ -54,18 +56,26 @@
 #' @importFrom stats getCall
 #' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
 
-batchoccu<- function(pres, sitecov, obscov, spp, form, dredge = FALSE) {
+batchoccu<- function(pres, sitecov, obscov, spp, form, SppNames = NULL, dredge = FALSE) {
   secuencia <- c(1:spp)*(ncol(pres)/spp)
   secuencia2<-secuencia-(secuencia[1]-1)
   models <- vector('list', spp)
   fit <- matrix(NA, nrow(pres), spp)
-  colnames(fit) <- paste("species", 1:spp, sep =".")
+  if(is.null(SppNames)){
+    colnames(fit) <- paste("species", 1:spp, sep =".")
+  }else if(class(SppNames) == "character"){
+    colnames(fit) <- SppNames
+  }
   if (dredge == FALSE) {
     for(i in 1:length(secuencia)) {
       data <- pres[, secuencia2[i]:secuencia[i]]
       data2 <- unmarkedFrameOccu(y = data, siteCovs = sitecov, obsCovs = obscov)
-      models[[i]] <- occu(form, data2)
-      fit[, i] <- suppressWarnings(predict(models[[i]], type = "state", newdata = sitecov))$Predicted
+      try({
+        models[[i]] <- occu(form, data2)
+      }, silent = T)
+      try({
+        fit[, i] <- suppressWarnings(predict(models[[i]], type = "state", newdata = sitecov))$Predicted
+      }, silent = T)
       print(paste("Species", as.character(i), "ready!"))
     }
   }
@@ -73,13 +83,30 @@ batchoccu<- function(pres, sitecov, obscov, spp, form, dredge = FALSE) {
     for(i in 1:length(secuencia)) {
       data <- pres[, secuencia2[i]:secuencia[i]]
       data2 <- unmarkedFrameOccu(y = data, siteCovs = sitecov, obsCovs = obscov)
-      dredged <- suppressWarnings(dredge(occu(form, data2)))
-      # select the first model and evaluate
-      models[[i]] <- eval(getCall(dredged, 1))
-      #predictions for the best model
-      fit[, i] <- predict(models[[i]], type = "state", newdata = sitecov)$Predicted
+      try({
+        dredged <- suppressWarnings(dredge(occu(form, data2)))
+        # select the first model and evaluate
+        models[[i]] <- eval(getCall(dredged, 1))
+      }, silent = T)
+      try({
+        #predictions for the best model
+        fit[, i] <- suppressWarnings(predict(models[[i]], type = "state", newdata = sitecov))$Predicted
+      }, silent = T)
+
       print(paste("Species", as.character(i), "ready!"))
     }
+  }
+  if(is.null(SppNames)){
+    names(models) <- paste("species", 1:spp, sep =".")
+  }else if(class(SppNames) == "character"){
+    names(models) <- SppNames
+  }
+  cond <- sapply(models, function(x) !is.null(x))
+  models <- models[cond]
+  fit <- fit[,cond]
+  Not <- SppNames[!(cond)]
+  if(length(cond) >= 1){
+    message(paste("species", paste(Not, collapse = ", "), "did not converge, try with less variables"))
   }
   result <- list(Covs = sitecov, models = models, fit = fit)
   class(result)<- "batchoccupancy"
@@ -244,19 +271,26 @@ diversityoccu <- function(pres, sitecov, obscov, spp, form, index = "shannon", d
     for(i in 1:length(secuencia)) {
       data <- pres[, secuencia2[i]:secuencia[i]]
       data2 <- unmarkedFrameOccu(y = data, siteCovs = sitecov, obsCovs = obscov)
-      models[[i]] <- occuRN(form, data2)
-      div[, i] <- suppressWarnings(predict(models[[i]], type = "state", newdata = sitecov))$Predicted
+      try({
+        models[[i]] <- occuRN(form, data2)
+        names(models[[i]]) <- paste0("Spp, i")
+        div[, i] <- suppressWarnings(predict(models[[i]], type = "state", newdata = sitecov))$Predicted
+      }, silent = TRUE)
+
       print(paste("Species", as.character(i), "ready!"))
     }
   } else {
     for(i in 1:length(secuencia)) {
       data <- pres[, secuencia2[i]:secuencia[i]]
       data2 <- unmarkedFrameOccu(y = data, siteCovs = sitecov, obsCovs = obscov)
-      dredged <- suppressWarnings(dredge(occuRN(form, data2)))
-      # select the first model and evaluate
-      models[[i]] <- eval(getCall(dredged, 1))
-      #predictions for the best model
-      div[, i] <- predict(models[[i]], type = "state", newdata = sitecov)$Predicted
+      try({
+        dredged <- suppressWarnings(dredge(occuRN(form, data2)))
+        # select the first model and evaluate
+        models[[i]] <- eval(getCall(dredged, 1))
+        names(models[[i]]) <- paste0("Spp, i")
+        #predictions for the best model
+        div[, i] <- predict(models[[i]], type = "state", newdata = sitecov)$Predicted
+      }, silent = T)
       print(paste("Species", as.character(i), "ready!"))
     }
   }
@@ -277,18 +311,10 @@ diversityoccu <- function(pres, sitecov, obscov, spp, form, index = "shannon", d
 #'
 #' @param DivOcc is an object returned by the divesityoccu function of this
 #' package
-#' @param method The method to be used to explore the candidate set of models.
-#' If "h" an exhaustive screening is undertaken. If "g" the genetic algorithm is
-#' employed (recommended for large candidate sets). If "l", a very fast
-#' exhaustive branch-and-bound algorithm is used. Package leaps must then be
-#' loaded, and this can only be applied to linear models with covariates and no
-#' interactions.
-#' @param delta	The number of models that will be returned will be the ones that
+#' @param delta	the number of models that will be returned will be the ones that
 #' have a maximum AICc difference with the top model equal to delta.
-#' @param squared, if FALSE (Default), only GLMs with linear components will be
-#' evaluated; If TRUE, GLMs with both linear and quadratic components will be evaluated.
-#' WARNING if squared is TRUE, the number of parameters duplicates and the models
-#' grow exponentially, this may result in to many variables for a CPU to compute.
+#' @param form is the formula to use in the glm, a character in the form of
+#' "~ x1 + x2 + I(x1^2)
 #' @return An object with the best fitted model, the coefficients of that model,
 #' a table with the top 5 fitted models ranked by AICc and the data used for the
 #' model
@@ -329,38 +355,22 @@ diversityoccu <- function(pres, sitecov, obscov, spp, form, index = "shannon", d
 #' @export
 #' @importFrom stats glm
 #' @importFrom stats as.formula
-#' @importFrom glmulti glmulti
-#' @importFrom glmulti weightable
 #' @importFrom dplyr filter
-#' @importFrom qpcR akaike.weights
+#' @importFrom MuMIn dredge
+#' @importFrom MuMIn AICc
+#' @importFrom stats getCall
 #' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
 
 
-model.diversity <- function(DivOcc, method = "h", delta = 2, squared = FALSE){
-  Delta.AICc <- NULL
+model.diversity <- function(DivOcc, delta = 2, form){
   A <- cbind(DivOcc$Diversity, DivOcc$Covs)
   colnames(A)[1]<-"Diversity"
-  B <- paste(names(DivOcc$Covs), "+")
-  B <- toString(B)
-  B <- gsub(",", " ", B)
-  if (squared == TRUE) {
-    C <- paste("I(", names(DivOcc$Covs), "^2) +")
-    C <- toString(C)
-    C <- gsub (",", " ", C)
-    B <- paste("Diversity ~", B, C, collapse = " ")
-  }
-  else if (squared == FALSE) {
-    B <- paste("Diversity ~", B, collapse = " ")
-  }
-
+  B <- paste("Diversity", form, collapse = " ")
   B <- as.formula(substr(B, 1, nchar(B)-1))
-  B <- glm(B, data = A)
-  D <- glmulti(B, level = 1, crit = "aicc", plotty = FALSE, method = method)
-  Best.model <- D@formulas[[1]]
-  Table <- weightable(D)
-  Table$Delta.AICc <- Table[,2]-Table[1,2]
-  Table <- filter(Table, Delta.AICc < delta)
-  Table$weights <- akaike.weights(Table$aicc)$weights
+  dredged <- suppressWarnings(dredge(glm(B, data = A)))
+  # select the first model and evaluate
+  Best.model <- eval(getCall(dredged, 1))
+  Table <- as.data.frame(subset(dredged, delta < delta))
   d<-summary(glm(Best.model, data = A))
   result <- list(Best_model = Best.model, Table = Table, coeff = d, dataset= A)
   class(result) <- "modeldiversity"
