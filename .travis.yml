@@ -3,6 +3,11 @@
 language: R
 cache: packages
 warnings_are_errors: true
+addons:
+  apt:
+    packages:
+      - libgdal-dev
+      - libproj-dev
 
 os:
   - linux
