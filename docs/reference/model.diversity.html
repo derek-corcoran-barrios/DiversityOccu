@@ -123,7 +123,7 @@ glm that best explains the alpha diversity of the modelled species." />
 glm that best explains the alpha diversity of the modelled species.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>model.diversity</span>(<span class='no'>DivOcc</span>, <span class='kw'>Delta</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='no'>form</span>)</pre>
+    <pre class="usage"><span class='fu'>model.diversity</span>(<span class='no'>DivOcc</span>, <span class='kw'>delta</span> <span class='kw'>=</span> <span class='fl'>2</span>, <span class='no'>form</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -134,25 +134,14 @@ glm that best explains the alpha diversity of the modelled species.</p>
 package</p></td>
     </tr>
     <tr>
-      <th>method</th>
-      <td><p>The method to be used to explore the candidate set of models.
-If "h" an exhaustive screening is undertaken. If "g" the genetic algorithm is
-employed (recommended for large candidate sets). If "l", a very fast
-exhaustive branch-and-bound algorithm is used. Package leaps must then be
-loaded, and this can only be applied to linear models with covariates and no
-interactions.</p></td>
-    </tr>
-    <tr>
       <th>delta</th>
-      <td><p>The number of models that will be returned will be the ones that
+      <td><p>the number of models that will be returned will be the ones that
 have a maximum AICc difference with the top model equal to delta.</p></td>
     </tr>
     <tr>
-      <th>squared, </th>
-      <td><p>if FALSE (Default), only GLMs with linear components will be
-evaluated; If TRUE, GLMs with both linear and quadratic components will be evaluated.
-WARNING if squared is TRUE, the number of parameters duplicates and the models
-grow exponentially, this may result in to many variables for a CPU to compute.</p></td>
+      <th>form</th>
+      <td><p>is the formula to use in the glm, a character in the form of
+"~ x1 + x2 + I(x1^2)</p></td>
     </tr>
     </table>
 

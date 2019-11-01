@@ -127,7 +127,8 @@ occupancy, variables specific to sampling days to calculate probability of
 detection. It features an automatic model selection when dredge = TRUE.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>batchoccu</span>(<span class='no'>pres</span>, <span class='no'>sitecov</span>, <span class='no'>obscov</span>, <span class='no'>spp</span>, <span class='no'>form</span>, <span class='kw'>dredge</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>batchoccu</span>(<span class='no'>pres</span>, <span class='no'>sitecov</span>, <span class='no'>obscov</span>, <span class='no'>spp</span>, <span class='no'>form</span>, <span class='kw'>SppNames</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>dredge</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -159,6 +160,11 @@ temperature of a day, this covariates are usually very .</p></td>
       <td><p>a formula in the format ~ obscov ~ sitcov, the first arguments
 will be used to calculate probability of detection and the second part the
 occupancy.</p></td>
+    </tr>
+    <tr>
+      <th>SppNames</th>
+      <td><p>A character vector with the name of the Species to annotate results,
+if null (Default) the results will have generic names such as Species.1</p></td>
     </tr>
     <tr>
       <th>dredge</th>
@@ -197,7 +203,7 @@ specie based on AICc.</p>
 <span class='co'>#Dredge for all species</span>
 <span class='no'>BirdOccupancy2</span> <span class='kw'>&lt;-</span> <span class='fu'>batchoccu</span>(<span class='kw'>pres</span> <span class='kw'>=</span> <span class='no'>IslandBirds</span>, <span class='kw'>sitecov</span> <span class='kw'>=</span> <span class='no'>siteCov</span>, <span class='kw'>obscov</span> <span class='kw'>=</span>
 <span class='no'>Daily_Cov</span>, <span class='kw'>spp</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>form</span> <span class='kw'>=</span> ~ <span class='fl'>1</span> ~
-<span class='no'>Elev</span> + <span class='no'>AgroFo</span>, <span class='kw'>dredge</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='message'>Fixed terms are "p(Int)" and "psi(Int)"</span></div><div class='output co'>#&gt; [1] "Species 1 ready!"</div><div class='output co'>#&gt; <span class='message'>Fixed terms are "p(Int)" and "psi(Int)"</span></div><div class='output co'>#&gt; [1] "Species 2 ready!"</div><div class='output co'>#&gt; <span class='message'>Fixed terms are "p(Int)" and "psi(Int)"</span></div><div class='output co'>#&gt; [1] "Species 3 ready!"</div><div class='output co'>#&gt; <span class='message'>Fixed terms are "p(Int)" and "psi(Int)"</span></div><div class='output co'>#&gt; [1] "Species 4 ready!"</div><div class='output co'>#&gt; <span class='message'>Fixed terms are "p(Int)" and "psi(Int)"</span></div><div class='output co'>#&gt; [1] "Species 5 ready!"</div></pre>
+<span class='no'>Elev</span> + <span class='no'>AgroFo</span>, <span class='kw'>dredge</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='message'>Fixed terms are "p(Int)" and "psi(Int)"</span></div><div class='output co'>#&gt; [1] "Species 1 ready!"</div><div class='output co'>#&gt; <span class='message'>Fixed terms are "p(Int)" and "psi(Int)"</span></div><div class='output co'>#&gt; [1] "Species 2 ready!"</div><div class='output co'>#&gt; <span class='message'>Fixed terms are "p(Int)" and "psi(Int)"</span></div><div class='output co'>#&gt; [1] "Species 3 ready!"</div><div class='output co'>#&gt; <span class='message'>Fixed terms are "p(Int)" and "psi(Int)"</span></div><div class='output co'>#&gt; [1] "Species 4 ready!"</div><div class='output co'>#&gt; <span class='message'>Fixed terms are "p(Int)" and "psi(Int)"</span></div><div class='output co'>#&gt; [1] "Species 5 ready!"</div><div class='output co'>#&gt; <span class='message'>species  did not converge, try with less variables</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
