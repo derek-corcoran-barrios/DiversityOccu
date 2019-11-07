@@ -29,7 +29,7 @@
 #' for multiple species and it can automatically select the best model for each
 #' specie based on AICc.
 #' @examples
-#' \dontrun{
+#'
 #' data("IslandBirds")
 #' data("Daily_Cov")
 #' data("siteCov")
@@ -41,7 +41,7 @@
 #' responseplot.occu(batch = BirdOccupancy, spp = 4, variable = "Elev")
 #'
 #' responseplot.occu(batch = BirdOccupancy, spp =  5, variable = "Elev")
-#' }
+#'
 #' #Dredge for all species
 #' BirdOccupancy2 <- batchoccu(pres = IslandBirds, sitecov = siteCov, obscov =
 #' Daily_Cov, spp = 5, form = ~ 1 ~
