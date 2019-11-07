@@ -12,7 +12,11 @@ Depends:
 Imports:
     dplyr,
     ggplot2,
+    purrr,
     raster,
+    rlang,
+    stringr,
+    tidyr,
     vegan
 Suggests:
     knitr,

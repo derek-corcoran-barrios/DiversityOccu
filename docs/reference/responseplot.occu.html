@@ -127,7 +127,7 @@ the selected variable. This function automatically limits the values of that
 variable to the maximum and minimum values of the dataset.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>responseplot.occu</span>(<span class='no'>batch</span>, <span class='no'>spp</span>, <span class='no'>variable</span>)</pre>
+    <pre class="usage"><span class='fu'>responseplot.occu</span>(<span class='no'>batch</span>, <span class='no'>spp</span>, <span class='no'>variable</span>, <span class='kw'>N</span> <span class='kw'>=</span> <span class='fl'>50</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -143,6 +143,11 @@ variable to the maximum and minimum values of the dataset.</p>
     <tr>
       <th>variable</th>
       <td><p>The variable of which the response is to be ploted.</p></td>
+    </tr>
+    <tr>
+      <th>N</th>
+      <td><p>The number of points used to make the plot (default is 20) the greater
+the number, the clearer will be the response, but it will make the plot slower</p></td>
     </tr>
     </table>
 
@@ -160,14 +165,14 @@ variable.</p>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"Daily_Cov"</span>)
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='st'>"siteCov"</span>)
 <span class='no'>BirdOccupancy</span> <span class='kw'>&lt;-</span><span class='fu'><a href='batchoccu.html'>batchoccu</a></span>(<span class='kw'>pres</span> <span class='kw'>=</span> <span class='no'>IslandBirds</span>, <span class='kw'>sitecov</span> <span class='kw'>=</span> <span class='no'>siteCov</span>, <span class='kw'>obscov</span> <span class='kw'>=</span>
-<span class='no'>Daily_Cov</span>, <span class='kw'>spp</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>form</span> <span class='kw'>=</span> ~ <span class='no'>Day</span> + <span class='no'>Wind</span> + <span class='no'>Rime</span> + <span class='no'>Noise</span> + <span class='no'>Clouds</span> ~
+<span class='no'>Daily_Cov</span>, <span class='kw'>spp</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>form</span> <span class='kw'>=</span> ~ <span class='no'>Day</span> + <span class='no'>Wind</span> + <span class='no'>Noise</span> + <span class='no'>Clouds</span> ~
 <span class='no'>Elev</span> + <span class='no'>AgroFo</span> + <span class='no'>SecVec</span> + <span class='no'>Wetland</span>)
 <span class='co'>#plot the response of occupancy to individual variables for species 4 and 5</span>
 
-<span class='fu'>responseplot.occu</span>(<span class='kw'>batch</span> <span class='kw'>=</span> <span class='no'>BirdOccupancy</span>, <span class='kw'>spp</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>variable</span> <span class='kw'>=</span> <span class='no'>Elev</span>)
+<span class='fu'>responseplot.occu</span>(<span class='kw'>batch</span> <span class='kw'>=</span> <span class='no'>BirdOccupancy</span>, <span class='kw'>spp</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>variable</span> <span class='kw'>=</span> <span class='st'>"Elev"</span>)
 
 
-<span class='fu'>responseplot.occu</span>(<span class='kw'>batch</span> <span class='kw'>=</span> <span class='no'>BirdOccupancy</span>, <span class='kw'>spp</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>variable</span> <span class='kw'>=</span> <span class='no'>Elev</span>)
+<span class='fu'>responseplot.occu</span>(<span class='kw'>batch</span> <span class='kw'>=</span> <span class='no'>BirdOccupancy</span>, <span class='kw'>spp</span> <span class='kw'>=</span> <span class='fl'>5</span>, <span class='kw'>variable</span> <span class='kw'>=</span> <span class='st'>"Elev"</span>)
 }</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

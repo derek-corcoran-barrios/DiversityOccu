@@ -4,7 +4,7 @@
 \alias{responseplot.occu}
 \title{plot the response of an occupancy model to the change of aparticular variable}
 \usage{
-responseplot.occu(batch, spp, variable)
+responseplot.occu(batch, spp, variable, N = 50)
 }
 \arguments{
 \item{batch}{A result from the batchoccu function.}
@@ -12,6 +12,9 @@ responseplot.occu(batch, spp, variable)
 \item{spp}{The species number of which response is going to be ploted.}
 
 \item{variable}{The variable of which the response is to be ploted.}
+
+\item{N}{The number of points used to make the plot (default is 20) the greater
+the number, the clearer will be the response, but it will make the plot slower}
 }
 \value{
 a ggplot object plotting the alpha diversity response to the selected
@@ -29,14 +32,14 @@ data("IslandBirds")
 data("Daily_Cov")
 data("siteCov")
 BirdOccupancy <-batchoccu(pres = IslandBirds, sitecov = siteCov, obscov =
-Daily_Cov, spp = 5, form = ~ Day + Wind + Rime + Noise + Clouds ~
+Daily_Cov, spp = 5, form = ~ Day + Wind + Noise + Clouds ~
 Elev + AgroFo + SecVec + Wetland)
 #plot the response of occupancy to individual variables for species 4 and 5
 
-responseplot.occu(batch = BirdOccupancy, spp = 4, variable = Elev)
+responseplot.occu(batch = BirdOccupancy, spp = 4, variable = "Elev")
 
 
-responseplot.occu(batch = BirdOccupancy, spp = 5, variable = Elev)
+responseplot.occu(batch = BirdOccupancy, spp = 5, variable = "Elev")
 }
 }
 \seealso{

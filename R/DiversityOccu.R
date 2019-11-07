@@ -38,9 +38,9 @@
 #' Elev + AgroFo + SecVec + Wetland)
 #' #plot the response of occupancy to individual variables for species 4 and  5
 #'
-#' responseplot.occu(batch = BirdOccupancy, spp = 4, variable = Elev)
+#' responseplot.occu(batch = BirdOccupancy, spp = 4, variable = "Elev")
 #'
-#' responseplot.occu(batch = BirdOccupancy, spp =  5, variable = Elev)
+#' responseplot.occu(batch = BirdOccupancy, spp =  5, variable = "Elev")
 #' }
 #' #Dredge for all species
 #' BirdOccupancy2 <- batchoccu(pres = IslandBirds, sitecov = siteCov, obscov =
@@ -57,6 +57,9 @@
 #' @author Derek Corcoran <derek.corcoran.barrios@gmail.com>
 
 batchoccu<- function(pres, sitecov, obscov, spp, form, SppNames = NULL, dredge = FALSE) {
+  if(is.null(SppNames)){
+    SppNames <- paste("species", 1:spp, sep =".")
+  }
   secuencia <- c(1:spp)*(ncol(pres)/spp)
   secuencia2<-secuencia-(secuencia[1]-1)
   models <- vector('list', spp)
@@ -105,7 +108,7 @@ batchoccu<- function(pres, sitecov, obscov, spp, form, SppNames = NULL, dredge =
   models <- models[cond]
   fit <- fit[,cond]
   Not <- SppNames[!(cond)]
-  if(length(cond) >= 1){
+  if(sum(!cond) >= 1){
     message(paste("species", paste(Not, collapse = ", "), "did not converge, try with less variables"))
   }
   result <- list(Covs = sitecov, models = models, fit = fit)
